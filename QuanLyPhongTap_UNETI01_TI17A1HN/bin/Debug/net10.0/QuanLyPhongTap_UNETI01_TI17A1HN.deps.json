@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "QuanLyPhongTap_UNETI01_TI17A1HN/1.0.0": {
+        "runtime": {
+          "QuanLyPhongTap_UNETI01_TI17A1HN.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "QuanLyPhongTap_UNETI01_TI17A1HN/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
