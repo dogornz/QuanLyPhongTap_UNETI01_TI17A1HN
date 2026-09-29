@@ -1,14 +1,66 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Users\\Admin\\source\\repos\\Gym-Management-Webapp\\",
+  "WorkspaceRootPath": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Users\\Admin\\source\\repos\\Gym-Management-Webapp\\Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\models\\taikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\models\\taikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8DB113D3-6CEA-4DAA-BACD-F508E5661BCD}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\users\\admin\\source\\repos\\gym-management-webapp\\gym-management-webapp\\models\\taikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8DB113D3-6CEA-4DAA-BACD-F508E5661BCD}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\models\\taikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\models\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\models\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\models\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\models\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\views\\account\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\views\\account\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\views\\taikhoan\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\views\\taikhoan\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\views\\taikhoan\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\views\\taikhoan\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\gym_management_webappcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\gym_management_webappcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\controllers\\taikhoanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\controllers\\taikhoanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|d:\\gym manament\\quanlyphongtap_uneti01_ti17a1hn\\gym-management-webapp\\migrations\\20260927102146_nguyendacdat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2282AE37-4DBE-00EE-86BA-DF1D3B2E93BA}|Gym-Management-Webapp\\Gym-Management-Webapp.csproj|solutionrelative:gym-management-webapp\\migrations\\20260927102146_nguyendacdat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,33 +70,203 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TaiKhoansController.cs",
-              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\Gym-Management-Webapp\\Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs",
-              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs",
-              "ToolTip": "D:\\Users\\Admin\\source\\repos\\Gym-Management-Webapp\\Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs",
-              "RelativeToolTip": "Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABEAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "RegisterViewModel.cs",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Models\\RegisterViewModel.cs",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Models\\RegisterViewModel.cs",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Models\\RegisterViewModel.cs",
+              "RelativeToolTip": "Gym-Management-Webapp\\Models\\RegisterViewModel.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAowBgAAABZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-24T04:20:25.826Z",
+              "WhenOpened": "2026-09-29T13:33:48.315Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Views\\Home\\Privacy.cshtml",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "Gym-Management-Webapp\\Views\\Home\\Privacy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T13:32:38.66Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "TaiKhoan.cs",
-              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\Gym-Management-Webapp\\Gym-Management-Webapp\\Models\\TaiKhoan.cs",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Models\\TaiKhoan.cs",
               "RelativeDocumentMoniker": "Gym-Management-Webapp\\Models\\TaiKhoan.cs",
-              "ToolTip": "D:\\Users\\Admin\\source\\repos\\Gym-Management-Webapp\\Gym-Management-Webapp\\Models\\TaiKhoan.cs",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Models\\TaiKhoan.cs",
               "RelativeToolTip": "Gym-Management-Webapp\\Models\\TaiKhoan.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAswAwAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-24T03:57:07.091Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Error.cshtml",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Shared\\Error.cshtml",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Views\\Shared\\Error.cshtml",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Shared\\Error.cshtml",
+              "RelativeToolTip": "Gym-Management-Webapp\\Views\\Shared\\Error.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T13:32:36.524Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AccessDenied.cshtml",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Account\\AccessDenied.cshtml",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Views\\Account\\AccessDenied.cshtml",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Account\\AccessDenied.cshtml",
+              "RelativeToolTip": "Gym-Management-Webapp\\Views\\Account\\AccessDenied.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T13:07:21.851Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Views\\Account\\Login.cshtml",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Gym-Management-Webapp\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T13:07:19.601Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\TaiKhoan\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Views\\TaiKhoan\\Edit.cshtml",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\TaiKhoan\\Edit.cshtml",
+              "RelativeToolTip": "Gym-Management-Webapp\\Views\\TaiKhoan\\Edit.cshtml",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T13:06:44.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Controllers\\AccountController.cs",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Gym-Management-Webapp\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAwwCcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-29T13:02:12.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Models\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Models\\LoginViewModel.cs",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Models\\LoginViewModel.cs",
+              "RelativeToolTip": "Gym-Management-Webapp\\Models\\LoginViewModel.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-29T13:33:12.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Controllers\\HomeController.cs",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Gym-Management-Webapp\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-29T13:01:47.006Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Gym-Management-Webapp\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAgAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T06:02:16.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\TaiKhoan\\Create.cshtml",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Views\\TaiKhoan\\Create.cshtml",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Views\\TaiKhoan\\Create.cshtml",
+              "RelativeToolTip": "Gym-Management-Webapp\\Views\\TaiKhoan\\Create.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAABkAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T06:01:17.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "20260927102146_NguyenDacDat.cs",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Migrations\\20260927102146_NguyenDacDat.cs",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Migrations\\20260927102146_NguyenDacDat.cs",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Migrations\\20260927102146_NguyenDacDat.cs",
+              "RelativeToolTip": "Gym-Management-Webapp\\Migrations\\20260927102146_NguyenDacDat.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-27T10:21:46.772Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Gym_Management_WebappContext.cs",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Gym_Management_WebappContext.cs",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Gym_Management_WebappContext.cs",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Gym_Management_WebappContext.cs",
+              "RelativeToolTip": "Gym-Management-Webapp\\Gym_Management_WebappContext.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAgwDIAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-27T10:11:54.789Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "TaiKhoansController.cs",
+              "DocumentMoniker": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs",
+              "RelativeDocumentMoniker": "Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs",
+              "ToolTip": "D:\\GYM MANAMENT\\QuanLyPhongTap_UNETI01_TI17A1HN\\Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs",
+              "RelativeToolTip": "Gym-Management-Webapp\\Controllers\\TaiKhoansController.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAASwB0AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-24T04:20:25.826Z"
             }
           ]
         }

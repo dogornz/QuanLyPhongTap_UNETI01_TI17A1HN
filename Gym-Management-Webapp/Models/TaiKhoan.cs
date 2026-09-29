@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace Gym_Management_Webapp.Models
@@ -6,18 +6,18 @@ namespace Gym_Management_Webapp.Models
     public class TaiKhoan
     {
         [Key]
-        int MaTaiKhoan { get; set; }
+        public int MaTaiKhoan { get; set; }
         [StringLength(10), Required]
-        string TenDangNhap { get; set; }
-        [Range(6, 12), Required]
-        string MatKhau { get; set; }
+        public string TenDangNhap { get; set; } = string.Empty;
+        [StringLength(50, MinimumLength = 6, ErrorMessage = "Mật khẩu phải từ 6 đến 50 ký tự"), Required]
+        public string MatKhau { get; set; } = string.Empty;
         [StringLength(50)]
-        string HoTen { get; set; }
+        public string HoTen { get; set; } = string.Empty;
         [StringLength(50), EmailAddress]
-        string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         [StringLength(50)]
-        string VaiTro { get; set; }
+        public string VaiTro { get; set; } = string.Empty;
         [StringLength(50)]
-        string TrangThai { get; set; }
+        public string TrangThai { get; set; } = string.Empty;
     }
 }

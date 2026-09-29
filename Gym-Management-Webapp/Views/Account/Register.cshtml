@@ -1,0 +1,385 @@
+@model Gym_Management_Webapp.Models.RegisterViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Đăng ký hội viên - GymPro Fitness & Club";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    
+    <!-- Google Fonts & Material Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    
+    <!-- Tailwind CSS with Custom GymPro Theme -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d4300",
+                        "primary-container": "#f97316",
+                        "primary-fixed": "#ffdbca",
+                        "primary-fixed-dim": "#ffb690",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#582200",
+                        "secondary": "#565e74",
+                        "secondary-container": "#dae2fd",
+                        "on-secondary-container": "#5c647a",
+                        "background": "#f7f9fb",
+                        "surface": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container": "#eceef0",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#584237",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "body": ["Inter", "sans-serif"],
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    spacing: {
+                        "space-xs": "0.25rem",
+                        "space-sm": "0.5rem",
+                        "space-md": "1rem",
+                        "space-lg": "1.5rem",
+                        "space-xl": "2.5rem",
+                        "gutter": "1.5rem"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col antialiased">
+
+    <!-- Top Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="h-16 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-space-md">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-space-md">
+                <a asp-controller="Home" asp-action="Index" class="flex items-center gap-space-sm text-decoration-none">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center text-white shadow-md">
+                        <span class="material-symbols-outlined text-[24px]">fitness_center</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-display text-xl font-extrabold text-on-surface leading-none tracking-tight">GymPro</span>
+                        <span class="text-[11px] text-on-surface-variant font-medium uppercase tracking-wider">Fitness &amp; Club</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-space-lg">
+                <a asp-controller="Home" asp-action="Index" class="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Trang chủ</a>
+                <a asp-controller="Account" asp-action="Login" class="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Đăng nhập</a>
+                <a asp-controller="Account" asp-action="Register" class="text-sm font-bold text-primary border-b-2 border-primary pb-0.5">Đăng ký hội viên</a>
+            </nav>
+
+            <!-- Quick Contacts -->
+            <div class="flex items-center gap-space-md">
+                <div class="hidden sm:flex items-center gap-space-xs text-on-surface-variant bg-surface-container px-space-sm py-space-xs rounded-full text-xs">
+                    <span class="material-symbols-outlined text-[16px] text-primary-container">call</span>
+                    <span class="font-semibold text-on-surface">1900 6868</span>
+                </div>
+                <a asp-controller="Account" asp-action="Login" class="h-9 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-bold transition-all shadow-sm flex items-center gap-1 border border-surface-container-high">
+                    <span class="material-symbols-outlined text-[16px]">login</span>
+                    <span>Đăng nhập</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 w-full pt-20 pb-12 flex flex-col justify-center items-center px-4 md:px-8">
+        <div class="w-full max-w-6xl mx-auto my-auto">
+            
+            <!-- Breadcrumbs -->
+            <div class="flex items-center gap-space-xs mb-space-md text-xs text-on-surface-variant font-medium">
+                <a asp-controller="Home" asp-action="Index" class="hover:text-primary transition-colors flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[15px]">home</span>
+                    Trang chủ
+                </a>
+                <span>/</span>
+                <span class="text-on-surface font-semibold">Tài Khoản</span>
+                <span>/</span>
+                <span class="text-primary-container font-semibold">Đăng Ký Hội Viên</span>
+            </div>
+
+            <!-- Bento Container -->
+            <div class="w-full bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[680px] border border-surface-container">
+                
+                <!-- Left Column: Visual Showcase (5 cols) -->
+                <div class="lg:col-span-5 relative flex flex-col justify-between p-space-lg lg:p-space-xl text-white overflow-hidden min-h-[400px] lg:min-h-full">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105" 
+                         style="background-image: url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1200&auto=format&fit=crop');"></div>
+                    
+                    <!-- Atmospheric Gradients Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-slate-900/40 mix-blend-multiply"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary/40 via-transparent to-black/80"></div>
+
+                    <!-- Upper Content -->
+                    <div class="relative z-10">
+                        <div class="inline-flex items-center gap-space-xs px-3 py-1 rounded-full bg-white/15 backdrop-blur-md mb-space-md">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span class="text-[11px] uppercase tracking-wider text-white font-semibold">Ưu Đãi Hội Viên Mới</span>
+                        </div>
+                        <h2 class="font-display text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight mb-space-xs">
+                            Gia Nhập Ngay<br />
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-orange-500">
+                                Nhận Ngay Ưu Đãi
+                            </span>
+                        </h2>
+                        <p class="text-xs lg:text-sm text-slate-200/90 max-w-sm leading-relaxed">
+                            Đăng ký thành viên để trải nghiệm hệ sinh thái tập luyện hiện đại, phòng tắm nóng lạnh, xông hơi và đo InBody miễn phí.
+                        </p>
+                    </div>
+
+                    <!-- Middle Content: Benefits -->
+                    <div class="relative z-10 my-space-md space-y-space-sm">
+                        <div class="flex items-center gap-space-sm p-3 rounded-xl bg-white/10 backdrop-blur-md">
+                            <div class="w-10 h-10 rounded-lg bg-primary-container/25 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-orange-300 text-[22px]">health_and_safety</span>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-white">Miễn Phí Đo Chỉ Số InBody</div>
+                                <div class="text-[11px] text-slate-300">Phân tích mỡ, cơ, nước định kỳ hàng tháng</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-space-sm p-3 rounded-xl bg-white/10 backdrop-blur-md">
+                            <div class="w-10 h-10 rounded-lg bg-primary-container/25 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-orange-300 text-[22px]">card_membership</span>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-white">Thẻ Tập Tích Hợp QR Code</div>
+                                <div class="text-[11px] text-slate-300">Check-in thông minh mọi lúc, không lo quên thẻ</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-space-sm p-3 rounded-xl bg-white/10 backdrop-blur-md">
+                            <div class="w-10 h-10 rounded-lg bg-primary-container/25 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-orange-300 text-[22px]">sports_kabaddi</span>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-white">1 Buổi Tập Cùng PT Miễn Phí</div>
+                                <div class="text-[11px] text-slate-300">Được thiết kế lộ trình tập riêng biệt</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lower Footnote -->
+                    <div class="relative z-10 flex items-center justify-between pt-space-sm border-t border-white/10 text-xs text-slate-300">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            <span>Bảo mật thông tin 100%</span>
+                        </div>
+                        <span class="font-mono text-[11px] opacity-80">GymPro Membership</span>
+                    </div>
+                </div>
+
+                <!-- Right Column: Registration Form (7 cols) -->
+                <div class="lg:col-span-7 p-space-lg lg:p-space-xl flex flex-col justify-between bg-surface-container-lowest">
+                    <div>
+                        <!-- Segmented Switcher -->
+                        <div class="flex items-center justify-between mb-space-lg">
+                            <div class="inline-flex p-1 bg-surface-container rounded-xl">
+                                <a asp-controller="Account" asp-action="Login" class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-medium text-xs transition-all">
+                                    Đăng nhập
+                                </a>
+                                <span class="px-space-md py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-semibold text-xs shadow-sm">
+                                    Đăng ký hội viên
+                                </span>
+                            </div>
+
+                            <span class="hidden sm:inline-flex items-center gap-1.5 text-xs text-secondary bg-secondary-container/40 px-3 py-1 rounded-full font-medium">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                Tài khoản mới
+                            </span>
+                        </div>
+
+                        <!-- Section Heading -->
+                        <div class="mb- space-md">
+                            <h1 class="font-display text-2xl lg:text-3xl font-bold text-on-surface tracking-tight">
+                                Tạo tài khoản mới 🚀
+                            </h1>
+                            <p class="text-xs sm:text-sm text-on-surface-variant mt-1">
+                                Điền thông tin bên dưới để bắt đầu hành trình luyện tập thể hình tại GymPro.
+                            </p>
+                        </div>
+
+                        <!-- Server Validation Error Alert -->
+                        @if (!ViewData.ModelState.IsValid && ViewData.ModelState[string.Empty]?.Errors.Count > 0)
+                        {
+                            <div class="mb-space-md p-3 bg-error-container/60 rounded-xl flex items-start gap-space-sm border-l-4 border-error text-on-error-container">
+                                <span class="material-symbols-outlined text-error text-[20px] shrink-0 mt-0.5">error</span>
+                                <div class="text-xs sm:text-sm flex-1">
+                                    <div class="font-bold text-error">Đăng ký chưa thành công</div>
+                                    @foreach (var error in ViewData.ModelState[string.Empty]!.Errors)
+                                    {
+                                        <p class="text-[13px] leading-relaxed mt-0.5 mb-0">@error.ErrorMessage</p>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Registration Form -->
+                        <form asp-controller="Account" asp-action="Register" method="post" class="space-y-3.5" id="registerForm">
+                            @Html.AntiForgeryToken()
+
+                            <!-- Field 1: Họ tên -->
+                            <div>
+                                <label class="text-xs font-semibold text-on-surface mb-1 block" asp-for="HoTen">
+                                    Họ và tên <span class="text-error font-bold">*</span>
+                                </label>
+                                <div class="relative flex items-center">
+                                    <div class="absolute left-3.5 text-secondary flex items-center pointer-events-none">
+                                        <span class="material-symbols-outlined text-[19px]">badge</span>
+                                    </div>
+                                    <input asp-for="HoTen" 
+                                           class="w-full h-11 pl-10 pr-4 bg-surface-container-low text-on-surface rounded-xl text-sm placeholder:text-on-surface-variant/50 focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary-container transition-all border border-transparent focus:border-primary-container" 
+                                           placeholder="Ví dụ: Nguyễn Văn A" 
+                                           required 
+                                           autofocus />
+                                </div>
+                                <span asp-validation-for="HoTen" class="mt-1 text-xs text-error font-medium block"></span>
+                            </div>
+
+                            <!-- Field 2: Username & Email in 2 cols -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-xs font-semibold text-on-surface mb-1 block" asp-for="TenDangNhap">
+                                        Tên đăng nhập <span class="text-error font-bold">*</span>
+                                    </label>
+                                    <div class="relative flex items-center">
+                                        <div class="absolute left-3.5 text-secondary flex items-center pointer-events-none">
+                                            <span class="material-symbols-outlined text-[19px]">person</span>
+                                        </div>
+                                        <input asp-for="TenDangNhap" 
+                                               class="w-full h-11 pl-10 pr-4 bg-surface-container-low text-on-surface rounded-xl text-sm placeholder:text-on-surface-variant/50 focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary-container transition-all border border-transparent focus:border-primary-container" 
+                                               placeholder="Tối đa 10 ký tự" 
+                                               required />
+                                    </div>
+                                    <span asp-validation-for="TenDangNhap" class="mt-1 text-xs text-error font-medium block"></span>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-semibold text-on-surface mb-1 block" asp-for="Email">
+                                        Email <span class="text-error font-bold">*</span>
+                                    </label>
+                                    <div class="relative flex items-center">
+                                        <div class="absolute left-3.5 text-secondary flex items-center pointer-events-none">
+                                            <span class="material-symbols-outlined text-[19px]">mail</span>
+                                        </div>
+                                        <input asp-for="Email" 
+                                               type="email" 
+                                               class="w-full h-11 pl-10 pr-4 bg-surface-container-low text-on-surface rounded-xl text-sm placeholder:text-on-surface-variant/50 focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary-container transition-all border border-transparent focus:border-primary-container" 
+                                               placeholder="name@gmail.com" 
+                                               required />
+                                    </div>
+                                    <span asp-validation-for="Email" class="mt-1 text-xs text-error font-medium block"></span>
+                                </div>
+                            </div>
+
+                            <!-- Field 3: Password & Confirm Password in 2 cols -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-xs font-semibold text-on-surface mb-1 block" asp-for="MatKhau">
+                                        Mật khẩu <span class="text-error font-bold">*</span>
+                                    </label>
+                                    <div class="relative flex items-center">
+                                        <div class="absolute left-3.5 text-secondary flex items-center pointer-events-none">
+                                            <span class="material-symbols-outlined text-[19px]">lock</span>
+                                        </div>
+                                        <input asp-for="MatKhau" 
+                                               type="password" 
+                                               class="w-full h-11 pl-10 pr-4 bg-surface-container-low text-on-surface rounded-xl text-sm placeholder:text-on-surface-variant/50 focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary-container transition-all border border-transparent focus:border-primary-container" 
+                                               placeholder="Tối thiểu 6 ký tự" 
+                                               required />
+                                    </div>
+                                    <span asp-validation-for="MatKhau" class="mt-1 text-xs text-error font-medium block"></span>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-semibold text-on-surface mb-1 block" asp-for="XacNhanMatKhau">
+                                        Xác nhận mật khẩu <span class="text-error font-bold">*</span>
+                                    </label>
+                                    <div class="relative flex items-center">
+                                        <div class="absolute left-3.5 text-secondary flex items-center pointer-events-none">
+                                            <span class="material-symbols-outlined text-[19px]">lock_reset</span>
+                                        </div>
+                                        <input asp-for="XacNhanMatKhau" 
+                                               type="password" 
+                                               class="w-full h-11 pl-10 pr-4 bg-surface-container-low text-on-surface rounded-xl text-sm placeholder:text-on-surface-variant/50 focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary-container transition-all border border-transparent focus:border-primary-container" 
+                                               placeholder="Nhập lại mật khẩu" 
+                                               required />
+                                    </div>
+                                    <span asp-validation-for="XacNhanMatKhau" class="mt-1 text-xs text-error font-medium block"></span>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="w-full h-12 bg-primary-container hover:bg-orange-600 text-white text-sm font-bold rounded-xl shadow-md hover:shadow-lg flex items-center justify-center gap-2 transition-all duration-200 group active:scale-[0.99] mt-3">
+                                <span>HOÀN TẤT ĐĂNG KÝ</span>
+                                <span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Bottom footnote -->
+                    <div class="mt-6 pt-4 border-t border-surface-container-highest flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-on-surface-variant">
+                        <div>
+                            Đã có tài khoản hội viên? 
+                            <a asp-controller="Account" asp-action="Login" class="font-bold text-primary hover:underline">Đăng nhập ngay</a>
+                        </div>
+                        <div class="flex items-center gap-1 text-[11px] text-secondary">
+                            <span class="material-symbols-outlined text-[14px]">verified_user</span>
+                            <span>Đăng ký an toàn &amp; nhanh chóng</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-surface-container-lowest border-t border-surface-container py-4">
+        <div class="max-w-7xl mx-auto px-gutter flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-on-surface-variant text-center sm:text-left">
+            <p class="mb-0">© 2026 GymPro Fitness &amp; Club Management - ASP.NET Core MVC &amp; EF Core</p>
+            <div class="flex items-center gap-3">
+                <a href="#" class="hover:text-primary transition-colors">Điều khoản dịch vụ</a>
+                <span>•</span>
+                <a href="#" class="hover:text-primary transition-colors">Chính sách bảo mật</a>
+                <span>•</span>
+                <a href="#" class="hover:text-primary transition-colors">Hỗ trợ kỹ thuật</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

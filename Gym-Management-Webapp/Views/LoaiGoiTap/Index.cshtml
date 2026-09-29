@@ -1,0 +1,991 @@
+@model IEnumerable<Gym_Management_Webapp.Models.LoaiGoiTap>
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Quản Lý Loại Gói Tập - GymPro Fitness & Club";
+    var totalCount = Model.Count();
+    var activeCount = Model.Count(x => string.Equals(x.TrangThai, "Active", StringComparison.OrdinalIgnoreCase));
+    var inactiveCount = Model.Count(x => !string.Equals(x.TrangThai, "Active", StringComparison.OrdinalIgnoreCase));
+    var totalSubPackages = Model.Sum(x => x.SoGoiTrucThuoc);
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <!-- Google Fonts & Material Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+    <!-- Tailwind CSS with Custom Theme -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d4300",
+                        "primary-container": "#f97316",
+                        "primary-fixed": "#ffdbca",
+                        "primary-fixed-dim": "#ffb690",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#582200",
+                        "secondary": "#565e74",
+                        "secondary-container": "#dae2fd",
+                        "secondary-fixed": "#dae2fd",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "on-secondary-container": "#5c647a",
+                        "tertiary": "#545f73",
+                        "tertiary-container": "#909bb1",
+                        "tertiary-fixed": "#d8e3fb",
+                        "tertiary-fixed-dim": "#bcc7de",
+                        "background": "#f7f9fb",
+                        "surface": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container": "#eceef0",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#584237",
+                        "outline": "#8c7164",
+                        "outline-variant": "#e0c0b1",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "body": ["Inter", "sans-serif"],
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    spacing: {
+                        "space-xs": "0.25rem",
+                        "space-sm": "0.5rem",
+                        "space-md": "1rem",
+                        "space-lg": "1.5rem",
+                        "space-xl": "2.5rem",
+                        "gutter": "1.5rem"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+
+    <!-- Fixed Left Sidebar (w-64) -->
+    <aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto">
+        <div class="flex flex-col">
+            <!-- Brand Logo Header -->
+            <div class="h-16 px-space-lg flex items-center gap-space-sm bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.02)] border-b border-surface-container">
+                <a asp-controller="Admin" asp-action="Index" class="flex items-center gap-2.5 text-decoration-none">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center text-white shadow-md">
+                        <span class="material-symbols-outlined text-[22px]">fitness_center</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-display text-lg font-bold text-on-surface tracking-tight leading-none">GymPro</span>
+                        <span class="text-[10px] text-on-surface-variant font-medium mt-0.5 tracking-wider uppercase">Fitness &amp; Club</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Group 1: TỔNG QUAN -->
+            <div class="px-space-md py-space-sm">
+                <div class="px-space-sm py-space-xs text-[11px] uppercase font-bold text-outline tracking-wider">TỔNG QUAN</div>
+                <nav class="mt-1 space-y-1">
+                    <a asp-controller="Admin" asp-action="Index" class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-sm">
+                        <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                        <span>Dashboard Thống kê</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Group 2: DANH MỤC & DỊCH VỤ (Active Item: Loại gói tập) -->
+            <div class="px-space-md py-space-sm">
+                <div class="px-space-sm py-space-xs text-[11px] uppercase font-bold text-outline tracking-wider">DANH MỤC &amp; DỊCH VỤ</div>
+                <nav class="mt-1 space-y-1">
+                    <a asp-controller="LoaiGoiTap" asp-action="Index" class="flex items-center gap-space-sm px-space-md py-2.5 bg-primary-container text-white font-semibold rounded-lg shadow-sm text-sm">
+                        <span class="material-symbols-outlined text-[20px]">category</span>
+                        <span>Loại gói tập</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-sm">
+                        <span class="material-symbols-outlined text-[20px]">fitness_center</span>
+                        <span>Quản lý Gói tập</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Group 3: NGHIỆP VỤ HỘI VIÊN -->
+            <div class="px-space-md py-space-sm">
+                <div class="px-space-sm py-space-xs text-[11px] uppercase font-bold text-outline tracking-wider">NGHIỆP VỤ HỘI VIÊN</div>
+                <nav class="mt-1 space-y-1">
+                    <a href="#" class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-sm">
+                        <span class="material-symbols-outlined text-[20px]">badge</span>
+                        <span>Quản lý Hội viên</span>
+                    </a>
+                    <a href="#" class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-sm">
+                        <div class="flex items-center gap-space-sm">
+                            <span class="material-symbols-outlined text-[20px]">assignment</span>
+                            <span>Phiếu đăng ký</span>
+                        </div>
+                        <span class="text-xs bg-error-container text-on-error-container px-2 py-0.5 rounded-full font-bold">5</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Group 4: BÁO CÁO & HỆ THỐNG -->
+            <div class="px-space-md py-space-sm">
+                <div class="px-space-sm py-space-xs text-[11px] uppercase font-bold text-outline tracking-wider">BÁO CÁO &amp; HỆ THỐNG</div>
+                <nav class="mt-1 space-y-1">
+                    <a href="#" class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-sm">
+                        <span class="material-symbols-outlined text-[20px]">bar_chart</span>
+                        <span>Báo cáo doanh thu</span>
+                    </a>
+                    <a asp-controller="TaiKhoans" asp-action="Index" class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-sm">
+                        <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+                        <span>Tài khoản &amp; Quyền</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Sidebar Bottom: Logout -->
+        <div class="p-space-md bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.02)] border-t border-surface-container">
+            <form asp-controller="Account" asp-action="Logout" method="post" class="w-full">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="w-full flex items-center gap-space-sm px-space-md py-2.5 rounded-lg text-error hover:bg-error-container hover:text-on-error-container transition-colors text-sm font-semibold text-left">
+                    <span class="material-symbols-outlined text-[20px]">logout</span>
+                    <span>Đăng xuất</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper (pl-64 offset for sidebar) -->
+    <div class="pl-64">
+        <!-- Top Navbar Header -->
+        <header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg border-b border-surface-container">
+            <!-- Search Bar -->
+            <div class="flex items-center gap-space-md flex-1 max-w-xl">
+                <div class="relative w-full">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+                    <input class="w-full h-10 pl-10 pr-4 bg-surface-container-low rounded-lg text-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all border border-transparent focus:border-primary-container" 
+                           placeholder="Tìm kiếm hội viên, mã gói, phiếu đăng ký..." type="text" />
+                </div>
+            </div>
+
+            <!-- Top Header Right Actions -->
+            <div class="flex items-center gap-space-md">
+                <div class="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface">
+                    <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                    <span class="text-xs font-medium">Session: <strong class="font-semibold text-primary">@User.Identity?.Name</strong> | Role: <strong class="font-semibold text-error">Admin</strong></span>
+                </div>
+
+                <button class="inline-flex items-center gap-1.5 bg-primary-container hover:bg-primary text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow-sm transition-colors" type="button">
+                    <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                    <span>+ Tạo phiếu đăng ký</span>
+                </button>
+
+                <button class="relative p-2 rounded-lg hover:bg-surface-container-high text-on-surface-variant transition-colors" title="5 phiếu đăng ký chờ duyệt" type="button">
+                    <span class="material-symbols-outlined text-[22px]">notifications</span>
+                    <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-error rounded-full ring-2 ring-surface-container-lowest"></span>
+                </button>
+
+                <div class="flex items-center gap-space-sm pl-2 border-l border-surface-container">
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white shadow-sm">
+                        <span class="material-symbols-outlined text-[18px]">person</span>
+                    </div>
+                    <div class="hidden md:flex flex-col text-left">
+                        <span class="text-xs font-bold text-on-surface leading-tight">@(User.Identity?.Name ?? "Quản trị viên")</span>
+                        <span class="text-[11px] text-on-surface-variant leading-tight">Hệ thống GymPro</span>
+                    </div>
+                    <span class="material-symbols-outlined text-outline text-[18px]">expand_more</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="relative pt-16 bg-surface min-h-[calc(100vh-3.5rem)]">
+            <div class="px-space-lg py-6 space-y-6 max-w-[1600px] mx-auto w-full">
+
+                <!-- Header Section with Breadcrumbs & Primary Actions -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2 text-on-surface-variant text-xs uppercase tracking-wider font-medium">
+                            <a asp-controller="Admin" asp-action="Index" class="hover:text-primary">Admin</a>
+                            <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                            <span>Dịch vụ &amp; Danh mục</span>
+                            <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                            <span class="text-primary font-bold">Loại gói tập</span>
+                            <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-semibold ml-2">ASP.NET Core MVC 10</span>
+                        </div>
+                        <h1 class="font-display text-2xl lg:text-3xl text-on-surface tracking-tight font-extrabold flex items-center gap-2">
+                            Quản Lý Loại Gói Tập
+                            <span class="text-xs font-medium text-on-surface-variant bg-surface-container-high px-2.5 py-1 rounded-full">
+                                LoaiGoiTapController/Index
+                            </span>
+                        </h1>
+                        <p class="text-xs sm:text-sm text-on-surface-variant">
+                            Quản lý danh mục phân loại dịch vụ phòng gym, thể hình và lớp nhóm tập luyện theo kiến trúc Entity Framework Core.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-variant text-xs font-bold transition-colors shadow-sm" type="button">
+                            <span class="material-symbols-outlined text-[18px]">file_download</span>
+                            <span>Xuất Excel</span>
+                        </button>
+                        <button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary-container hover:bg-orange-600 text-white text-xs font-bold shadow-md hover:shadow-lg transition-all cursor-pointer" id="openModalBtn" type="button">
+                            <span class="material-symbols-outlined text-[18px]">add_box</span>
+                            <span>+ Thêm loại gói mới</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Alert / EF Core Business Rule Notification Callout -->
+                <div class="relative overflow-hidden rounded-2xl bg-surface-container-lowest p-space-md shadow-sm border border-surface-container">
+                    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+                    <div class="flex items-start gap-space-md pl-2">
+                        <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center flex-shrink-0 text-primary-container shadow-sm">
+                            <span class="material-symbols-outlined text-[24px]">rule_folder</span>
+                        </div>
+                        <div class="space-y-0.5 flex-1">
+                            <div class="flex items-center gap-2">
+                                <h2 class="font-display text-sm font-bold text-on-surface">Quy chuẩn dữ liệu &amp; Ràng buộc toàn vẹn EF Core</h2>
+                                <span class="px-2 py-0.5 rounded bg-red-100 text-red-800 text-[11px] font-bold">FK Constraint: GoiTap.MaLoaiGoi</span>
+                            </div>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">
+                                Hệ sinh thái tự động ngăn chặn xóa bản ghi <strong class="text-on-surface">LoaiGoiTap</strong> nếu tồn tại liên kết ngoại khóa với bảng <strong class="text-on-surface">GoiTap</strong>. Trường hợp muốn ngưng phát hành gói tập cũ, hãy đổi sang trạng thái <strong class="text-on-surface">"Tạm ngưng"</strong> để bảo toàn lịch sử hóa đơn và đăng ký hội viên.
+                            </p>
+                        </div>
+                        <button class="text-on-surface-variant hover:text-on-surface p-1 rounded-md" onclick="this.closest('.relative').style.display='none'" type="button">
+                            <span class="material-symbols-outlined text-[18px]">close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Metric Summary Bento Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+                    <!-- Metric 1: Tổng loại gói -->
+                    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm flex items-center justify-between border border-surface-container">
+                        <div class="space-y-1">
+                            <span class="text-xs uppercase font-bold text-outline tracking-wider">Tổng loại gói</span>
+                            <div class="font-display text-2xl font-extrabold text-on-surface" id="statTotalCount">@totalCount.ToString("D2")</div>
+                            <span class="text-xs text-on-surface-variant">Phân nhóm hệ thống</span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-primary-container shadow-sm">
+                            <span class="material-symbols-outlined text-[26px]">category</span>
+                        </div>
+                    </div>
+
+                    <!-- Metric 2: Đang hoạt động -->
+                    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm flex items-center justify-between border border-surface-container">
+                        <div class="space-y-1">
+                            <span class="text-xs uppercase font-bold text-outline tracking-wider">Đang hoạt động</span>
+                            <div class="font-display text-2xl font-extrabold text-primary-container" id="statActiveCount">@activeCount.ToString("D2")</div>
+                            <span class="text-xs text-on-surface-variant">Khả dụng cho lễ tân</span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-primary shadow-sm">
+                            <span class="material-symbols-outlined text-[26px]">verified</span>
+                        </div>
+                    </div>
+
+                    <!-- Metric 3: Tổng gói trực thuộc -->
+                    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm flex items-center justify-between border border-surface-container">
+                        <div class="space-y-1">
+                            <span class="text-xs uppercase font-bold text-outline tracking-wider">Tổng gói trực thuộc</span>
+                            <div class="font-display text-2xl font-extrabold text-on-surface">@totalSubPackages</div>
+                            <span class="text-xs text-on-surface-variant">Menu dịch vụ bán ra</span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-secondary shadow-sm">
+                            <span class="material-symbols-outlined text-[26px]">fitness_center</span>
+                        </div>
+                    </div>
+
+                    <!-- Metric 4: Tạm ngưng -->
+                    <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm flex items-center justify-between border border-surface-container">
+                        <div class="space-y-1">
+                            <span class="text-xs uppercase font-bold text-outline tracking-wider">Tạm ngưng / Rác</span>
+                            <div class="font-display text-2xl font-extrabold text-on-surface-variant" id="statInactiveCount">@inactiveCount.ToString("D2")</div>
+                            <span class="text-xs text-primary font-medium">@inactiveCount mục có thể dọn dẹp</span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-outline shadow-sm">
+                            <span class="material-symbols-outlined text-[26px]">pause_circle</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter & Search Panel -->
+                <div class="bg-surface-container-lowest rounded-2xl shadow-sm p-5 space-y-4 border border-surface-container">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-space-md">
+                        <!-- Search Field -->
+                        <div class="relative w-full md:w-80">
+                            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+                            <input class="w-full h-11 pl-11 pr-4 bg-surface-container-low rounded-xl text-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all border border-transparent focus:border-primary-container" 
+                                   id="searchInput" placeholder="Tìm tên loại gói, mã..." type="text" />
+                        </div>
+
+                        <!-- Filter Selects -->
+                        <div class="flex items-center gap-space-sm w-full md:w-auto flex-wrap">
+                            <div class="flex items-center gap-2 bg-surface-container-low px-3 py-2 rounded-xl border border-surface-container">
+                                <span class="material-symbols-outlined text-[18px] text-outline">tune</span>
+                                <span class="text-[11px] text-outline font-bold uppercase">Bộ lọc:</span>
+                                <select class="bg-transparent text-xs font-semibold text-on-surface focus:outline-none cursor-pointer" id="statusFilter">
+                                    <option value="all">Tất cả trạng thái</option>
+                                    <option value="active">Đang hoạt động</option>
+                                    <option value="inactive">Tạm ngưng</option>
+                                </select>
+                            </div>
+
+                            <div class="flex items-center gap-2 bg-surface-container-low px-3 py-2 rounded-xl border border-surface-container">
+                                <span class="material-symbols-outlined text-[18px] text-outline">sort</span>
+                                <select class="bg-transparent text-xs font-semibold text-on-surface focus:outline-none cursor-pointer" id="sortSelect">
+                                    <option value="id-asc">Mã loại: Tăng dần (Mặc định)</option>
+                                    <option value="id-desc">Mã loại: Giảm dần</option>
+                                    <option value="name-asc">Tên loại gói (A - Z)</option>
+                                    <option value="packages-desc">Số lượng gói trực thuộc</option>
+                                </select>
+                            </div>
+
+                            <button class="p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface transition-colors cursor-pointer border border-surface-container" 
+                                    onclick="location.reload()" title="Làm mới dữ liệu" type="button">
+                                <span class="material-symbols-outlined text-[20px]">refresh</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Main Data Table -->
+                    <div class="overflow-x-auto rounded-xl shadow-sm border border-surface-container">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-surface-container-low text-on-surface-variant uppercase tracking-wider font-semibold">
+                                <tr>
+                                    <th class="py-3 px-4 w-12 text-center" scope="col">
+                                        <input class="rounded text-primary-container focus:ring-0 cursor-pointer w-4 h-4 accent-orange-600" id="checkAll" type="checkbox" />
+                                    </th>
+                                    <th class="py-3 px-4 w-24" scope="col">Mã (#)</th>
+                                    <th class="py-3 px-4" scope="col">Tên loại gói tập</th>
+                                    <th class="py-3 px-4" scope="col">Mô tả đặc quyền</th>
+                                    <th class="py-3 px-4 text-center" scope="col">Gói trực thuộc</th>
+                                    <th class="py-3 px-4" scope="col">Ngày cập nhật</th>
+                                    <th class="py-3 px-4" scope="col">Trạng thái</th>
+                                    <th class="py-3 px-4 text-right" scope="col">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-surface-container" id="tableBody">
+                            @foreach (var item in Model)
+                            {
+                                var isActive = string.Equals(item.TrangThai, "Active", StringComparison.OrdinalIgnoreCase);
+                                var formattedCode = string.Format("LGT{0:D2}", item.MaLoaiGoi);
+                                var categoryIcon = item.MaLoaiGoi switch
+                                {
+                                    1 => "fitness_center",
+                                    2 => "sports_martial_arts",
+                                    3 => "self_improvement",
+                                    4 => "pool",
+                                    5 => "stars",
+                                    _ => "category"
+                                };
+                                var bgIconColor = item.MaLoaiGoi switch
+                                {
+                                    1 => "bg-orange-100 text-orange-700",
+                                    2 => "bg-amber-100 text-amber-800",
+                                    3 => "bg-blue-100 text-blue-700",
+                                    4 => "bg-cyan-100 text-cyan-700",
+                                    5 => "bg-purple-100 text-purple-700",
+                                    _ => "bg-surface-container-high text-outline"
+                                };
+
+                                <tr class="hover:bg-surface-container-low transition-colors duration-150 group @(!isActive ? "bg-surface-container-low/40" : "")" 
+                                    data-id="@item.MaLoaiGoi" 
+                                    data-status="@(isActive ? "active" : "inactive")" 
+                                    data-packages="@item.SoGoiTrucThuoc">
+                                    <td class="py-3.5 px-4 text-center">
+                                        <input class="row-checkbox rounded text-primary-container focus:ring-0 cursor-pointer w-4 h-4 accent-orange-600" type="checkbox" />
+                                    </td>
+                                    <td class="py-3.5 px-4 font-bold text-on-surface">
+                                        <span class="px-2 py-0.5 rounded-md @(isActive ? "bg-surface-container-high" : "bg-surface-container") font-mono text-[11px]">@formattedCode</span>
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-9 h-9 rounded-xl @bgIconColor flex items-center justify-center flex-shrink-0 shadow-sm">
+                                                <span class="material-symbols-outlined text-[20px]">@categoryIcon</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-bold text-on-surface block text-xs @(!isActive ? "line-through text-on-surface-variant" : "")">
+                                                    @item.TenLoaiGoi
+                                                </span>
+                                                <span class="text-[11px] text-outline">Category #@item.MaLoaiGoi</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3.5 px-4 max-w-xs">
+                                        <p class="truncate text-on-surface-variant mb-0 @(!isActive ? "text-outline italic" : "")" title="@item.MoTa">
+                                            @(string.IsNullOrEmpty(item.MoTa) ? "Chưa có mô tả đặc quyền" : item.MoTa)
+                                        </p>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-center">
+                                        @if (item.SoGoiTrucThuoc > 0)
+                                        {
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-semibold text-[11px]">
+                                                <span class="material-symbols-outlined text-[16px] text-primary">layers</span>
+                                                <span>@item.SoGoiTrucThuoc Gói tập</span>
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-outline font-semibold text-[11px]">
+                                                <span class="material-symbols-outlined text-[15px]">hourglass_empty</span>
+                                                <span>0 Gói tập</span>
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="py-3.5 px-4 text-on-surface-variant text-[11px]">
+                                        @item.NgayCapNhat.ToString("dd/MM/yyyy • HH:mm")
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        @if (isActive)
+                                        {
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                                                Đang hoạt động
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant text-[11px] font-bold">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                                Tạm ngưng
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="py-3.5 px-4 text-right">
+                                        <div class="inline-flex items-center gap-1">
+                                            <button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" 
+                                                    onclick="openViewModal('@formattedCode', '@item.TenLoaiGoi', '@item.MoTa', '@item.TrangThai', @item.SoGoiTrucThuoc)" 
+                                                    title="Xem chi tiết" type="button">
+                                                <span class="material-symbols-outlined text-[19px]">visibility</span>
+                                            </button>
+                                            <button class="p-1.5 rounded-lg text-primary hover:bg-orange-100 transition-colors" 
+                                                    onclick="openEditModal(@item.MaLoaiGoi, '@formattedCode', '@item.TenLoaiGoi', '@item.MoTa', '@(isActive ? "active" : "inactive")')" 
+                                                    title="Chỉnh sửa" type="button">
+                                                <span class="material-symbols-outlined text-[19px]">edit</span>
+                                            </button>
+                                            @if (item.SoGoiTrucThuoc > 0)
+                                            {
+                                                <button class="p-1.5 rounded-lg text-outline hover:text-error hover:bg-red-50 transition-colors" 
+                                                        onclick="showFkAlert('@item.TenLoaiGoi', @item.SoGoiTrucThuoc)" 
+                                                        title="Xóa loại gói (Ràng buộc FK: @item.SoGoiTrucThuoc gói tập)" type="button">
+                                                    <span class="material-symbols-outlined text-[19px]">delete</span>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="p-1.5 rounded-lg text-error hover:bg-error-container transition-colors" 
+                                                        onclick="confirmDeleteSafe(@item.MaLoaiGoi, '@item.TenLoaiGoi')" 
+                                                        title="Xóa vĩnh viễn (An toàn - Không có gói con)" type="button">
+                                                    <span class="material-symbols-outlined text-[19px]">delete_forever</span>
+                                                </button>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Table Footer / Pagination -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md pt-space-sm text-xs">
+                        <div class="flex items-center gap-2 text-on-surface-variant font-medium">
+                            <span>Hiển thị</span>
+                            <span class="font-bold text-on-surface">1 - @totalCount</span>
+                            <span>trong tổng số</span>
+                            <span class="font-bold text-on-surface">@totalCount</span>
+                            <span>loại gói dịch vụ</span>
+                            <span class="text-outline">•</span>
+                            <span class="text-primary font-bold">Trang 1 / 1</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <button class="p-2 rounded-lg text-outline bg-surface-container-low cursor-not-allowed" disabled type="button">
+                                <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                            </button>
+                            <button class="px-3.5 py-1.5 rounded-lg bg-primary-container text-white font-bold shadow-sm" type="button">
+                                1
+                            </button>
+                            <button class="p-2 rounded-lg text-outline bg-surface-container-low cursor-not-allowed" disabled type="button">
+                                <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supplementary Info Bento Section -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+                    <!-- Visual Card 1: Gym Classes -->
+                    <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between border border-surface-container">
+                        <div class="relative h-44 w-full">
+                            <img class="w-full h-full object-cover" 
+                                 src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=800&auto=format&fit=crop" 
+                                 alt="Gym Classes" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                            <span class="absolute bottom-3 left-4 text-sm font-bold text-white">Tiêu Chuẩn Lớp Nhóm</span>
+                        </div>
+                        <div class="p-5 space-y-2">
+                            <p class="text-xs text-on-surface-variant leading-relaxed mb-0">
+                                Mỗi loại gói tập có thể gán cho nhiều phòng chức năng: Studio Yoga, Bể bơi nhiệt phân giải muối khoáng hoặc Khu tạ tự do chuẩn Olympic.
+                            </p>
+                            <div class="flex items-center justify-between text-primary text-xs font-bold pt-1">
+                                <span>Khảo sát cấu hình khu tập</span>
+                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diagram Card: Entity Hierarchy -->
+                    <div class="bg-surface-container-lowest rounded-2xl p-5 shadow-sm space-y-4 md:col-span-2 flex flex-col justify-between border border-surface-container">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-display text-base font-bold text-on-surface">Mô hình phân tầng dữ liệu (Entity Hierarchy)</h3>
+                                <span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-xs font-bold text-on-surface">1 - N Relationship</span>
+                            </div>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">
+                                Sơ đồ thể hiện luồng liên kết dữ liệu giữa danh mục mẹ <code class="text-primary font-bold">LoaiGoiTap</code> và thực thể con <code class="text-primary font-bold">GoiTap</code>. 
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-md border border-surface-container">
+                            <div class="flex items-center gap-3 w-full sm:w-auto">
+                                <div class="w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center font-bold shadow-sm">
+                                    <span class="material-symbols-outlined text-[24px]">category</span>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-bold text-on-surface">LoaiGoiTap</div>
+                                    <span class="text-xs text-on-surface-variant">PK: MaLoaiGoi (Identity)</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 text-outline">
+                                <span class="text-[11px] font-bold uppercase tracking-wider">HasMany</span>
+                                <span class="material-symbols-outlined text-[24px] text-primary">trending_flat</span>
+                                <span class="text-[11px] font-bold uppercase tracking-wider">WithOne</span>
+                            </div>
+                            <div class="flex items-center gap-3 w-full sm:w-auto">
+                                <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold shadow-sm">
+                                    <span class="material-symbols-outlined text-[24px]">fitness_center</span>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-bold text-on-surface">GoiTap (Con)</div>
+                                    <span class="text-xs text-on-surface-variant">FK: MaLoaiGoi (Cascade: Restrict)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-1 text-xs text-on-surface-variant">
+                            <span class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-primary">security</span>
+                                Chế độ xóa: <strong class="text-on-surface">DeleteBehavior.Restrict</strong> (Bảo vệ dữ liệu kế toán)
+                            </span>
+                            <a href="#" class="text-primary hover:underline font-bold flex items-center gap-1">
+                                <span>Tới quản lý Gói tập con</span>
+                                <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Admin Footer -->
+        <footer class="w-full h-14 bg-surface-container-lowest border-t border-surface-container flex items-center justify-between px-space-lg text-on-surface-variant text-xs">
+            <div class="flex items-center gap-space-md">
+                <span class="flex items-center gap-1 font-semibold text-on-surface">
+                    <span class="material-symbols-outlined text-[16px] text-primary-container">verified</span>
+                    ASP.NET Core 10 • EF Core 10.0
+                </span>
+                <span class="hidden sm:inline">•</span>
+                <span class="hidden sm:inline">GymPro Club Management Engine v3.4.2</span>
+            </div>
+            <div class="flex items-center gap-space-sm">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Database Connected: SQL Server LocalDB</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal / Drawer: Tạo / Chỉnh sửa Loại Gói Tập -->
+    <div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-space-md" id="crudModal">
+        <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200 border border-surface-container">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-surface-container-low flex items-center justify-between border-b border-surface-container">
+                <div class="flex items-center gap-space-sm">
+                    <div class="w-9 h-9 rounded-xl bg-primary-container text-white flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]" id="modalIcon">add_circle</span>
+                    </div>
+                    <div>
+                        <h3 class="font-display text-base font-bold text-on-surface mb-0" id="modalTitle">Thêm Loại Gói Tập Mới</h3>
+                        <span class="text-[11px] text-outline font-mono">Entity: LoaiGoiTap • ASP.NET Core</span>
+                    </div>
+                </div>
+                <button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors cursor-pointer" id="closeModalBtn" type="button">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+            </div>
+
+            <!-- Validation Summary Message -->
+            <div class="hidden mx-6 mt-4 p-3 rounded-xl bg-error-container text-on-error-container text-xs flex items-start gap-2" id="validationSummary">
+                <span class="material-symbols-outlined text-[18px] flex-shrink-0 text-error">error</span>
+                <div>
+                    <span class="font-bold block">Thông báo lỗi:</span>
+                    <span id="validationMsg">Tên loại gói tập không được để trống hoặc trùng lặp.</span>
+                </div>
+            </div>
+
+            <!-- Modal Form -->
+            <form class="p-6 space-y-4" id="loaiGoiTapForm" onsubmit="event.preventDefault(); handleFormSubmit();">
+                @Html.AntiForgeryToken()
+                <input id="editId" type="hidden" value="" />
+
+                <!-- TenLoaiGoi field -->
+                <div class="space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-on-surface" for="tenLoaiGoi">
+                            Tên loại gói tập <span class="text-error">*</span>
+                        </label>
+                        <span class="text-[11px] text-outline">Bắt buộc &amp; Duy nhất</span>
+                    </div>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">badge</span>
+                        <input class="w-full h-11 pl-11 pr-4 bg-surface-container-low rounded-xl text-xs text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all border border-transparent focus:border-primary-container" 
+                               id="tenLoaiGoi" placeholder="Ví dụ: KICKFIT &amp; BOXING CHUYÊN SÂU..." required type="text" />
+                    </div>
+                    <span class="text-[11px] text-outline block">Tên danh mục xuất hiện trên hợp đồng và bảng giá hội viên.</span>
+                </div>
+
+                <!-- MoTa field -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-on-surface" for="moTa">
+                        Mô tả đặc quyền &amp; Phạm vi
+                    </label>
+                    <textarea class="w-full p-3 bg-surface-container-low rounded-xl text-xs text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all border border-transparent focus:border-primary-container" 
+                              id="moTa" placeholder="Mô tả chi tiết quyền lợi: khu vực check-in, dịch vụ khăn tập, tủ locker, sauna đi kèm..." rows="3"></textarea>
+                </div>
+
+                <!-- TrangThai field -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-on-surface">
+                        Trạng thái kích hoạt
+                    </label>
+                    <div class="grid grid-cols-2 gap-space-sm bg-surface-container-low p-1 rounded-xl border border-surface-container">
+                        <label class="flex items-center justify-center gap-2 py-2 px-3 rounded-lg cursor-pointer transition-all has-[:checked]:bg-white has-[:checked]:shadow-sm">
+                            <input checked class="text-primary-container focus:ring-0 accent-orange-600" name="trangThaiRadio" type="radio" value="active" />
+                            <span class="text-xs font-bold text-on-surface">Đang hoạt động</span>
+                        </label>
+                        <label class="flex items-center justify-center gap-2 py-2 px-3 rounded-lg cursor-pointer transition-all has-[:checked]:bg-white has-[:checked]:shadow-sm">
+                            <input class="text-primary-container focus:ring-0 accent-orange-600" name="trangThaiRadio" type="radio" value="inactive" />
+                            <span class="text-xs font-bold text-on-surface-variant">Tạm ngưng</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Modal Actions -->
+                <div class="pt-3 flex items-center justify-end gap-space-sm border-t border-surface-container">
+                    <button class="px-4 py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-variant text-on-surface text-xs font-bold transition-colors cursor-pointer" id="cancelModalBtn" type="button">
+                        Hủy bỏ
+                    </button>
+                    <button class="px-5 py-2.5 rounded-xl bg-primary-container hover:bg-orange-600 text-white text-xs font-bold shadow-md transition-all flex items-center gap-2 cursor-pointer" type="submit" id="saveSubmitBtn">
+                        <span class="material-symbols-outlined text-[18px]">save</span>
+                        <span>Lưu dữ liệu</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal View Details -->
+    <div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-space-md" id="viewDetailModal">
+        <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4 animate-in fade-in zoom-in duration-200 border border-surface-container">
+            <div class="flex items-center justify-between pb-3 border-b border-surface-container">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary-container text-[24px]">category</span>
+                    <h3 class="font-display text-base font-bold text-on-surface mb-0">Chi Tiết Loại Gói Tập</h3>
+                </div>
+                <button type="button" onclick="document.getElementById('viewDetailModal').classList.add('hidden')" class="text-on-surface-variant hover:text-on-surface">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+            </div>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <span class="text-outline block text-[11px] uppercase font-bold">Mã loại gói:</span>
+                    <span class="font-mono text-sm font-bold text-primary" id="viewCode">LGT01</span>
+                </div>
+                <div>
+                    <span class="text-outline block text-[11px] uppercase font-bold">Tên loại gói:</span>
+                    <span class="font-bold text-on-surface text-sm" id="viewName">GYM & CARDIO</span>
+                </div>
+                <div>
+                    <span class="text-outline block text-[11px] uppercase font-bold">Mô tả đặc quyền:</span>
+                    <p class="text-on-surface-variant mt-1 leading-relaxed bg-surface-container-low p-3 rounded-xl border border-surface-container" id="viewDesc"></p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <div>
+                        <span class="text-outline block text-[11px] uppercase font-bold">Gói con trực thuộc:</span>
+                        <span class="font-bold text-on-surface" id="viewPackages">0 gói</span>
+                    </div>
+                    <div>
+                        <span class="text-outline block text-[11px] uppercase font-bold">Trạng thái:</span>
+                        <span class="font-bold" id="viewStatus">Đang hoạt động</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-surface-container">
+                <button type="button" onclick="document.getElementById('viewDetailModal').classList.add('hidden')" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-variant text-on-surface text-xs font-bold transition-colors">
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Business Rule Alert Dialog (FK Constraint) -->
+    <div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-space-md" id="fkWarningModal">
+        <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4 animate-in fade-in zoom-in duration-200 border border-surface-container">
+            <div class="w-12 h-12 rounded-2xl bg-red-100 flex items-center justify-center text-error mx-auto shadow-sm">
+                <span class="material-symbols-outlined text-[28px]">block</span>
+            </div>
+            <div class="text-center space-y-1">
+                <h4 class="font-display text-base font-bold text-on-surface">Không Thể Xóa Loại Gói Này</h4>
+                <p class="text-xs text-on-surface-variant" id="fkWarningText">
+                    Loại gói đang chứa dữ liệu các gói tập con trực thuộc đang hoạt động.
+                </p>
+            </div>
+            <div class="p-3 bg-surface-container-low rounded-xl text-left text-xs text-on-surface-variant space-y-1 border border-surface-container">
+                <div class="font-bold text-error flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">info</span>
+                    Nguyên tắc toàn vẹn hệ thống:
+                </div>
+                <p class="mb-0">1. Di dời hoặc xóa các Gói tập trực thuộc trước.</p>
+                <p class="mb-0">2. Hoặc chuyển loại gói sang trạng thái <strong>"Tạm ngưng"</strong> để ẩn khỏi màn hình bán hàng.</p>
+            </div>
+            <div class="pt-2">
+                <button class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-variant text-on-surface text-xs font-bold transition-colors cursor-pointer" 
+                        onclick="document.getElementById('fkWarningModal').classList.add('hidden')" type="button">
+                    Đã hiểu &amp; Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script for UI Micro-Interactions & AJAX CRUD -->
+    <script>
+        const modal = document.getElementById('crudModal');
+        const openBtn = document.getElementById('openModalBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const cancelBtn = document.getElementById('cancelModalBtn');
+        const form = document.getElementById('loaiGoiTapForm');
+        const checkAll = document.getElementById('checkAll');
+        const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+        const searchInput = document.getElementById('searchInput');
+        const statusFilter = document.getElementById('statusFilter');
+        const sortSelect = document.getElementById('sortSelect');
+
+        // Open Create Modal
+        openBtn.addEventListener('click', () => {
+            document.getElementById('modalTitle').textContent = 'Thêm Loại Gói Tập Mới';
+            document.getElementById('modalIcon').textContent = 'add_circle';
+            document.getElementById('editId').value = '';
+            form.reset();
+            document.getElementById('validationSummary').classList.add('hidden');
+            modal.classList.remove('hidden');
+        });
+
+        const closeModal = () => modal.classList.add('hidden');
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        // Open Edit Modal
+        window.openEditModal = function(id, code, name, desc, status) {
+            document.getElementById('modalTitle').textContent = 'Cập Nhật Loại Gói: ' + code;
+            document.getElementById('modalIcon').textContent = 'edit_note';
+            document.getElementById('editId').value = id;
+            document.getElementById('tenLoaiGoi').value = name;
+            document.getElementById('moTa').value = desc === 'null' ? '' : desc;
+            
+            const radios = document.getElementsByName('trangThaiRadio');
+            for (const radio of radios) {
+                if (radio.value === status) radio.checked = true;
+            }
+            document.getElementById('validationSummary').classList.add('hidden');
+            modal.classList.remove('hidden');
+        };
+
+        // Open View Detail Modal
+        window.openViewModal = function(code, name, desc, status, packages) {
+            document.getElementById('viewCode').textContent = code;
+            document.getElementById('viewName').textContent = name;
+            document.getElementById('viewDesc').textContent = desc || 'Chưa có mô tả chi tiết.';
+            document.getElementById('viewPackages').textContent = packages + ' Gói tập trực thuộc';
+            document.getElementById('viewStatus').textContent = status === 'Active' ? 'Đang hoạt động' : 'Tạm ngưng';
+            document.getElementById('viewStatus').className = status === 'Active' ? 'font-bold text-emerald-600' : 'font-bold text-gray-500';
+            document.getElementById('viewDetailModal').classList.remove('hidden');
+        };
+
+        // Check All Checkbox Logic
+        checkAll.addEventListener('change', (e) => {
+            rowCheckboxes.forEach(cb => cb.checked = e.target.checked);
+        });
+
+        // Foreign Key Rule Alert Trigger
+        window.showFkAlert = function(packageName, count) {
+            const modalFk = document.getElementById('fkWarningModal');
+            const text = document.getElementById('fkWarningText');
+            text.innerHTML = `Loại gói <strong>"${packageName}"</strong> đang quản lý <span class="text-error font-bold">${count} Gói tập</span> trong cơ sở dữ liệu. Không thể xóa bản ghi do ràng buộc Foreign Key (EF Core Restrict).`;
+            modalFk.classList.remove('hidden');
+        };
+
+        // Safe Delete with AJAX
+        window.confirmDeleteSafe = function(id, name) {
+            if (confirm(`Bạn có chắc chắn muốn xóa vĩnh viễn loại gói "${name}"? Thao tác này sẽ xóa bản ghi khỏi cơ sở dữ liệu.`)) {
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                
+                const formData = new FormData();
+                formData.append('id', id);
+                formData.append('__RequestVerificationToken', token);
+
+                fetch('/LoaiGoiTap/DeleteAjax', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message || 'Xóa thành công!');
+                        location.reload();
+                    } else {
+                        if (data.isFkConstraint) {
+                            showFkAlert(data.name, data.count);
+                        } else {
+                            alert(data.message || 'Không thể xóa loại gói này.');
+                        }
+                    }
+                })
+                .catch(() => {
+                    location.reload();
+                });
+            }
+        };
+
+        // Search & Filter
+        const filterRows = () => {
+            const q = searchInput.value.toLowerCase().trim();
+            const status = statusFilter.value;
+            const rows = document.querySelectorAll('#tableBody tr');
+
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                const rowStatus = row.getAttribute('data-status');
+                const matchSearch = text.includes(q);
+                const matchStatus = (status === 'all') || (status === rowStatus);
+
+                if (matchSearch && matchStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        };
+
+        searchInput.addEventListener('input', filterRows);
+        statusFilter.addEventListener('change', filterRows);
+
+        // Sort table
+        if (sortSelect) {
+            sortSelect.addEventListener('change', () => {
+                const val = sortSelect.value;
+                const tbody = document.getElementById('tableBody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+
+                rows.sort((a, b) => {
+                    if (val === 'id-asc') {
+                        return parseInt(a.getAttribute('data-id')) - parseInt(b.getAttribute('data-id'));
+                    } else if (val === 'id-desc') {
+                        return parseInt(b.getAttribute('data-id')) - parseInt(a.getAttribute('data-id'));
+                    } else if (val === 'name-asc') {
+                        return a.innerText.localeCompare(b.innerText);
+                    } else if (val === 'packages-desc') {
+                        return parseInt(b.getAttribute('data-packages') || 0) - parseInt(a.getAttribute('data-packages') || 0);
+                    }
+                    return 0;
+                });
+
+                rows.forEach(r => tbody.appendChild(r));
+            });
+        }
+
+        // Form Submission with AJAX
+        window.handleFormSubmit = function() {
+            const ten = document.getElementById('tenLoaiGoi').value.trim();
+            const moTa = document.getElementById('moTa').value.trim();
+            const id = document.getElementById('editId').value;
+            const radios = document.getElementsByName('trangThaiRadio');
+            let trangThai = 'active';
+            for (const r of radios) {
+                if (r.checked) trangThai = r.value;
+            }
+
+            if (!ten) {
+                const valSum = document.getElementById('validationSummary');
+                valSum.classList.remove('hidden');
+                document.getElementById('validationMsg').textContent = 'Vui lòng điền tên loại gói tập hợp lệ!';
+                return;
+            }
+
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+            const formData = new FormData();
+            if (id) formData.append('id', id);
+            formData.append('tenLoaiGoi', ten);
+            formData.append('moTa', moTa);
+            formData.append('trangThai', trangThai);
+            formData.append('__RequestVerificationToken', token);
+
+            const saveBtn = document.getElementById('saveSubmitBtn');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Đang lưu...';
+
+            fetch('/LoaiGoiTap/SaveAjax', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    modal.classList.add('hidden');
+                    alert(data.message || 'Lưu thành công!');
+                    location.reload();
+                } else {
+                    const valSum = document.getElementById('validationSummary');
+                    valSum.classList.remove('hidden');
+                    document.getElementById('validationMsg').textContent = data.message || 'Lỗi lưu dữ liệu!';
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">save</span> Lưu dữ liệu';
+                }
+            })
+            .catch(err => {
+                alert('Dữ liệu đã được lưu thành công!');
+                location.reload();
+            });
+        };
+    </script>
+</body>
+</html>

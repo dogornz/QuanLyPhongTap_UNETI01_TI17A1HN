@@ -1,8 +1,72 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Trang Chủ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="p-5 mb-4 bg-light rounded-4 border shadow-sm text-center position-relative overflow-hidden" 
+     style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #fff;">
+    <div class="container-fluid py-4">
+        <h1 class="display-5 fw-bold text-warning mb-3">🏋️‍♂️ HỆ THỐNG QUẢN LÝ PHÒNG TẬP GYM</h1>
+        <p class="col-md-8 fs-5 mx-auto text-light opacity-75 mb-4">
+            Giải pháp số hóa toàn diện dành cho phòng tập thể hình - Quản lý hội viên, gói tập, huấn luyện viên và tài khoản nhanh chóng, chính xác.
+        </p>
+
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <div class="d-inline-flex flex-wrap gap-2 justify-content-center">
+                <span class="btn btn-outline-warning disabled border-2 text-warning fw-semibold px-4 py-2">
+                    Chào mừng trở lại, @User.Identity.Name!
+                </span>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Admin" asp-action="Index" class="btn btn-warning px-4 py-2 fw-bold shadow">
+                        📊 Vào Dashboard Quản Trị
+                    </a>
+                    <a asp-controller="TaiKhoans" asp-action="Index" class="btn btn-outline-light px-4 py-2 fw-semibold">
+                        Quản lý Tài Khoản
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                <a asp-controller="Account" asp-action="Login" class="btn btn-warning btn-lg px-4 py-2 fw-bold shadow">
+                    Đăng Nhập Ngay
+                </a>
+                <a asp-controller="Account" asp-action="Register" class="btn btn-outline-light btn-lg px-4 py-2 fw-semibold">
+                    Đăng Ký Thành Viên
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row g-4 py-3">
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
+            <div class="fs-1 mb-3">👥</div>
+            <h4 class="fw-bold mb-2">Hội Viên & Tài Khoản</h4>
+            <p class="text-muted small">
+                Quản lý hồ sơ thành viên, theo dõi tình trạng thẻ tập và phân quyền tài khoản chặt chẽ.
+            </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
+            <div class="fs-1 mb-3">🎫</div>
+            <h4 class="fw-bold mb-2">Gói Tập Đa Dạng</h4>
+            <p class="text-muted small">
+                Hỗ trợ thiết lập các gói tập linh hoạt theo ngày, tháng, năm với nhiều ưu đãi hấp dẫn.
+            </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
+            <div class="fs-1 mb-3">⚡</div>
+            <h4 class="fw-bold mb-2">Huấn Luyện Viên PT</h4>
+            <p class="text-muted small">
+                Kết nối thành viên với các huấn luyện viên chuyên nghiệp, lên lịch tập luyện khoa học.
+            </p>
+        </div>
+    </div>
 </div>
