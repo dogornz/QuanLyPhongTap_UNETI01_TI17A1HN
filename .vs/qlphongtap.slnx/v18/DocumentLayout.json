@@ -1,0 +1,79 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\project_qlyphongtap\\qlphongtap\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DF898F1F-22BC-4E63-B509-1D69C00C9BA5}|qlphongtap.csproj|d:\\project_qlyphongtap\\qlphongtap\\models\\goitap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF898F1F-22BC-4E63-B509-1D69C00C9BA5}|qlphongtap.csproj|solutionrelative:models\\goitap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF898F1F-22BC-4E63-B509-1D69C00C9BA5}|qlphongtap.csproj|d:\\project_qlyphongtap\\qlphongtap\\models\\hoivien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF898F1F-22BC-4E63-B509-1D69C00C9BA5}|qlphongtap.csproj|solutionrelative:models\\hoivien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF898F1F-22BC-4E63-B509-1D69C00C9BA5}|qlphongtap.csproj|d:\\project_qlyphongtap\\qlphongtap\\models\\phieudangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF898F1F-22BC-4E63-B509-1D69C00C9BA5}|qlphongtap.csproj|solutionrelative:models\\phieudangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GoiTap.cs",
+              "DocumentMoniker": "D:\\project_qlyphongtap\\qlphongtap\\Models\\GoiTap.cs",
+              "RelativeDocumentMoniker": "Models\\GoiTap.cs",
+              "ToolTip": "D:\\project_qlyphongtap\\qlphongtap\\Models\\GoiTap.cs",
+              "RelativeToolTip": "Models\\GoiTap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-01T02:14:31.675Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HoiVien.cs",
+              "DocumentMoniker": "D:\\project_qlyphongtap\\qlphongtap\\Models\\HoiVien.cs",
+              "RelativeDocumentMoniker": "Models\\HoiVien.cs",
+              "ToolTip": "D:\\project_qlyphongtap\\qlphongtap\\Models\\HoiVien.cs",
+              "RelativeToolTip": "Models\\HoiVien.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAwAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-01T02:11:20.024Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PhieuDangKy.cs",
+              "DocumentMoniker": "D:\\project_qlyphongtap\\qlphongtap\\Models\\PhieuDangKy.cs",
+              "RelativeDocumentMoniker": "Models\\PhieuDangKy.cs",
+              "ToolTip": "D:\\project_qlyphongtap\\qlphongtap\\Models\\PhieuDangKy.cs",
+              "RelativeToolTip": "Models\\PhieuDangKy.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-01T01:51:45.69Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
