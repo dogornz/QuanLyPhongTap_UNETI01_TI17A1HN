@@ -1,0 +1,39 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# Build output
+bin/
+obj/
+
+# Rider / JetBrains
+.idea/
+
+# Logs
+*.log
+
+# Local environment / secrets
+.env
+.env.*
+appsettings.Development.json
+appsettings.Local.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Code analysis / coverage
+TestResults/
+coverage/
