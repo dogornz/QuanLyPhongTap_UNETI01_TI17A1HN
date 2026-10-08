@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj": {}
+    "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj": {}
   },
   "projects": {
-    "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj": {
+    "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
+        "projectUniqueName": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
         "projectName": "QuanLyPhongTap_UNETI01_TI17A1HN",
-        "projectPath": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
+        "projectPath": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN\\obj\\",
+        "outputPath": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
