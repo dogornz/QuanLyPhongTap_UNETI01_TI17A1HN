@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Quanlyphongtap.Models;
+using QuanLyPhongTap_UNETI_TI17A1HN.Models;
 
-public class QuanlyphongtapContext(DbContextOptions<QuanlyphongtapContext> options) : DbContext(options)
+public class QuanLyPhongTap_UNETI_TI17A1HNContext(DbContextOptions<QuanLyPhongTap_UNETI_TI17A1HNContext> options) : DbContext(options)
 {
-    public DbSet<Quanlyphongtap.Models.PhieuDangKy> PhieuDangKy { get; set; } = default!;
+    public DbSet<QuanLyPhongTap_UNETI_TI17A1HN.Models.PhieuDangKy> PhieuDangKy { get; set; } = default!;
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

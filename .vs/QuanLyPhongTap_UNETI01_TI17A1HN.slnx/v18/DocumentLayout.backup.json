@@ -1,0 +1,214 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\thltNet\\Quanlyphongtap\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|d:\\thltnet\\quanlyphongtap\\repositories\\phieudangkyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|solutionrelative:repositories\\phieudangkyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\thltnet\\quanlyphongtap\\quanlyphongtap_uneti_ti17a1hncontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti_ti17a1hncontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|d:\\thltnet\\quanlyphongtap\\models\\goitap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|solutionrelative:models\\goitap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\thltnet\\quanlyphongtap\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|d:\\thltnet\\quanlyphongtap\\models\\loaigoitap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|solutionrelative:models\\loaigoitap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|d:\\thltnet\\quanlyphongtap\\models\\phieudangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|solutionrelative:models\\phieudangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|d:\\thltnet\\quanlyphongtap\\models\\hoivien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|solutionrelative:models\\hoivien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\thltnet\\quanlyphongtap\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|d:\\thltnet\\quanlyphongtap\\controllers\\phieudangkiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|Quanlyphongtap.csproj|solutionrelative:controllers\\phieudangkiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\thltnet\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{200B434A-4F84-9D46-9C7B-103D1DB6CD91}|QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\thltNet\\Quanlyphongtap\\Controllers\\HoiViensController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\HoiViensController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T01:34:38.422Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T01:31:00.536Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-10-08T01:28:55.25Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PhieuDangKyRepository.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\Repositories\\PhieuDangKyRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\PhieuDangKyRepository.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\Repositories\\PhieuDangKyRepository.cs",
+              "RelativeToolTip": "Repositories\\PhieuDangKyRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-06T08:22:38.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "HoiViensController.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\Controllers\\HoiViensController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HoiViensController.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\Controllers\\HoiViensController.cs",
+              "RelativeToolTip": "Controllers\\HoiViensController.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-06T07:37:27.323Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "QuanLyPhongTap_UNETI_TI17A1HNContext.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\QuanLyPhongTap_UNETI_TI17A1HNContext.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI_TI17A1HNContext.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\QuanLyPhongTap_UNETI_TI17A1HNContext.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI_TI17A1HNContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-06T07:35:21.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PhieuDangKiesController.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\Controllers\\PhieuDangKiesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PhieuDangKiesController.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\Controllers\\PhieuDangKiesController.cs",
+              "RelativeToolTip": "Controllers\\PhieuDangKiesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-06T07:35:05.603Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LoaiGoiTap.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\Models\\LoaiGoiTap.cs",
+              "RelativeDocumentMoniker": "Models\\LoaiGoiTap.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\Models\\LoaiGoiTap.cs",
+              "RelativeToolTip": "Models\\LoaiGoiTap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-06T07:28:51.408Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "HoiVien.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\Models\\HoiVien.cs",
+              "RelativeDocumentMoniker": "Models\\HoiVien.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\Models\\HoiVien.cs",
+              "RelativeToolTip": "Models\\HoiVien.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-06T07:28:05.773Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GoiTap.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\Models\\GoiTap.cs",
+              "RelativeDocumentMoniker": "Models\\GoiTap.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\Models\\GoiTap.cs",
+              "RelativeToolTip": "Models\\GoiTap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-06T07:27:51.477Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PhieuDangKy.cs",
+              "DocumentMoniker": "D:\\thltNet\\Quanlyphongtap\\Models\\PhieuDangKy.cs",
+              "RelativeDocumentMoniker": "Models\\PhieuDangKy.cs",
+              "ToolTip": "D:\\thltNet\\Quanlyphongtap\\Models\\PhieuDangKy.cs",
+              "RelativeToolTip": "Models\\PhieuDangKy.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-06T07:24:54.367Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

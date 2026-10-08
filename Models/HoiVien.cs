@@ -1,4 +1,4 @@
-﻿namespace Quanlyphongtap.Models
+﻿namespace QuanLyPhongTap_UNETI_TI17A1HN.Models
 {
     public class HoiVien
     {

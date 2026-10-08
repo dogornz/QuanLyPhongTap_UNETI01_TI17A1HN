@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("QuanlyphongtapContext") ?? throw new InvalidOperationException("Connection string 'QuanlyphongtapContext' not found.");
 
-builder.Services.AddDbContext<QuanlyphongtapContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<QuanLyPhongTap_UNETI_TI17A1HNContext>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

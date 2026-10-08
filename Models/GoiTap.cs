@@ -1,7 +1,7 @@
-﻿using Quanlyphongtap.Models;
+﻿using QuanLyPhongTap_UNETI_TI17A1HN.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Quanlyphongtap.Models
+namespace QuanLyPhongTap_UNETI_TI17A1HN.Models
 {
     public class GoiTap
     {

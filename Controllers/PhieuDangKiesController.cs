@@ -1,13 +1,13 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Quanlyphongtap.Models;
+using QuanLyPhongTap_UNETI_TI17A1HN.Models;
 
 public class PhieuDangKiesController : Controller
 {
-    private readonly QuanlyphongtapContext _context;
+    private readonly QuanLyPhongTap_UNETI_TI17A1HNContext _context;
 
-    public PhieuDangKiesController(QuanlyphongtapContext context)
+    public PhieuDangKiesController(QuanLyPhongTap_UNETI_TI17A1HNContext context)
     {
         _context = context;
     }
