@@ -1,8 +1,10 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 
+[Authorize(Roles = "Admin")]
 public class TaiKhoansController : Controller
 {
     private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
@@ -19,15 +21,18 @@ public class TaiKhoansController : Controller
     }
 
     // GET: TAIKHOANS/Details/5
-    public async Task<IActionResult> Details(int? mataikhoan)
+    public async Task<IActionResult> Details(int? id, int? mataikhoan)
     {
-        if (mataikhoan == null)
+        var targetId = id ?? mataikhoan;
+
+        if(targetId == null)
         {
             return NotFound();
         }
-
+        
         var taikhoan = await _context.TaiKhoan
-            .FirstOrDefaultAsync(m => m.MaTaiKhoan == mataikhoan);
+            .FirstOrDefaultAsync(m => m.MaTaiKhoan == targetId);
+
         if (taikhoan == null)
         {
             return NotFound();
@@ -59,14 +64,16 @@ public class TaiKhoansController : Controller
     }
 
     // GET: TAIKHOANS/Edit/5
-    public async Task<IActionResult> Edit(int? mataikhoan)
+    public async Task<IActionResult> Edit(int? id, int? mataikhoan)
     {
-        if (mataikhoan == null)
+        var targetId = id ?? mataikhoan;
+
+        if (targetId == null)
         {
             return NotFound();
         }
 
-        var taikhoan = await _context.TaiKhoan.FindAsync(mataikhoan);
+        var taikhoan = await _context.TaiKhoan.FindAsync(targetId);
         if (taikhoan == null)
         {
             return NotFound();
@@ -79,9 +86,10 @@ public class TaiKhoansController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? mataikhoan, [Bind("MaTaiKhoan,TenDangNhap,MatKhau,HoTen,Email,VaiTro,TrangThai")] TaiKhoan taikhoan)
+    public async Task<IActionResult> Edit(int? id, int? mataikhoan, [Bind("MaTaiKhoan,TenDangNhap,MatKhau,HoTen,Email,VaiTro,TrangThai")] TaiKhoan taikhoan)
     {
-        if (mataikhoan != taikhoan.MaTaiKhoan)
+        var targetId = id ?? mataikhoan;
+        if (targetId != taikhoan.MaTaiKhoan)
         {
             return NotFound();
         }
@@ -110,15 +118,16 @@ public class TaiKhoansController : Controller
     }
 
     // GET: TAIKHOANS/Delete/5
-    public async Task<IActionResult> Delete(int? mataikhoan)
+    public async Task<IActionResult> Delete(int? id, int? mataikhoan)
     {
-        if (mataikhoan == null)
+        var targetId = id ?? mataikhoan;
+        if (targetId == null)
         {
             return NotFound();
         }
 
         var taikhoan = await _context.TaiKhoan
-            .FirstOrDefaultAsync(m => m.MaTaiKhoan == mataikhoan);
+            .FirstOrDefaultAsync(m => m.MaTaiKhoan == targetId);
         if (taikhoan == null)
         {
             return NotFound();
@@ -130,9 +139,10 @@ public class TaiKhoansController : Controller
     // POST: TAIKHOANS/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? mataikhoan)
+    public async Task<IActionResult> DeleteConfirmed(int? id, int? mataikhoan)
     {
-        var taikhoan = await _context.TaiKhoan.FindAsync(mataikhoan);
+        var targetId = id ?? mataikhoan;
+        var taikhoan = await _context.TaiKhoan.FindAsync(targetId);
         if (taikhoan != null)
         {
             _context.TaiKhoan.Remove(taikhoan);
