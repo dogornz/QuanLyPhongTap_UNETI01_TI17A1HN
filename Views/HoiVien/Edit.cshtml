@@ -1,4 +1,4 @@
-@model Quanlyphongtap.Models.HoiVien
+@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.HoiVien
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="IdHoiVien" />
             <div class="form-group">
                 <label asp-for="HoTen" class="control-label"></label>
                 <input asp-for="HoTen" class="form-control" />

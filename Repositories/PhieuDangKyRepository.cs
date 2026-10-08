@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using QuanLyPhongTap_UNETI_TI17A1HN.Models;
-namespace QuanLyPhongTap_UNETI_TI17A1HN.Repositories
+
+using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
+namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
 {
     public class PhieuDangKyRepository
     {
-        private readonly QuanLyPhongTap_UNETI_TI17A1HNContext _context;
+        private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
 
        
-        public PhieuDangKyRepository(QuanLyPhongTap_UNETI_TI17A1HNContext context)
+        public PhieuDangKyRepository(QuanLyPhongTap_UNETI01_TI17A1HNContext context)
         {
             _context = context;
         }
@@ -52,6 +53,28 @@ namespace QuanLyPhongTap_UNETI_TI17A1HN.Repositories
                 _context.PhieuDangKy.Remove(phieu);
                 _context.SaveChanges();
             }
+        }
+      
+        public List<PhieuDangKy> GetAll(string tenHoiVien = "", int? goiTapId = null,
+                                         string trangThai = "", DateTime? ngayTu = null)
+        {
+            var query = _context.PhieuDangKy.AsQueryable();
+
+            if (!string.IsNullOrEmpty(tenHoiVien))
+                query = query.Where(p => p.HoiVien.HoTen.Contains(tenHoiVien));
+
+            if (goiTapId.HasValue)
+                query = query.Where(p => p.IdGoiTap == goiTapId);
+
+            if (!string.IsNullOrEmpty(trangThai))
+                query = query.Where(p => p.TrangThai == trangThai);
+
+            if (ngayTu.HasValue)
+                query = query.Where(p => p.NgayDangKy >= ngayTu);
+
+            return query.Include(p => p.HoiVien)
+                       .Include(p => p.GoiTap)
+                       .ToList();
         }
     }
 }

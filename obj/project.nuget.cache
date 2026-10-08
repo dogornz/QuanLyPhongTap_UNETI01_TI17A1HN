@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "aG+poORggHI=",
+  "dgSpecHash": "TYFjTw3okDQ=",
   "success": true,
-  "projectFilePath": "D:\\thltNet\\QuanLyPhongTap_UNETI_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
+  "projectFilePath": "D:\\thltNet\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.50.0\\azure.core.1.50.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.identity\\1.17.1\\azure.identity.1.17.1.nupkg.sha512",

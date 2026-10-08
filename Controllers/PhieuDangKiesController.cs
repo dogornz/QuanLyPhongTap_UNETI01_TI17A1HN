@@ -1,19 +1,20 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using QuanLyPhongTap_UNETI_TI17A1HN.Models;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
+
 
 public class PhieuDangKiesController : Controller
 {
-    private readonly QuanLyPhongTap_UNETI_TI17A1HNContext _context;
+    private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
 
-    public PhieuDangKiesController(QuanLyPhongTap_UNETI_TI17A1HNContext context)
+    public PhieuDangKiesController(QuanLyPhongTap_UNETI01_TI17A1HNContext context)
     {
         _context = context;
     }
 
     // GET: PHIEUDANGKYS
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index()
     {
         return View(await _context.PhieuDangKy.ToListAsync());
     }

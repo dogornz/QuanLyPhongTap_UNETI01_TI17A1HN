@@ -1,4 +1,4 @@
-namespace QuanLyPhongTap_UNETI_TI17A1HN.Models
+namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
 {
     public class ErrorViewModel
     {

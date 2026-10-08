@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QuanLyPhongTap_UNETI01_TI17A1HN")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f769a4db57338fac4fc21cae2be131ab9f088d35")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1118ba5137c504f36ab89c93729163ecc16b01e8")]
 [assembly: System.Reflection.AssemblyProductAttribute("QuanLyPhongTap_UNETI01_TI17A1HN")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QuanLyPhongTap_UNETI01_TI17A1HN")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
