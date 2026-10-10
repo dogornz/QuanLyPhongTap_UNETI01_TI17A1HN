@@ -1,77 +1,201 @@
 @model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.HoiVien>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Quản lý hội viên";
 }
 
-<h1>Index</h1>
+<div class="container mt-4">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MaTaiKhoan)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoTen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgaySinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GioiTinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoDienThoai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Emnail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayThamGia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.MaTaiKhoan)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.HoTen)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.NgaySinh)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.GioiTinh)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.SoDienThoai)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Emnail)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.NgayThamGia)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.TrangThai)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaHoiVien">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaHoiVien">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaHoiVien">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Quản lý hội viên</h2>
+            <p class="text-muted">
+                Danh sách hội viên phòng tập
+            </p>
+        </div>
+
+        <a asp-action="Create"
+           class="btn btn-primary">
+            + Thêm hội viên
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <!-- TÌM KIẾM -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form asp-action="Index"
+                  method="get">
+
+                <div class="row">
+
+                    <div class="col-md-10">
+
+                        <input type="text"
+                               name="keyword"
+                               value="@ViewBag.Keyword"
+                               class="form-control"
+                               placeholder="Tìm theo mã hội viên, họ tên, email, số điện thoại..." />
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+                            🔍 Tìm kiếm
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- DANH SÁCH -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+                Danh sách hội viên
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã HV</th>
+                            <th>Họ tên</th>
+                            <th>Ngày sinh</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @{
+                            int stt = 1;
+                        }
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @stt
+                                </td>
+
+                                <td>
+                                    @item.MaHoiVien
+                                </td>
+
+                                <td>
+                                    @item.HoTen
+                                </td>
+
+                                <td>
+                                    @item.NgaySinh.ToString("dd/MM/yyyy")
+                                </td>
+
+                                <td>
+                                    @item.Email
+                                </td>
+
+                                <td>
+                                    @item.SoDienThoai
+                                </td>
+
+                                <td>
+
+                                    @if (item.TrangThai == "Đang hoạt động")
+                                    {
+                                        <span class="badge bg-success">
+                                            Đang hoạt động
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            Ngừng hoạt động
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <div class="d-flex gap-1">
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.MaHoiVien"
+                                           class="btn btn-info btn-sm">
+                                            Xem
+                                        </a>
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.MaHoiVien"
+                                           class="btn btn-warning btn-sm">
+                                            Sửa
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@item.MaHoiVien"
+                                           class="btn btn-danger btn-sm">
+                                            Xóa
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            stt++;
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
