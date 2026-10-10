@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Đăng ký gói tập";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Đăng ký gói tập</h4>
+        </div>
+
+        <div class="card-body">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Error"]
+                </div>
+            }
+
+            <form asp-controller="PhieuDangKy"
+                  asp-action="Create"
+                  method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label class="form-label">Hội viên</label>
+                    <select name="maHoiVien"
+                            class="form-select"
+                            asp-items="ViewBag.HoiViens"
+                            required>
+                        <option value="">-- Chọn hội viên --</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Gói tập</label>
+                    <select name="maGoiTap"
+                            class="form-select"
+                            asp-items="ViewBag.GoiTaps"
+                            required>
+                        <option value="">-- Chọn gói tập --</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ngày bắt đầu</label>
+                    <input type="date"
+                           name="ngayBatDau"
+                           class="form-control"
+                           min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           value="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           required />
+                </div>
+
+                <div class="alert alert-info">
+                    Phiếu đăng ký sẽ ở trạng thái
+                    <strong>Chờ xác nhận</strong> sau khi gửi.
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Đăng ký
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    Xem gói đã đăng ký
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

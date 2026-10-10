@@ -3,24 +3,96 @@
   "WorkspaceRootPath": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\repositories\\ihoivienrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\repositories\\ihoivienrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\views\\phieudangky\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\views\\phieudangky\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\repositories\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\repositories\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\views\\phieudangky\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\views\\phieudangky\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\controllers\\phieudangkyscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\controllers\\phieudangkyscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\controllers\\hoivienscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\controllers\\hoivienscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\models\\phieudangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\models\\phieudangky.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\services\\phieudangkyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\services\\phieudangkyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\repositories\\ihoivienrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\repositories\\ihoivienrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\repositories\\hoivienrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\repositories\\hoivienrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\repositories\\goitaprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\repositories\\goitaprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\repositories\\igoitaprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\repositories\\igoitaprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\repositories\\phieudangkyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\repositories\\phieudangkyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\repositories\\iphieudangkyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\repositories\\iphieudangkyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\quanlyphongtap_uneti01_ti17a1hncontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\quanlyphongtap_uneti01_ti17a1hncontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\models\\goitap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\models\\goitap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\models\\hoivien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\models\\hoivien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\views\\hoivien\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\services\\hoivienservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\services\\hoivienservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|d:\\users\\admin\\source\\repos\\quanlyphongtap\\quanlyphongtap_uneti01_ti17a1hn\\repositories\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E98DEE3-05B2-C810-A45D-2E6B78CA4C08}|QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HN.csproj|solutionrelative:quanlyphongtap_uneti01_ti17a1hn\\repositories\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,6 +107,136 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\PhieuDangKy\\Index.cshtml",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\PhieuDangKy\\Index.cshtml",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\PhieuDangKy\\Index.cshtml",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\PhieuDangKy\\Index.cshtml",
+              "ViewState": "AgIAADcAAAAAAAAAAADgvz8AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-10T15:21:41.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\PhieuDangKy\\Create.cshtml",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\PhieuDangKy\\Create.cshtml",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\PhieuDangKy\\Create.cshtml",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\PhieuDangKy\\Create.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-10T15:21:13.696Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PhieuDangKysController.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\PhieuDangKysController.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\PhieuDangKysController.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\PhieuDangKysController.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\PhieuDangKysController.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAADwvxAAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T15:19:48.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Program.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Program.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Program.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T15:16:24.731Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PhieuDangKyService.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Services\\PhieuDangKyService.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Services\\PhieuDangKyService.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Services\\PhieuDangKyService.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Services\\PhieuDangKyService.cs",
+              "ViewState": "AgIAAIgAAAAAAAAAAADgv5YAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T15:08:01.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HoiViensController.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\HoiViensController.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\HoiViensController.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\HoiViensController.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\HoiViensController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-24T08:36:59.683Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "GoiTapRepository.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\GoiTapRepository.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\GoiTapRepository.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\GoiTapRepository.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\GoiTapRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAwwB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T15:06:11.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "HoiVienRepository.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\HoiVienRepository.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\HoiVienRepository.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\HoiVienRepository.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\HoiVienRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T02:06:40.712Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PhieuDangKy.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\PhieuDangKy.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\PhieuDangKy.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\PhieuDangKy.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\PhieuDangKy.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBIAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T14:58:03.425Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IGoiTapRepository.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IGoiTapRepository.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IGoiTapRepository.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IGoiTapRepository.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IGoiTapRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T15:05:39.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "IHoiVienRepository.cs",
               "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IHoiVienRepository.cs",
               "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IHoiVienRepository.cs",
@@ -47,7 +249,149 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 11,
+              "Title": "PhieuDangKyRepository.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\PhieuDangKyRepository.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\PhieuDangKyRepository.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\PhieuDangKyRepository.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\PhieuDangKyRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T15:04:52.415Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "IPhieuDangKyRepository.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IPhieuDangKyRepository.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IPhieuDangKyRepository.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IPhieuDangKyRepository.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IPhieuDangKyRepository.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAzwAsAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T15:03:53.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "GoiTap.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\GoiTap.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\GoiTap.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\GoiTap.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\GoiTap.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAwBAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T14:49:51.338Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Create.cshtml",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Create.cshtml",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Create.cshtml",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Create.cshtml",
+              "ViewState": "AgIAALQAAAAAAAAAAAAAACAAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-08T03:12:19.614Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "HoiVien.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\HoiVien.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\HoiVien.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\HoiVien.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\HoiVien.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-24T08:28:58.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAvwB4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-24T08:37:32.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Delete.cshtml",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Delete.cshtml",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Delete.cshtml",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Delete.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFQAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-08T03:13:16.219Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Details.cshtml",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Details.cshtml",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Details.cshtml",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Details.cshtml",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAAAHIAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-08T03:13:29.466Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Edit.cshtml",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Edit.cshtml",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Edit.cshtml",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-08T03:13:37.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Index.cshtml",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Index.cshtml",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Index.cshtml",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Views\\HoiVien\\Index.cshtml",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAgwHsAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-08T03:13:50.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "HoiVienService.cs",
+              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Services\\HoiVienService.cs",
+              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Services\\HoiVienService.cs",
+              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Services\\HoiVienService.cs",
+              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Services\\HoiVienService.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAvwFQAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T02:51:35.123Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
               "Title": "IRepository.cs",
               "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IRepository.cs",
               "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IRepository.cs",
@@ -55,50 +399,7 @@
               "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Repositories\\IRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-08T01:52:18.289Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
-              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
-              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
-              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
-              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\QuanLyPhongTap_UNETI01_TI17A1HNContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-24T08:37:32.455Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "HoiViensController.cs",
-              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\HoiViensController.cs",
-              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\HoiViensController.cs",
-              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\HoiViensController.cs",
-              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Controllers\\HoiViensController.cs",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-24T08:36:59.683Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "HoiVien.cs",
-              "DocumentMoniker": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\HoiVien.cs",
-              "RelativeDocumentMoniker": "QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\HoiVien.cs",
-              "ToolTip": "D:\\Users\\Admin\\source\\repos\\QuanLyPhongTap\\QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\HoiVien.cs",
-              "RelativeToolTip": "QuanLyPhongTap_UNETI01_TI17A1HN\\Models\\HoiVien.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAYwAwAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-24T08:28:58.698Z"
+              "WhenOpened": "2026-10-08T01:52:18.289Z"
             }
           ]
         }

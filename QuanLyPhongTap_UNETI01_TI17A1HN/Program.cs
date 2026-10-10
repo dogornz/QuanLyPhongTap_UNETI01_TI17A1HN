@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Repositories;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("QuanLyPhongTap_UNETI01_TI17A1HNContext") ?? throw new InvalidOperationException("Connection string 'QuanLyPhongTap_UNETI01_TI17A1HNContext' not found.");
 
@@ -6,6 +9,11 @@ builder.Services.AddDbContext<QuanLyPhongTap_UNETI01_TI17A1HNContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IPhieuDangKyRepository, PhieuDangKyRepository>();
+builder.Services.AddScoped<IGoiTapRepository, GoiTapRepository>();
+builder.Services.AddScoped<IHoiVienRepository, HoiVienRepository>();
+
+builder.Services.AddScoped<PhieuDangKyService>();
 
 var app = builder.Build();
 
