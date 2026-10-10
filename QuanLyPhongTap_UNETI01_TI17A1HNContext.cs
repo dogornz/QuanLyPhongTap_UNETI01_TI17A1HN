@@ -17,13 +17,13 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
         modelBuilder.Entity<PhieuDangKy>()
             .HasOne(p => p.HoiVien)
             .WithMany(h => h.PhieuDangKy)
-            .HasForeignKey(p => p.IdHoiVien);
+            .HasForeignKey(p => p.MaHoiVien);
 
         // GoiTap (1) -- (n) PhieuDangKy
         modelBuilder.Entity<PhieuDangKy>()
             .HasOne(p => p.GoiTap)
             .WithMany(g => g.PhieuDangKy)
-            .HasForeignKey(p => p.IdGoiTap);
+            .HasForeignKey(p => p.MaGoiTap);
 
         // LoaiGoiTap (1) -- (n) GoiTap
         modelBuilder.Entity<GoiTap>()
@@ -67,16 +67,15 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
         {
             hoiViens.Add(new HoiVien
             {
-                IdHoiVien = i,
+                MaHoiVien = i,
                 HoTen = $"Hội viên {i}",
                 SoDienThoai = $"091234567{i % 10}",
                 Email = $"hoivien{i}@email.com",
                 DiaChi = i % 2 == 0 ? "Hà Nội" : "TP HCM",
-                NgaySinh = new DateTime(1990 + i % 10, (i % 12) + 1, (i % 28) + 1),
-                GioiTinh = i % 2 == 0 ? "Nam" : "Nữ",
+                
                 TrangThai = i % 10 == 0 ? "inactive" : "active",
-                NgayTao = DateTime.Now.AddDays(-i * 10),
-                NgayCapNhat = DateTime.Now
+                NgayThamGia = DateTime.Now.AddDays(-i * 10),
+                
             });
         }
         modelBuilder.Entity<HoiVien>().HasData(hoiViens);
@@ -95,13 +94,13 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
 
             phieus.Add(new PhieuDangKy
             {
-                Id = i,
-                IdHoiVien = hoiVienId,
-                IdGoiTap = goiTapId,
+                MaPhieu = i,
+                MaHoiVien = hoiVienId,
+                MaGoiTap = goiTapId,
                 NgayDangKy = ngayDangKy,
-                NgayHetHan = ngayDangKy.AddDays(90),
-                GiaTriThanhToan = i < 15 ? 350000 : 1000000,
-                GiaTriGiaHan = 0,
+                NgayBatDau = ngayDangKy,
+                NgayKetThuc = ngayDangKy.AddDays(90),
+                DonGia = i < 15 ? 350000 : 1000000,
                 TrangThai = trangThai
             });
         }

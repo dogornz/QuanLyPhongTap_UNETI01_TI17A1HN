@@ -37,21 +37,8 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DiaChi)
         </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgaySinh)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgaySinh)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GioiTinh)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GioiTinh)
-        </dd>
-    </dl>
+   
+        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TrangThai)
         </dt>
@@ -60,40 +47,13 @@
         </dd>
     </dl>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayTao)
+            @Html.DisplayNameFor(model => model.NgayThamGia)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayTao)
+            @Html.DisplayFor(model => model.NgayThamGia)
         </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayCapNhat)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayCapNhat)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GhiChu)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GhiChu)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AnhDaiDien)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AnhDaiDien)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MatKhau)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MatKhau)
-        </dd>
-    </dl>
+   
+       
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PhieuDangKy)
         </dt>
@@ -103,6 +63,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdHoiVien">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.MaHoiVien">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

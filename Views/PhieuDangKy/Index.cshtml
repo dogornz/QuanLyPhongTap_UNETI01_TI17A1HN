@@ -13,23 +13,24 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdHoiVien)
+                @Html.DisplayNameFor(model => model.MaHoiVien)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdGoiTap)
+                @Html.DisplayNameFor(model => model.MaGoiTap)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NgayDangKy)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NgayHetHan)
+                @Html.DisplayNameFor(model => model.NgayBatDau)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GiaTriThanhToan)
+                @Html.DisplayNameFor(model => model.NgayKetThuc)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GiaTriGiaHan)
+                @Html.DisplayNameFor(model => model.DonGia)
             </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.TrangThai)
             </th>
@@ -46,23 +47,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(model => item.IdHoiVien)
+                @Html.DisplayFor(model => item.MaHoiVien)
             </td>
             <td>
-                @Html.DisplayFor(model => item.IdGoiTap)
+                @Html.DisplayFor(model => item.MaGoiTap)
             </td>
             <td>
                 @Html.DisplayFor(model => item.NgayDangKy)
             </td>
+                <td>
+                    @Html.DisplayFor(model => item.NgayBatDau)
+                </td>
             <td>
-                @Html.DisplayFor(model => item.NgayHetHan)
+                @Html.DisplayFor(model => item.NgayKetThuc)
             </td>
             <td>
-                @Html.DisplayFor(model => item.GiaTriThanhToan)
+                @Html.DisplayFor(model => item.DonGia)
             </td>
-            <td>
-                @Html.DisplayFor(model => item.GiaTriGiaHan)
-            </td>
+           
             <td>
                 @Html.DisplayFor(model => item.TrangThai)
             </td>
@@ -73,9 +75,9 @@
                 @Html.DisplayFor(model => item.GoiTap)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.MaPhieu">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaPhieu">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaPhieu">Delete</a>
             </td>
         </tr>
 }

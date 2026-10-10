@@ -53,8 +53,8 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             if (phieu == null || phieu.TrangThai == "Đã hủy") return false;
             if (thoiHan <= 0 || phieu.GoiTap == null) return false;
 
-            phieu.NgayHetHan = phieu.NgayHetHan.AddDays(thoiHan);
-            phieu.GiaTriGiaHan = phieu.GoiTap.GiaGoiTap;
+            phieu.NgayKetThuc = phieu.NgayKetThuc.AddDays(thoiHan);
+            phieu.DonGia = phieu.GoiTap.GiaGoiTap;
             _repo.Update(phieu);
             return true;
         }

@@ -12,18 +12,18 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdHoiVien)
+            @Html.DisplayNameFor(model => model.MaHoiVien)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdHoiVien)
+            @Html.DisplayFor(model => model.MaHoiVien)
         </dd>
     </dl>
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdGoiTap)
+            @Html.DisplayNameFor(model => model.MaGoiTap)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdGoiTap)
+            @Html.DisplayFor(model => model.MaGoiTap)
         </dd>
     </dl>
     <dl class="row">
@@ -35,29 +35,30 @@
         </dd>
     </dl>
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayHetHan)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayBatDau)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayHetHan)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NgayBatDau)
         </dd>
     </dl>
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GiaTriThanhToan)
+            @Html.DisplayNameFor(model => model.NgayKetThuc)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GiaTriThanhToan)
+            @Html.DisplayFor(model => model.NgayKetThuc)
         </dd>
     </dl>
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GiaTriGiaHan)
+            @Html.DisplayNameFor(model => model.DonGia)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GiaTriGiaHan)
+            @Html.DisplayFor(model => model.DonGia)
         </dd>
     </dl>
+    
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TrangThai)
@@ -83,7 +84,7 @@
         </dd>
     </dl>
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="MaPhieu" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

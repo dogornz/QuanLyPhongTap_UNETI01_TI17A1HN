@@ -27,7 +27,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
             return _context.PhieuDangKy
                 .Include(p => p.HoiVien)
                 .Include(p => p.GoiTap)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefault(p => p.MaPhieu == id);
         }
 
       
@@ -64,7 +64,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
                 query = query.Where(p => p.HoiVien.HoTen.Contains(tenHoiVien));
 
             if (goiTapId.HasValue)
-                query = query.Where(p => p.IdGoiTap == goiTapId);
+                query = query.Where(p => p.MaGoiTap == goiTapId);
 
             if (!string.IsNullOrEmpty(trangThai))
                 query = query.Where(p => p.TrangThai == trangThai);

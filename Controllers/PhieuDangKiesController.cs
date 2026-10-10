@@ -28,7 +28,7 @@ public class PhieuDangKiesController : Controller
         }
 
         var phieudangky = await _context.PhieuDangKy
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .FirstOrDefaultAsync(m => m.MaGoiTap == id);
         if (phieudangky == null)
         {
             return NotFound();
@@ -82,7 +82,7 @@ public class PhieuDangKiesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int? id, [Bind("Id,IdHoiVien,IdGoiTap,NgayDangKy,NgayHetHan,GiaTriThanhToan,GiaTriGiaHan,TrangThai,HoiVien,GoiTap")] PhieuDangKy phieudangky)
     {
-        if (id != phieudangky.Id)
+        if (id != phieudangky.MaGoiTap)
         {
             return NotFound();
         }
@@ -96,7 +96,7 @@ public class PhieuDangKiesController : Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PhieuDangKyExists(phieudangky.Id))
+                if (!PhieuDangKyExists(phieudangky.MaGoiTap))
                 {
                     return NotFound();
                 }
@@ -119,7 +119,7 @@ public class PhieuDangKiesController : Controller
         }
 
         var phieudangky = await _context.PhieuDangKy
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .FirstOrDefaultAsync(m => m.MaGoiTap == id);
         if (phieudangky == null)
         {
             return NotFound();
@@ -145,6 +145,6 @@ public class PhieuDangKiesController : Controller
 
     private bool PhieuDangKyExists(int? id)
     {
-        return _context.PhieuDangKy.Any(e => e.Id == id);
+        return _context.PhieuDangKy.Any(e => e.MaGoiTap == id);
     }
 }
