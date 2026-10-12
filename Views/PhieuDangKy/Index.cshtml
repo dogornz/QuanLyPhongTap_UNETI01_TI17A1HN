@@ -1,0 +1,85 @@
+@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MaHoiVien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaGoiTap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayDangKy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayBatDau)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayKetThuc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DonGia)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoiVien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GoiTap)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.MaHoiVien)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.MaGoiTap)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.NgayDangKy)
+            </td>
+                <td>
+                    @Html.DisplayFor(model => item.NgayBatDau)
+                </td>
+            <td>
+                @Html.DisplayFor(model => item.NgayKetThuc)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.DonGia)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(model => item.TrangThai)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.HoiVien)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.GoiTap)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaPhieu">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaPhieu">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaPhieu">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
