@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,6 +147,8 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
                 NgayDangKy = DateTime.Now,
                 NgayBatDau = ngayBatDau.Date,
                 NgayKetThuc = ngayKetThuc,
+                DonGia = goiTap.DonGia,
+                TongTien = goiTap.DonGia,
                 TrangThai = "Chờ xác nhận"
             };
 
@@ -169,7 +171,85 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             }
         }
 
-        // 7. Sinh mã phiếu đăng ký
+        // 7. Xác nhận phiếu đăng ký
+        public (bool Success, string Message) XacNhan(string maPhieu)
+        {
+            var phieu = GetById(maPhieu);
+            if (phieu == null)
+                return (false, "Phiếu đăng ký không tồn tại.");
+
+            if (phieu.TrangThai != "Chờ xác nhận")
+                return (false, "Chỉ có thể xác nhận phiếu đang ở trạng thái Chờ xác nhận.");
+
+            phieu.TrangThai = "Đang hiệu lực";
+            try
+            {
+                _phieuRepository.Update(phieu);
+                _phieuRepository.Save();
+                return (true, $"Xác nhận kích hoạt phiếu #{phieu.MaPhieu} thành công.");
+            }
+            catch (Exception)
+            {
+                return (false, "Lỗi khi cập nhật trạng thái phiếu đăng ký.");
+            }
+        }
+
+        // 8. Hủy phiếu đăng ký
+        public (bool Success, string Message) Huy(string maPhieu)
+        {
+            var phieu = GetById(maPhieu);
+            if (phieu == null)
+                return (false, "Phiếu đăng ký không tồn tại.");
+
+            if (phieu.TrangThai == "Đã hủy")
+                return (false, "Phiếu này đã được hủy trước đó.");
+
+            phieu.TrangThai = "Đã hủy";
+            try
+            {
+                _phieuRepository.Update(phieu);
+                _phieuRepository.Save();
+                return (true, $"Đã hủy phiếu #{phieu.MaPhieu} thành công.");
+            }
+            catch (Exception)
+            {
+                return (false, "Lỗi khi hủy phiếu đăng ký.");
+            }
+        }
+
+        // 9. Gia hạn phiếu đăng ký
+        public (bool Success, string Message) GiaHan(string maPhieu, int soThang = 1)
+        {
+            var phieu = GetById(maPhieu);
+            if (phieu == null)
+                return (false, "Phiếu đăng ký không tồn tại.");
+
+            if (phieu.TrangThai != "Đang hiệu lực")
+                return (false, "Chỉ có thể gia hạn cho phiếu đang có hiệu lực.");
+
+            if (soThang <= 0)
+                return (false, "Số tháng gia hạn phải lớn hơn 0.");
+
+            var baseDate = phieu.NgayKetThuc > DateTime.Now ? phieu.NgayKetThuc : DateTime.Now;
+            phieu.NgayKetThuc = baseDate.AddMonths(soThang);
+            if (phieu.GoiTap != null)
+            {
+                phieu.TongTien += phieu.GoiTap.DonGia;
+            }
+
+            try
+            {
+                _phieuRepository.Update(phieu);
+                _phieuRepository.Save();
+                return (true, $"Gia hạn phiếu #{phieu.MaPhieu} thêm {soThang} tháng thành công (Hết hạn mới: {phieu.NgayKetThuc:dd/MM/yyyy}).");
+            }
+            catch (Exception)
+            {
+                return (false, "Lỗi khi gia hạn phiếu đăng ký.");
+            }
+        }
+
+        // 10. Sinh mã phiếu đăng ký
         private static string TaoMaPhieu()
         {
             return "PDK" +

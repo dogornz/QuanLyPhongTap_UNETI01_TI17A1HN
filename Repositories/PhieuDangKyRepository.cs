@@ -1,4 +1,4 @@
-﻿
+
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 
@@ -34,6 +34,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
         public void Add(PhieuDangKy phieu)
         {
             _context.PhieuDangKy.Add(phieu);
+        }
+
+        public void Update(PhieuDangKy phieu)
+        {
+            _context.PhieuDangKy.Update(phieu);
         }
 
         public void Save()
