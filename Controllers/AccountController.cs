@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -54,14 +54,23 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 return View(model);
             }
 
+            var role = user.VaiTro ?? "User";
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.MaTaiKhoan.ToString()),
                 new Claim(ClaimTypes.Name, !string.IsNullOrWhiteSpace(user.HoTen) ? user.HoTen : user.TenDangNhap),
-                new Claim(ClaimTypes.Role, user.VaiTro ?? "User"),
+                new Claim(ClaimTypes.Role, role),
                 new Claim("Username", user.TenDangNhap),
                 new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
             };
+
+            if (string.Equals(role, "admin", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin"))
+                    claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                if (!claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "admin"))
+                    claims.Add(new Claim(ClaimTypes.Role, "admin"));
+            }
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties

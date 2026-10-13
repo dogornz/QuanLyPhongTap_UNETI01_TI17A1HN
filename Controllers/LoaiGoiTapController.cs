@@ -1,11 +1,11 @@
-﻿using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,admin")]
     public class LoaiGoiTapController : Controller
     {
         private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;

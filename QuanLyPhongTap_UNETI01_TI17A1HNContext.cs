@@ -3,22 +3,28 @@ using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 
 public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhongTap_UNETI01_TI17A1HNContext> options) : DbContext(options)
 {
-
-    public DbSet<QuanLyPhongTap_UNETI01_TI17A1HN.Models.TaiKhoan> TaiKhoan { get; set; } = default!;
-    public DbSet<QuanLyPhongTap_UNETI01_TI17A1HN.Models.LoaiGoiTap> LoaiGoiTap { get; set; } = default!;
+    public DbSet<TaiKhoan> TaiKhoan { get; set; } = default!;
+    public DbSet<LoaiGoiTap> LoaiGoiTap { get; set; } = default!;
+    public DbSet<HoiVien> HoiVien { get; set; } = default!;
+    public DbSet<GoiTap> GoiTap { get; set; } = default!;
+    public DbSet<PhieuDangKy> PhieuDangKy { get; set; } = default!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=QLPG;Integrated Security=True");
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=QLPG;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
+        }
         base.OnConfiguring(optionsBuilder);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<QuanLyPhongTap_UNETI01_TI17A1HN.Models.TaiKhoan>().HasIndex(tdn => tdn.TenDangNhap).IsUnique();
-        modelBuilder.Entity<QuanLyPhongTap_UNETI01_TI17A1HN.Models.TaiKhoan>().HasData(
-            new QuanLyPhongTap_UNETI01_TI17A1HN.Models.TaiKhoan
+
+        modelBuilder.Entity<TaiKhoan>().HasIndex(tdn => tdn.TenDangNhap).IsUnique();
+        modelBuilder.Entity<TaiKhoan>().HasData(
+            new TaiKhoan
             {
                 MaTaiKhoan = 1,
                 TenDangNhap = "admin01",
@@ -28,7 +34,7 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
                 VaiTro = "admin",
                 TrangThai = "Lock"
             },
-            new QuanLyPhongTap_UNETI01_TI17A1HN.Models.TaiKhoan
+            new TaiKhoan
             {
                 MaTaiKhoan = 2,
                 TenDangNhap = "admin02",
@@ -38,7 +44,7 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
                 VaiTro = "admin",
                 TrangThai = "Unlock"
             },
-            new QuanLyPhongTap_UNETI01_TI17A1HN.Models.TaiKhoan
+            new TaiKhoan
             {
                 MaTaiKhoan = 3,
                 TenDangNhap = "hoivien01",
@@ -48,7 +54,7 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
                 VaiTro = "hoivien",
                 TrangThai = "Lock"
             },
-            new QuanLyPhongTap_UNETI01_TI17A1HN.Models.TaiKhoan
+            new TaiKhoan
             {
                 MaTaiKhoan = 4,
                 TenDangNhap = "hoivien02",
@@ -59,6 +65,7 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
                 TrangThai = "Unlock"
             }
         );
+
         modelBuilder.Entity<LoaiGoiTap>().HasData(
             new LoaiGoiTap
             {
@@ -115,5 +122,17 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
                 NgayCapNhat = new DateTime(2026, 1, 2, 10, 0, 0)
             }
         );
+
+        modelBuilder.Entity<PhieuDangKy>()
+            .HasOne(p => p.HoiVien)
+            .WithMany()
+            .HasForeignKey(p => p.MaHoiVien)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<PhieuDangKy>()
+            .HasOne(p => p.GoiTap)
+            .WithMany()
+            .HasForeignKey(p => p.MaGoiTap)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Repositories;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("QuanLyPhongTap_UNETI01_TI17A1HNContext") ?? throw new InvalidOperationException("Connection string 'QuanLyPhongTap_UNETI01_TI17A1HNContext' not found.");
 
@@ -19,6 +22,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
+builder.Services.AddScoped<IPhieuDangKyRepository, PhieuDangKyRepository>();
+builder.Services.AddScoped<IGoiTapRepository, GoiTapRepository>();
+builder.Services.AddScoped<IHoiVienRepository, HoiVienRepository>();
+
+builder.Services.AddScoped<PhieuDangKyService>();
+builder.Services.AddScoped<HoiVienService>();
 
 var app = builder.Build();
 

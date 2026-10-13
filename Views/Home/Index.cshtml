@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Trang Chủ";
 }
 
@@ -16,7 +16,7 @@
                 <span class="btn btn-outline-warning disabled border-2 text-warning fw-semibold px-4 py-2">
                     Chào mừng trở lại, @User.Identity.Name!
                 </span>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("admin"))
                 {
                     <a asp-controller="Admin" asp-action="Index" class="btn btn-warning px-4 py-2 fw-bold shadow">
                         📊 Vào Dashboard Quản Trị

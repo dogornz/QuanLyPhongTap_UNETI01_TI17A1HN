@@ -1,0 +1,109 @@
+@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.HoiVien
+
+@{
+    ViewData["Title"] = "Xóa hội viên";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-danger text-white">
+
+            <h4 class="mb-0">
+                Xóa hội viên
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+
+                <strong>Cảnh báo!</strong>
+
+                Bạn có chắc chắn muốn xóa hội viên này không?
+
+            </div>
+
+
+            <dl class="row">
+
+                <dt class="col-sm-3">
+                    Mã hội viên
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.MaHoiVien
+                </dd>
+
+
+                <dt class="col-sm-3">
+                    Họ tên
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.HoTen
+                </dd>
+
+
+                <dt class="col-sm-3">
+                    Email
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.Email
+                </dd>
+
+
+                <dt class="col-sm-3">
+                    Số điện thoại
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.SoDienThoai
+                </dd>
+
+
+                <dt class="col-sm-3">
+                    Trạng thái
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.TrangThai
+                </dd>
+
+            </dl>
+
+
+            <form asp-action="Delete"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="MaHoiVien" />
+
+
+                <button type="submit"
+                        class="btn btn-danger">
+
+                    Xác nhận xóa
+
+                </button>
+
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    Hủy
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

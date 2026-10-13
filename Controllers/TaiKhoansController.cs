@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin,admin")]
 public class TaiKhoansController : Controller
 {
     private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
