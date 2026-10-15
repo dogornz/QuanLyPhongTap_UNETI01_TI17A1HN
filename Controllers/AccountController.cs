@@ -22,7 +22,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                if (User.IsInRole("Admin") || User.IsInRole("admin"))
+                {
+                    return RedirectToAction("Index", "TaiKhoans");
+                }
+                return RedirectToAction("Index", "PhieuDangKys");
             }
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -84,17 +88,17 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+            if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl) && model.ReturnUrl != "/" && !model.ReturnUrl.Contains("Account/Login") && !model.ReturnUrl.Contains("admin", StringComparison.OrdinalIgnoreCase))
             {
                 return Redirect(model.ReturnUrl);
             }
 
             if (string.Equals(user.VaiTro, "admin", StringComparison.OrdinalIgnoreCase))
             {
-                return RedirectToAction("Index", "admin");
+                return RedirectToAction("Index", "TaiKhoans");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "PhieuDangKys");
         }
 
         // GET: /Account/Register
@@ -103,7 +107,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                if (User.IsInRole("Admin") || User.IsInRole("admin"))
+                {
+                    return RedirectToAction("Index", "TaiKhoans");
+                }
+                return RedirectToAction("Index", "PhieuDangKys");
             }
 
             return View(new RegisterAccount());
@@ -161,7 +169,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /Account/AccessDenied

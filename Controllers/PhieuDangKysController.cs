@@ -1,10 +1,11 @@
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
+    [Authorize]
     public class PhieuDangKysController : Controller
     {
         private readonly PhieuDangKyService _service;

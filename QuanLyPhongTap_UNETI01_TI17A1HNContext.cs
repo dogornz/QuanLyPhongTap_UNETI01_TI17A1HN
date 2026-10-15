@@ -35,6 +35,20 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
             .HasForeignKey(p => p.MaGoiTap)
             .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<GoiTap>(entity =>
+        {
+            entity.Property(e => e.TenGoiTap)
+                  .HasMaxLength(100)
+                  .IsUnicode(true);
+
+            entity.Property(e => e.MoTa)
+                  .IsUnicode(true);
+
+            entity.Property(e => e.TrangThai)
+                  .HasMaxLength(50)
+                  .IsUnicode(true);
+        });
+
         // 1. Seed TaiKhoan
         modelBuilder.Entity<TaiKhoan>().HasIndex(tdn => tdn.TenDangNhap).IsUnique();
         modelBuilder.Entity<TaiKhoan>().HasData(

@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewData["Title"] = "Trang Chủ";
 }
 
@@ -18,11 +18,11 @@
                 </span>
                 @if (User.IsInRole("Admin") || User.IsInRole("admin"))
                 {
-                    <a asp-controller="Admin" asp-action="Index" class="btn btn-warning px-4 py-2 fw-bold shadow">
-                        📊 Vào Dashboard Quản Trị
+                    <a asp-controller="TaiKhoans" asp-action="Index" class="btn btn-warning px-4 py-2 fw-bold shadow">
+                        👤 Quản lý Tài Khoản
                     </a>
-                    <a asp-controller="TaiKhoans" asp-action="Index" class="btn btn-outline-light px-4 py-2 fw-semibold">
-                        Quản lý Tài Khoản
+                    <a asp-controller="PhieuDangKys" asp-action="Index" class="btn btn-outline-light px-4 py-2 fw-semibold">
+                        Phiếu đăng ký
                     </a>
                 }
             </div>

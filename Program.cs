@@ -11,6 +11,10 @@ builder.Services.AddDbContext<QuanLyPhongTap_UNETI01_TI17A1HNContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Hỗ trợ hiển thị đầy đủ ký tự tiếng Việt Unicode không bị mã hóa HTML entity
+builder.Services.AddSingleton<System.Text.Encodings.Web.HtmlEncoder>(
+    System.Text.Encodings.Web.HtmlEncoder.Create(System.Text.Unicode.UnicodeRanges.All));
+
 // Cookie Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
