@@ -1,15 +1,14 @@
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
+[Authorize]
 public class HoiViensController : Controller
 {
     private readonly HoiVienService _service;
 
-    public HoiViensController(
-        HoiVienService service)
+    public HoiViensController(HoiVienService service)
     {
         _service = service;
     }
@@ -17,10 +16,13 @@ public class HoiViensController : Controller
     // =====================================
     // XEM DANH SÁCH
     // =====================================
-    public IActionResult Index()
+    public IActionResult Index(string? keyword)
     {
-        var danhSach = _service.GetAll();
+        var danhSach = string.IsNullOrWhiteSpace(keyword) 
+            ? _service.GetAll() 
+            : _service.Search(keyword);
 
+        ViewBag.Keyword = keyword;
         return View(danhSach);
     }
 
@@ -30,11 +32,126 @@ public class HoiViensController : Controller
     [HttpGet]
     public IActionResult Search(string keyword)
     {
-        var danhSach = _service.Search(keyword);
+        return RedirectToAction(nameof(Index), new { keyword = keyword });
+    }
 
-        ViewBag.Keyword = keyword;
+    // =====================================
+    // CHI TIẾT
+    // =====================================
+    [HttpGet]
+    public IActionResult Details(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return NotFound();
+        }
 
-        return View("Index", danhSach);
+        var hoiVien = _service.GetById(id);
+        if (hoiVien == null)
+        {
+            return NotFound();
+        }
+
+        return View(hoiVien);
+    }
+
+    // =====================================
+    // THÊM MỚI
+    // =====================================
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View(new HoiVien { NgaySinh = DateTime.Today.AddYears(-20), TrangThai = "Đang hoạt động" });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(HoiVien model)
+    {
+        if (ModelState.IsValid)
+        {
+            var res = _service.Add(model);
+            if (res.success)
+            {
+                TempData["Success"] = res.message;
+                return RedirectToAction(nameof(Index));
+            }
+            ModelState.AddModelError(string.Empty, res.message);
+        }
+        return View(model);
+    }
+
+    // =====================================
+    // CHỈNH SỬA
+    // =====================================
+    [HttpGet]
+    public IActionResult Edit(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return NotFound();
+        }
+
+        var hoiVien = _service.GetById(id);
+        if (hoiVien == null)
+        {
+            return NotFound();
+        }
+
+        return View(hoiVien);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(HoiVien model)
+    {
+        if (ModelState.IsValid)
+        {
+            var res = _service.Update(model);
+            if (res.success)
+            {
+                TempData["Success"] = res.message;
+                return RedirectToAction(nameof(Index));
+            }
+            ModelState.AddModelError(string.Empty, res.message);
+        }
+        return View(model);
+    }
+
+    // =====================================
+    // XÓA
+    // =====================================
+    [HttpGet]
+    public IActionResult Delete(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return NotFound();
+        }
+
+        var hoiVien = _service.GetById(id);
+        if (hoiVien == null)
+        {
+            return NotFound();
+        }
+
+        return View(hoiVien);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(string maHoiVien)
+    {
+        var res = _service.Delete(maHoiVien);
+        if (res.success)
+        {
+            TempData["Success"] = res.message;
+        }
+        else
+        {
+            TempData["Error"] = res.message;
+        }
+        return RedirectToAction(nameof(Index));
     }
 
     // =====================================

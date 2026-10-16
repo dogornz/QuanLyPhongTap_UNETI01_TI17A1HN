@@ -8,7 +8,17 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            if (User.Identity == null || !User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (User.IsInRole("Admin") || User.IsInRole("admin"))
+            {
+                return RedirectToAction("Index", "TaiKhoans");
+            }
+
+            return RedirectToAction("Index", "PhieuDangKys");
         }
 
         public IActionResult Privacy()

@@ -1,4 +1,4 @@
-﻿
+
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
@@ -10,6 +10,8 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
         PhieuDangKy? GetById(string maPhieu);
 
         void Add(PhieuDangKy phieu);
+
+        void Update(PhieuDangKy phieu);
 
         void Save();
     }

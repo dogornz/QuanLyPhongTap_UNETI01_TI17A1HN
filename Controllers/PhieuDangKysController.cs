@@ -1,10 +1,11 @@
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
+    [Authorize]
     public class PhieuDangKysController : Controller
     {
         private readonly PhieuDangKyService _service;
@@ -66,6 +67,54 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             NapDanhSach(maHoiVien, maGoiTap);
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult XacNhan(string id)
+        {
+            var res = _service.XacNhan(id);
+            if (res.Success)
+            {
+                TempData["Success"] = res.Message;
+            }
+            else
+            {
+                TempData["Error"] = res.Message;
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Huy(string id)
+        {
+            var res = _service.Huy(id);
+            if (res.Success)
+            {
+                TempData["Success"] = res.Message;
+            }
+            else
+            {
+                TempData["Error"] = res.Message;
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GiaHan(string id, int soThang = 1)
+        {
+            var res = _service.GiaHan(id, soThang);
+            if (res.Success)
+            {
+                TempData["Success"] = res.Message;
+            }
+            else
+            {
+                TempData["Error"] = res.Message;
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         private void NapDanhSach(

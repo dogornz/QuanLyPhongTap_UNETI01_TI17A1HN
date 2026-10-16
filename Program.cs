@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Repositories;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
@@ -9,11 +10,28 @@ builder.Services.AddDbContext<QuanLyPhongTap_UNETI01_TI17A1HNContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Hỗ trợ hiển thị đầy đủ ký tự tiếng Việt Unicode không bị mã hóa HTML entity
+builder.Services.AddSingleton<System.Text.Encodings.Web.HtmlEncoder>(
+    System.Text.Encodings.Web.HtmlEncoder.Create(System.Text.Unicode.UnicodeRanges.All));
+
+// Cookie Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+    });
+
 builder.Services.AddScoped<IPhieuDangKyRepository, PhieuDangKyRepository>();
 builder.Services.AddScoped<IGoiTapRepository, GoiTapRepository>();
 builder.Services.AddScoped<IHoiVienRepository, HoiVienRepository>();
 
 builder.Services.AddScoped<PhieuDangKyService>();
+builder.Services.AddScoped<HoiVienService>();
 
 var app = builder.Build();
 
@@ -23,6 +41,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
