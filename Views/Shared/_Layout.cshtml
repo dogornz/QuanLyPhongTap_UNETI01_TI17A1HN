@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
@@ -60,7 +60,7 @@
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <span class="nav-link text-primary fw-semibold">Xin chào, @User.Identity.Name!</span>
+                                <a class="nav-link text-primary fw-semibold" asp-controller="HoiViens" asp-action="ThongTinCaNhan">Xin chào, @User.Identity.Name!</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-danger" asp-controller="Account" asp-action="Logout">Đăng xuất</a>

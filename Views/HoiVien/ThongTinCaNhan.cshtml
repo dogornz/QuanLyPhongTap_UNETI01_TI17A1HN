@@ -1,0 +1,184 @@
+@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.HoiVien
+
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header Banner -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white;">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-white text-primary d-flex align-items-center justify-content-center fw-bold shadow" style="width: 70px; height: 70px; font-size: 28px;">
+                                @(string.IsNullOrEmpty(Model.HoTen) ? "HV" : Model.HoTen.Substring(0, 1).ToUpper())
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-1">@Model.HoTen</h3>
+                                <p class="mb-0 opacity-75">
+                                    Mã hội viên: <strong class="badge bg-light text-dark px-2 py-1">@Model.MaHoiVien</strong>
+                                    &nbsp;|&nbsp;
+                                    Ngày tham gia: <strong>@Model.NgayThamGia.ToString("dd/MM/yyyy")</strong>
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            @if (Model.TrangThai == "Đang hoạt động")
+                            {
+                                <span class="badge bg-success fs-6 px-3 py-2 shadow-sm">
+                                    <i class="bi bi-check-circle me-1"></i> Đang hoạt động
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger fs-6 px-3 py-2 shadow-sm">
+                                    <i class="bi bi-slash-circle me-1"></i> @Model.TrangThai
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show shadow-sm rounded-3" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm rounded-3" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <div class="row g-4">
+                <!-- Left: Quick Links & Summary -->
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 mb-4">
+                        <div class="card-header bg-white border-0 pt-4 px-4">
+                            <h5 class="fw-bold text-dark mb-0">Tiện ích hội viên</h5>
+                        </div>
+                        <div class="card-body p-4 pt-2">
+                            <div class="list-group list-group-flush">
+                                <a asp-controller="PhieuDangKys" asp-action="Index" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 border-0 rounded-3 mb-2 bg-light">
+                                    <span><i class="bi bi-card-checklist text-primary me-2"></i> Gói tập của tôi</span>
+                                    <i class="bi bi-chevron-right text-muted"></i>
+                                </a>
+                                <a asp-controller="PhieuDangKys" asp-action="Create" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 border-0 rounded-3 bg-light">
+                                    <span><i class="bi bi-plus-circle text-success me-2"></i> Đăng ký gói tập mới</span>
+                                    <i class="bi bi-chevron-right text-muted"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm rounded-4 bg-light">
+                        <div class="card-body p-4">
+                            <h6 class="fw-bold text-secondary mb-3">Quy định hội viên</h6>
+                            <ul class="text-muted small ps-3 mb-0">
+                                <li class="mb-2">Hội viên có quyền xem và cập nhật thông tin cá nhân.</li>
+                                <li class="mb-2">Mã hội viên và trạng thái hoạt động do hệ thống quản lý.</li>
+                                <li>Vui lòng nhập đúng số điện thoại và email để nhận thông báo hạn gói tập.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Profile Edit Form -->
+                <div class="col-md-8">
+                    <div class="card border-0 shadow-sm rounded-4">
+                        <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="fw-bold text-dark mb-0">Cập nhật thông tin cá nhân</h5>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Hội viên chính thức</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <form asp-action="ThongTinCaNhan" method="post">
+                                @Html.AntiForgeryToken()
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                                <input type="hidden" asp-for="MaHoiVien" />
+                                <input type="hidden" asp-for="MaTaiKhoan" />
+                                <input type="hidden" asp-for="NgayThamGia" />
+                                <input type="hidden" asp-for="TrangThai" />
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">MÃ HỘI VIÊN</label>
+                                        <input type="text" class="form-control bg-light" value="@Model.MaHoiVien" readonly disabled />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">TRẠNG THÁI TÀI KHOẢN</label>
+                                        <input type="text" class="form-control bg-light" value="@Model.TrangThai" readonly disabled />
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label asp-for="HoTen" class="form-label fw-semibold">Họ và tên <span class="text-danger">*</span></label>
+                                        <input asp-for="HoTen" class="form-control" placeholder="Nhập họ và tên đầy đủ..." />
+                                        <span asp-validation-for="HoTen" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="NgaySinh" class="form-label fw-semibold">Ngày sinh <span class="text-danger">*</span></label>
+                                        <input asp-for="NgaySinh" type="date" class="form-control" />
+                                        <span asp-validation-for="NgaySinh" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="GioiTinh" class="form-label fw-semibold">Giới tính <span class="text-danger">*</span></label>
+                                        <select asp-for="GioiTinh" class="form-select">
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
+                                            <option value="Khác">Khác</option>
+                                        </select>
+                                        <span asp-validation-for="GioiTinh" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="SoDienThoai" class="form-label fw-semibold">Số điện thoại <span class="text-danger">*</span></label>
+                                        <input asp-for="SoDienThoai" class="form-control" placeholder="09xxxxxxxx" />
+                                        <span asp-validation-for="SoDienThoai" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="Email" class="form-label fw-semibold">Địa chỉ Email <span class="text-danger">*</span></label>
+                                        <input asp-for="Email" type="email" class="form-control" placeholder="example@email.com" />
+                                        <span asp-validation-for="Email" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-semibold">Địa chỉ</label>
+                                        <textarea name="DiaChi" class="form-control" rows="2" placeholder="Số nhà, tên đường, quận/huyện, tỉnh/thành phố..."></textarea>
+                                    </div>
+
+                                    <div class="col-12 mt-4 pt-2">
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold">
+                                                💾 Lưu thay đổi
+                                            </button>
+                                            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary px-4 py-2">
+                                                Quay lại trang chủ
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

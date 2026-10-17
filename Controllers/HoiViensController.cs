@@ -180,4 +180,47 @@ public class HoiViensController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    // =====================================
+    // THÔNG TIN CÁ NHÂN
+    // =====================================
+    [HttpGet]
+    public IActionResult ThongTinCaNhan(string? id)
+    {
+        HoiVien? hoiVien = null;
+        if (!string.IsNullOrEmpty(id))
+        {
+            hoiVien = _service.GetById(id);
+        }
+        else
+        {
+            var username = User.Identity?.Name;
+            hoiVien = _service.GetAll().FirstOrDefault(h => h.MaHoiVien == username || h.Email == username)
+                      ?? _service.GetAll().FirstOrDefault();
+        }
+
+        if (hoiVien == null)
+        {
+            return NotFound();
+        }
+
+        return View(hoiVien);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult ThongTinCaNhan(HoiVien model)
+    {
+        if (ModelState.IsValid)
+        {
+            var res = _service.Update(model);
+            if (res.success)
+            {
+                TempData["Success"] = "Cập nhật thông tin cá nhân thành công!";
+                return View(model);
+            }
+            TempData["Error"] = res.message;
+        }
+        return View(model);
+    }
 }
