@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
 {
@@ -13,12 +13,13 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
         public string TenLoaiGoi { get; set; } = string.Empty;
 
         [StringLength(500)]
-        [Display(Name = "Mô tả đặc quyền")]
+        [Display(Name = "Mô tả")]
         public string? MoTa { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng chọn trạng thái")]
         [StringLength(50)]
         [Display(Name = "Trạng thái")]
-        public string TrangThai { get; set; } = "Unlock";
+        public string TrangThai { get; set; } = "Active";
 
         [Display(Name = "Số gói trực thuộc")]
         public int SoGoiTrucThuoc { get; set; } = 0;

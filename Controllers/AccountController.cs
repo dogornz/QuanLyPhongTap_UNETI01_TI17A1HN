@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -135,7 +135,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 MatKhau = model.MatKhau,
                 HoTen = model.HoTen.Trim(),
                 Email = model.Email.Trim(),
-                VaiTro = "User",
+                VaiTro = "hoivien",
                 TrangThai = "Unlock"
             };
 

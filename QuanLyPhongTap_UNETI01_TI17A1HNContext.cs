@@ -6,6 +6,9 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
 
     public DbSet<QuanLyPhongTap_UNETI01_TI17A1HN.Models.TaiKhoan> TaiKhoan { get; set; } = default!;
     public DbSet<QuanLyPhongTap_UNETI01_TI17A1HN.Models.LoaiGoiTap> LoaiGoiTap { get; set; } = default!;
+    public DbSet<QuanLyPhongTap_UNETI01_TI17A1HN.Models.GoiTap> GoiTap { get; set; } = default!;
+    public DbSet<QuanLyPhongTap_UNETI01_TI17A1HN.Models.HoiVien> HoiVien { get; set; } = default!;
+    public DbSet<QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy> PhieuDangKy { get; set; } = default!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -115,5 +118,21 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
                 NgayCapNhat = new DateTime(2026, 1, 2, 10, 0, 0)
             }
         );
+
+        modelBuilder.Entity<PhieuDangKy>()
+            .HasOne(p => p.HoiVien)
+            .WithMany()
+            .HasForeignKey(p => p.MaHoiVien);
+
+        modelBuilder.Entity<PhieuDangKy>()
+            .HasOne(p => p.GoiTap)
+            .WithMany()
+            .HasForeignKey(p => p.MaGoiTap);
+
+        modelBuilder.Entity<GoiTap>()
+            .HasOne(g => g.LoaiGoiTap)
+            .WithMany()
+            .HasForeignKey(g => g.MaLoaiGoi)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
