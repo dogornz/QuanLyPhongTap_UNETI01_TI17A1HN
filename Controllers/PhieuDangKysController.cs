@@ -5,7 +5,7 @@ using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,admin")]
     public class PhieuDangKysController : Controller
     {
         private readonly PhieuDangKyService _service;

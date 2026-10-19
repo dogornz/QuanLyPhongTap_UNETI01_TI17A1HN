@@ -1,0 +1,87 @@
+@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.GoiTap
+
+@{
+    ViewData["Title"] = "Chi tiết Gói tập";
+    var recentTickets = ViewBag.RecentPhieuDangKy as IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy>;
+    int totalPhieu = ViewBag.TotalPhieu ?? 0;
+}
+
+<h1>Chi tiết</h1>
+<h4>Gói tập luyện: @Model.TenGoiTap</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-7">
+        <dl class="row">
+            <dt class="col-sm-4">Mã gói tập:</dt>
+            <dd class="col-sm-8"><code>@Model.MaGoiTap</code></dd>
+
+            <dt class="col-sm-4">Tên gói tập:</dt>
+            <dd class="col-sm-8 fw-bold">@Model.TenGoiTap</dd>
+
+            <dt class="col-sm-4">Loại gói tập:</dt>
+            <dd class="col-sm-8">@(Model.LoaiGoiTap?.TenLoaiGoi ?? "Chưa phân loại")</dd>
+
+            <dt class="col-sm-4">Thời hạn:</dt>
+            <dd class="col-sm-8">@(Model.ThoiHanThang ?? "1") tháng</dd>
+
+            <dt class="col-sm-4">Số buổi tối đa:</dt>
+            <dd class="col-sm-8">@(Model.SoBuoiToiDa > 0 ? Model.SoBuoiToiDa + " buổi" : "Không giới hạn")</dd>
+
+            <dt class="col-sm-4">Đơn giá:</dt>
+            <dd class="col-sm-8 text-danger fw-bold fs-5">@Model.DonGia.ToString("N0") VNĐ</dd>
+
+            <dt class="col-sm-4">Trạng thái:</dt>
+            <dd class="col-sm-8">
+                @if (Model.TrangThai == "Đang áp dụng")
+                {
+                    <span class="badge bg-success">@Model.TrangThai</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">@Model.TrangThai</span>
+                }
+            </dd>
+
+            <dt class="col-sm-4">Mô tả đặc quyền:</dt>
+            <dd class="col-sm-8">@(string.IsNullOrWhiteSpace(Model.MoTa) ? "Chưa có mô tả chi tiết." : Model.MoTa)</dd>
+
+            <dt class="col-sm-4">Tổng lượt đăng ký:</dt>
+            <dd class="col-sm-8"><span class="badge bg-info text-dark">@totalPhieu lượt</span></dd>
+        </dl>
+
+        <div class="mt-3">
+            <a asp-action="Edit" asp-route-id="@Model.MaGoiTap" class="btn btn-primary">Chỉnh sửa</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Quay lại danh sách</a>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header bg-light">
+                <strong>Lượt đăng ký gần đây (@(recentTickets?.Count() ?? 0)/@totalPhieu)</strong>
+            </div>
+            <div class="card-body p-0">
+                @if (recentTickets != null && recentTickets.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var p in recentTickets)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-bold">@p.HoiVien?.HoTen (@p.MaHoiVien)</div>
+                                    <small class="text-muted">Phiếu: @p.MaPhieu | Ngày: @p.NgayDangKy.ToString("dd/MM/yyyy")</small>
+                                </div>
+                                <span class="badge bg-secondary">@p.TrangThai</span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="p-3 text-muted text-center">Chưa có lượt đăng ký nào cho gói này.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.GoiTap>
+
+@{
+    ViewData["Title"] = "Quản lý Gói tập";
+    var loaiGoiList = ViewBag.LoaiGoiTaps as IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.LoaiGoiTap>;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h3 mb-0">Quản lý Gói tập</h1>
+        <p class="text-muted small mb-0">Danh sách các gói tập luyện trong hệ thống phòng tập</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        + Thêm gói tập mới
+    </a>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- Bộ lọc & Tìm kiếm -->
+<div class="card mb-3">
+    <div class="card-body">
+        <form asp-action="Index" method="get" class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label fw-bold small">Tìm kiếm</label>
+                <input type="text" name="keyword" class="form-control" placeholder="Mã gói, tên gói tập..." value="@ViewBag.Keyword" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold small">Loại gói tập</label>
+                <select name="maLoaiGoi" class="form-select">
+                    <option value="">-- Tất cả loại gói --</option>
+                    @if (loaiGoiList != null)
+                    {
+                        foreach (var l in loaiGoiList)
+                        {
+                            <option value="@l.MaLoaiGoi" selected="@(ViewBag.SelectedMaLoaiGoi == l.MaLoaiGoi)">@l.TenLoaiGoi</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold small">Trạng thái</label>
+                <select name="trangThai" class="form-select">
+                    <option value="all">-- Tất cả trạng thái --</option>
+                    <option value="Đang áp dụng" selected="@(ViewBag.SelectedTrangThai == "Đang áp dụng")">Đang áp dụng</option>
+                    <option value="Ngừng áp dụng" selected="@(ViewBag.SelectedTrangThai == "Ngừng áp dụng")">Ngừng áp dụng</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex gap-1">
+                <button type="submit" class="btn btn-outline-primary flex-grow-1">Lọc</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Đặt lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light">
+            <tr>
+                <th style="width: 100px;">Mã gói</th>
+                <th>Tên gói tập</th>
+                <th>Loại gói</th>
+                <th style="width: 110px;">Thời hạn</th>
+                <th style="width: 120px;">Số buổi</th>
+                <th style="width: 140px;">Đơn giá</th>
+                <th style="width: 140px;">Trạng thái</th>
+                <th style="width: 220px;" class="text-center">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td><code>@item.MaGoiTap</code></td>
+                        <td>
+                            <strong>@item.TenGoiTap</strong>
+                            @if (!string.IsNullOrWhiteSpace(item.MoTa))
+                            {
+                                <div class="small text-muted text-truncate" style="max-width: 280px;">@item.MoTa</div>
+                            }
+                        </td>
+                        <td>
+                            @(item.LoaiGoiTap?.TenLoaiGoi ?? "Chưa phân loại")
+                        </td>
+                        <td>@(item.ThoiHanThang ?? "1") tháng</td>
+                        <td>@(item.SoBuoiToiDa > 0 ? item.SoBuoiToiDa + " buổi" : "Không giới hạn")</td>
+                        <td class="text-danger fw-bold">@item.DonGia.ToString("N0") đ</td>
+                        <td>
+                            @if (item.TrangThai == "Đang áp dụng")
+                            {
+                                <span class="badge bg-success">@item.TrangThai</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@item.TrangThai</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-primary">Sửa</a>
+                            <a asp-action="Details" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-info">Chi tiết</a>
+                            <a asp-action="Delete" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-danger">Xóa</a>
+                            <a asp-action="ChangeStatus" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-warning" title="Đổi trạng thái">Đổi TT</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center text-muted py-4">
+                        Không tìm thấy gói tập nào phù hợp điều kiện lọc.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-3">
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Quay lại Bảng điều khiển</a>
+</div>

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
-[Authorize]
+[Authorize(Roles = "Admin,admin")]
 public class HoiViensController : Controller
 {
     private readonly HoiVienService _service;

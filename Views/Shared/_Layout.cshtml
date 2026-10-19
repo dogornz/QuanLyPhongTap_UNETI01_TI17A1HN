@@ -27,13 +27,25 @@
                             @if (User.IsInRole("admin") || User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Quản trị</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Dashboard</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="TaiKhoans" asp-action="Index">Quản lý Tài khoản</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="LoaiGoiTap" asp-action="Index">Loại gói tập</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="LoaiGoiTap" asp-action="Index">Quản lý Loại gói tập</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="GoiTaps" asp-action="Index">Gói tập</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="HoiViens" asp-action="Index">Hội viên</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="PhieuDangKys" asp-action="Index">Phiếu đăng ký</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="TaiKhoans" asp-action="Index">Tài khoản</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="/Admin#section-thongke">Thống kê</a>
                                 </li>
                             }
                             else

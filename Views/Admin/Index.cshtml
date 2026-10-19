@@ -1,68 +1,440 @@
 @{
-    ViewData["Title"] = "Quản trị hệ thống";
+    ViewData["Title"] = "Quản trị hệ thống phòng tập";
+    var pendingTickets = ViewBag.PendingTickets as List<QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy> ?? new List<QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy>();
+    var topPackages = ViewBag.TopPackages as List<dynamic> ?? new List<dynamic>();
 }
 
-<h1>@ViewData["Title"]</h1>
-<h4>Bảng điều khiển quản trị</h4>
-<hr />
+<div class="container-fluid px-0">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <h1 class="h2 mb-1">Bảng điều khiển quản trị (Admin Dashboard)</h1>
+            <p class="text-muted mb-0">Hệ thống Quản lý Phòng tập UNETI - Xin chào <strong>@User.Identity?.Name</strong></p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="#section-thongke" class="btn btn-outline-info">
+                📊 Xem thống kê
+            </a>
+            <a asp-controller="PhieuDangKys" asp-action="Create" class="btn btn-primary">
+                + Đăng ký gói tập mới
+            </a>
+        </div>
+    </div>
 
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card text-center mb-3">
-            <div class="card-header">Tổng tài khoản</div>
-            <div class="card-body">
-                <h3 class="card-title">@ViewBag.TotalAccounts</h3>
-                <p class="card-text text-muted">Tài khoản trong hệ thống</p>
-            </div>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+            <strong>Thành công!</strong> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card text-center mb-3">
-            <div class="card-header text-success">Đang hoạt động</div>
-            <div class="card-body">
-                <h3 class="card-title text-success">@ViewBag.ActiveAccounts</h3>
-                <p class="card-text text-muted">Trạng thái Unlock</p>
-            </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+            <strong>Thành công!</strong> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card text-center mb-3">
-            <div class="card-header text-primary">Quản trị viên</div>
-            <div class="card-body">
-                <h3 class="card-title text-primary">@ViewBag.AdminAccounts</h3>
-                <p class="card-text text-muted">Vai trò Admin</p>
-            </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+            <strong>Lỗi!</strong> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card text-center mb-3">
-            <div class="card-header text-info">Hội viên</div>
-            <div class="card-body">
-                <h3 class="card-title text-info">@ViewBag.UserAccounts</h3>
-                <p class="card-text text-muted">Vai trò Hội viên</p>
-            </div>
-        </div>
-    </div>
-</div>
+    }
 
-<h4>Chức năng quản trị</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Quản lý Tài Khoản</h5>
-                <p class="card-text">Xem danh sách, thêm mới, sửa, xem chi tiết và xóa tài khoản.</p>
-                <a asp-controller="TaiKhoans" asp-action="Index" class="btn btn-primary">Đi đến Quản lý Tài Khoản</a>
+    <!-- 1. XEM DASHBOARD - THỐNG KÊ NHANH -->
+    <h4 class="mb-3 text-secondary">1. Tổng quan Dashboard</h4>
+    <div class="row g-3 mb-4">
+        <!-- Doanh thu -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-bold">Tổng doanh thu</div>
+                            <div class="fs-4 fw-bold mt-1">@(((decimal)(ViewBag.TotalRevenue ?? 0m)).ToString("N0")) đ</div>
+                            <small class="text-white-50">Từ các phiếu đăng ký đã xác nhận</small>
+                        </div>
+                        <div class="fs-1 text-white-50">💰</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hội viên -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-bold">Tổng hội viên</div>
+                            <div class="fs-4 fw-bold mt-1">@ViewBag.TotalMembers</div>
+                            <small class="text-white-50">Hội viên đã đăng ký trong hệ thống</small>
+                        </div>
+                        <div class="fs-1 text-white-50">👥</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gói tập -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-warning text-dark h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-muted small text-uppercase fw-bold">Gói tập & Loại gói</div>
+                            <div class="fs-4 fw-bold mt-1">@ViewBag.TotalPackages gói</div>
+                            <small class="text-dark">@ViewBag.ActivePackages đang áp dụng / @ViewBag.TotalCategories loại</small>
+                        </div>
+                        <div class="fs-1 text-muted">🏋️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phiếu đăng ký & Chờ xác nhận -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-bold">Phiếu đăng ký</div>
+                            <div class="fs-4 fw-bold mt-1">@ViewBag.TotalRegistrations</div>
+                            <small class="text-white-50">@ViewBag.ActiveRegistrations hiệu lực | <strong class="text-warning">@ViewBag.PendingRegistrations chờ duyệt</strong></small>
+                        </div>
+                        <div class="fs-1 text-white-50">📋</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Quản lý Loại Gói Tập</h5>
-                <p class="card-text">Xem và quản lý các danh mục loại gói tập trong phòng gym.</p>
-                <a asp-controller="LoaiGoiTap" asp-action="Index" class="btn btn-primary">Đi đến Quản lý Loại Gói</a>
+
+    <!-- 2. XÁC NHẬN ĐĂNG KÝ (HÀNG ĐỢI DUYỆT NHANH) -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-primary">
+                ⏳ Xác nhận đăng ký gói tập (@pendingTickets.Count phiếu chờ duyệt)
+            </h5>
+            <a asp-controller="PhieuDangKys" asp-action="Index" class="btn btn-sm btn-outline-secondary">
+                Xem toàn bộ phiếu đăng ký &rarr;
+            </a>
+        </div>
+        <div class="card-body p-0">
+            @if (pendingTickets.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mã phiếu</th>
+                                <th>Hội viên</th>
+                                <th>Gói tập</th>
+                                <th>Ngày đăng ký</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th class="text-center" style="width: 220px;">Hành động duyệt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ticket in pendingTickets)
+                            {
+                                <tr>
+                                    <td class="fw-bold">@ticket.MaPhieu</td>
+                                    <td>
+                                        <strong>@ticket.HoiVien?.HoTen</strong>
+                                        <small class="text-muted d-block">Mã HV: @ticket.MaHoiVien - SĐT: @ticket.HoiVien?.SoDienThoai</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border">@ticket.GoiTap?.TenGoiTap</span>
+                                        <small class="text-muted d-block">Thời hạn: @ticket.GoiTap?.ThoiHanThang tháng</small>
+                                    </td>
+                                    <td>@ticket.NgayDangKy.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td class="text-danger fw-bold">
+                                        @((ticket.TongTien > 0 ? ticket.TongTien : ticket.DonGia).ToString("N0")) đ
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning text-dark">⏳ @ticket.TrangThai</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-inline-flex gap-2">
+                                            <form asp-controller="PhieuDangKys" asp-action="XacNhan" asp-route-id="@ticket.MaPhieu" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-success px-3" title="Xác nhận duyệt kích hoạt gói">
+                                                    ✔ Duyệt
+                                                </button>
+                                            </form>
+                                            <form asp-controller="PhieuDangKys" asp-action="Huy" asp-route-id="@ticket.MaPhieu" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-outline-danger px-3" onclick="return confirm('Bạn có chắc chắn muốn hủy phiếu @ticket.MaPhieu?');" title="Từ chối / Hủy phiếu đăng ký">
+                                                    ✖ Hủy
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="p-4 text-center text-muted">
+                    <p class="mb-0">🎉 Hiện tại không có phiếu đăng ký nào đang chờ xác nhận.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- 3. CÁC KHU VỰC QUẢN LÝ DÀNH CHO ADMIN -->
+    <h4 class="mb-3 text-secondary">2. Danh mục Quản lý hệ thống</h4>
+    <div class="row g-3 mb-4">
+        <!-- 3.1. Quản lý loại gói tập -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-2 bg-primary bg-opacity-10 text-primary rounded-3 me-3 fs-3">
+                            📑
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">Quản lý loại gói tập</h5>
+                            <small class="text-muted">Tổng: @ViewBag.TotalCategories danh mục</small>
+                        </div>
+                    </div>
+                    <p class="card-text text-muted flex-grow-1">
+                        Phân loại danh mục gói tập (Gym, Yoga, Cardio, VIP...), mô tả, cấu hình số gói trực thuộc.
+                    </p>
+                    <div class="d-flex gap-2 mt-2">
+                        <a asp-controller="LoaiGoiTap" asp-action="Index" class="btn btn-outline-primary btn-sm flex-grow-1">
+                            Xem danh sách
+                        </a>
+                        <a asp-controller="LoaiGoiTap" asp-action="Create" class="btn btn-primary btn-sm">
+                            + Thêm loại gói
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3.2. Quản lý gói tập -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-2 bg-success bg-opacity-10 text-success rounded-3 me-3 fs-3">
+                            🏋️
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">Quản lý gói tập</h5>
+                            <small class="text-muted">Tổng: @ViewBag.TotalPackages gói tập</small>
+                        </div>
+                    </div>
+                    <p class="card-text text-muted flex-grow-1">
+                        Cấu hình tên gói, loại gói, thời hạn tháng, đơn giá, số buổi tối đa và trạng thái áp dụng.
+                    </p>
+                    <div class="d-flex gap-2 mt-2">
+                        <a asp-controller="GoiTaps" asp-action="Index" class="btn btn-outline-success btn-sm flex-grow-1">
+                            Xem danh sách
+                        </a>
+                        <a asp-controller="GoiTaps" asp-action="Create" class="btn btn-success btn-sm">
+                            + Tạo gói tập mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3.3. Quản lý hội viên -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-2 bg-info bg-opacity-10 text-info rounded-3 me-3 fs-3">
+                            👤
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">Quản lý hội viên</h5>
+                            <small class="text-muted">Tổng: @ViewBag.TotalMembers hội viên</small>
+                        </div>
+                    </div>
+                    <p class="card-text text-muted flex-grow-1">
+                        Quản lý hồ sơ hội viên: họ tên, ngày sinh, giới tính, số điện thoại, CCCD, địa chỉ, trạng thái.
+                    </p>
+                    <div class="d-flex gap-2 mt-2">
+                        <a asp-controller="HoiViens" asp-action="Index" class="btn btn-outline-info btn-sm flex-grow-1">
+                            Xem danh sách
+                        </a>
+                        <a asp-controller="HoiViens" asp-action="Create" class="btn btn-info btn-sm text-white">
+                            + Thêm hội viên
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3.4. Quản lý phiếu đăng ký & Gia hạn / Hủy đăng ký -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-2 bg-warning bg-opacity-10 text-warning rounded-3 me-3 fs-3">
+                            📝
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">Quản lý phiếu đăng ký</h5>
+                            <small class="text-muted">Xác nhận / Gia hạn / Hủy đăng ký</small>
+                        </div>
+                    </div>
+                    <p class="card-text text-muted flex-grow-1">
+                        Xử lý đăng ký mới, duyệt xác nhận phiếu đăng ký, gia hạn thời hạn tập thêm tháng (+1 Th) hoặc hủy đăng ký.
+                    </p>
+                    <div class="d-flex gap-2 mt-2">
+                        <a asp-controller="PhieuDangKys" asp-action="Index" class="btn btn-outline-warning btn-sm flex-grow-1 text-dark">
+                            Quản lý phiếu
+                        </a>
+                        <a asp-controller="PhieuDangKys" asp-action="Create" class="btn btn-warning btn-sm text-dark">
+                            + Đăng ký mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3.5. Quản lý tài khoản -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-2 bg-secondary bg-opacity-10 text-secondary rounded-3 me-3 fs-3">
+                            🔐
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">Quản lý tài khoản</h5>
+                            <small class="text-muted">Tổng: @ViewBag.TotalAccounts tài khoản</small>
+                        </div>
+                    </div>
+                    <p class="card-text text-muted flex-grow-1">
+                        Quản lý người dùng, phân quyền vai trò (Admin / Hội viên), kích hoạt hoặc khóa tài khoản hệ thống.
+                    </p>
+                    <div class="d-flex gap-2 mt-2">
+                        <a asp-controller="TaiKhoans" asp-action="Index" class="btn btn-outline-secondary btn-sm flex-grow-1">
+                            Xem danh sách
+                        </a>
+                        <a asp-controller="TaiKhoans" asp-action="Create" class="btn btn-secondary btn-sm">
+                            + Thêm tài khoản
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. XEM THỐNG KÊ CHI TIẾT -->
+    <div id="section-thongke" class="pt-2">
+        <h4 class="mb-3 text-secondary">3. Xem báo cáo & Thống kê hệ thống</h4>
+        <div class="row g-3">
+            <!-- Thống kê Gói tập đăng ký nhiều nhất -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 text-primary">🏆 Top gói tập được đăng ký nhiều nhất</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        @if (topPackages.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Mã gói</th>
+                                            <th>Tên gói tập</th>
+                                            <th>Đơn giá</th>
+                                            <th class="text-center">Số lượt đăng ký</th>
+                                            <th class="text-end">Ước tính doanh thu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in topPackages)
+                                        {
+                                            var pkg = item.Package as QuanLyPhongTap_UNETI01_TI17A1HN.Models.GoiTap;
+                                            int count = (int)item.Count;
+                                            decimal estRevenue = (pkg?.DonGia ?? 0m) * count;
+                                            <tr>
+                                                <td class="fw-bold">@pkg?.MaGoiTap</td>
+                                                <td>
+                                                    <strong>@pkg?.TenGoiTap</strong>
+                                                    <small class="d-block text-muted">Thời hạn: @pkg?.ThoiHanThang tháng</small>
+                                                </td>
+                                                <td>@((pkg?.DonGia ?? 0m).ToString("N0")) đ</td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-primary fs-6">@count</span>
+                                                </td>
+                                                <td class="text-end text-success fw-bold">
+                                                    @estRevenue.ToString("N0") đ
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="p-4 text-center text-muted">
+                                Chưa có dữ liệu thống kê gói tập.
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phân bố trạng thái và tỷ lệ -->
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 text-primary">📊 Phân bố phiếu đăng ký & Tài khoản</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Trạng thái phiếu đăng ký:</h6>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>✔ Đang hiệu lực / Đã xác nhận</span>
+                                <span class="badge bg-success rounded-pill">@ViewBag.ActiveRegistrations</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>⏳ Chờ xác nhận (Cần duyệt)</span>
+                                <span class="badge bg-warning text-dark rounded-pill">@ViewBag.PendingRegistrations</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>✖ Đã hủy</span>
+                                <span class="badge bg-danger rounded-pill">@ViewBag.CancelledRegistrations</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 fw-bold">
+                                <span>Tổng số phiếu</span>
+                                <span class="badge bg-dark rounded-pill">@ViewBag.TotalRegistrations</span>
+                            </li>
+                        </ul>
+
+                        <h6 class="text-muted mb-2">Cơ cấu người dùng & Tài khoản:</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>Quản trị viên (Admin)</span>
+                                <span class="badge bg-primary rounded-pill">@ViewBag.AdminAccounts</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>Tài khoản Hội viên</span>
+                                <span class="badge bg-info rounded-pill">@ViewBag.UserAccounts</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span>Đang hoạt động (Unlock)</span>
+                                <span class="badge bg-success rounded-pill">@ViewBag.ActiveAccounts</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

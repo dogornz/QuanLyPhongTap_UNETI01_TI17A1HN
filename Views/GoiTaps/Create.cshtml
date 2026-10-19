@@ -1,0 +1,80 @@
+@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.GoiTap
+
+@{
+    ViewData["Title"] = "Thêm mới Gói tập";
+}
+
+<h1>Thêm mới</h1>
+<h4>Gói tập luyện</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="MaGoiTap" class="form-label fw-bold">Mã gói tập <span class="text-danger">*</span></label>
+                <input asp-for="MaGoiTap" class="form-control" placeholder="Ví dụ: GT16" />
+                <span asp-validation-for="MaGoiTap" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="TenGoiTap" class="form-label fw-bold">Tên gói tập <span class="text-danger">*</span></label>
+                <input asp-for="TenGoiTap" class="form-control" placeholder="Ví dụ: Gym & Yoga 3 Tháng" />
+                <span asp-validation-for="TenGoiTap" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="MaLoaiGoi" class="form-label fw-bold">Loại gói tập</label>
+                <select asp-for="MaLoaiGoi" class="form-select" asp-items="ViewBag.MaLoaiGoi">
+                    <option value="">-- Chọn loại gói tập --</option>
+                </select>
+                <span asp-validation-for="MaLoaiGoi" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 form-group mb-3">
+                    <label asp-for="ThoiHanThang" class="form-label fw-bold">Thời hạn (tháng)</label>
+                    <input asp-for="ThoiHanThang" type="number" min="1" max="60" class="form-control" />
+                    <span asp-validation-for="ThoiHanThang" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group mb-3">
+                    <label asp-for="SoBuoiToiDa" class="form-label fw-bold">Số buổi tối đa (0 = không giới hạn)</label>
+                    <input asp-for="SoBuoiToiDa" type="number" min="0" class="form-control" />
+                    <span asp-validation-for="SoBuoiToiDa" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="DonGia" class="form-label fw-bold">Đơn giá (VNĐ) <span class="text-danger">*</span></label>
+                <input asp-for="DonGia" type="number" step="1000" min="0" class="form-control" />
+                <span asp-validation-for="DonGia" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="MoTa" class="form-label fw-bold">Mô tả chi tiết</label>
+                <textarea asp-for="MoTa" class="form-control" rows="3" placeholder="Nhập quyền lợi, tiện ích đi kèm..."></textarea>
+                <span asp-validation-for="MoTa" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="TrangThai" class="form-label fw-bold">Trạng thái áp dụng</label>
+                <select asp-for="TrangThai" class="form-select">
+                    <option value="Đang áp dụng">Đang áp dụng</option>
+                    <option value="Ngừng áp dụng">Ngừng áp dụng</option>
+                </select>
+                <span asp-validation-for="TrangThai" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <button type="submit" class="btn btn-primary">Thêm mới gói tập</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Quay lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
