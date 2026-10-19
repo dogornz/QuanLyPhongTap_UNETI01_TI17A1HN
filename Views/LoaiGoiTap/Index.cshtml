@@ -1,231 +1,93 @@
-﻿@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.LoaiGoiTap>
+@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.LoaiGoiTap>
 
 @{
-    ViewData["Title"] = "Quản lý Loại Gói Tập";
+    ViewData["Title"] = "Index";
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold text-dark">🏷️ Quản Lý Loại Gói Tập</h2>
-            <p class="text-muted mb-0">Danh sách và phân loại các gói dịch vụ thể hình</p>
-        </div>
-        <button type="button" class="btn btn-warning fw-semibold shadow-sm" onclick="openCreateModal()">
-            <i class="bi bi-plus-circle"></i> + Thêm Loại Gói Mới
-        </button>
+<h1>Index</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["Success"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    }
-
-    <div class="card shadow-sm border-0 rounded-4">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th class="ps-4">Mã</th>
-                            <th>Tên Loại Gói</th>
-                            <th>Mô Tả Quyền Lợi</th>
-                            <th class="text-center">Số Gói Con</th>
-                            <th>Ngày Cập Nhật</th>
-                            <th class="text-center">Trạng Thái</th>
-                            <th class="text-end pe-4">Thao Tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null && Model.Any())
-                        {
-                            foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td class="ps-4 fw-bold text-secondary">#@item.MaLoaiGoi</td>
-                                    <td>
-                                        <div class="fw-bold text-dark">@item.TenLoaiGoi</div>
-                                    </td>
-                                    <td>
-                                        <span class="text-muted small text-truncate d-inline-block" style="max-width: 320px;" title="@item.MoTa">
-                                            @(string.IsNullOrEmpty(item.MoTa) ? "Chưa có mô tả" : item.MoTa)
-                                        </span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-secondary rounded-pill px-3">@item.SoGoiTrucThuoc gói</span>
-                                    </td>
-                                    <td>
-                                        <small class="text-muted">@item.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")</small>
-                                    </td>
-                                    <td class="text-center">
-                                        @if (string.Equals(item.TrangThai, "Active", StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            <span class="badge bg-success bg-opacity-75 px-3 py-2">Hoạt động</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-danger bg-opacity-75 px-3 py-2">Khóa / Dừng</span>
-                                        }
-                                    </td>
-                                    <td class="text-end pe-4">
-                                        <button class="btn btn-sm btn-outline-primary me-1"
-                                                onclick='openEditModal(@item.MaLoaiGoi, @Html.Raw(System.Text.Json.JsonSerializer.Serialize(item.TenLoaiGoi)), @Html.Raw(System.Text.Json.JsonSerializer.Serialize(item.MoTa ?? "")), @Html.Raw(System.Text.Json.JsonSerializer.Serialize(item.TrangThai)))'>
-                                            ✏️ Sửa
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger"
-                                                onclick="deleteItem(@item.MaLoaiGoi, '@item.TenLoaiGoi', @item.SoGoiTrucThuoc)">
-                                            🗑️ Xóa
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="7" class="text-center py-4 text-muted">Chưa có loại gói tập nào trong hệ thống.</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Thêm / Sửa -->
-<div class="modal fade" id="loaiGoiModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4 border-0 shadow">
-            <div class="modal-header bg-light rounded-top-4">
-                <h5 class="modal-title fw-bold" id="modalTitle">Thêm Loại Gói Tập</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form id="loaiGoiForm">
-                @Html.AntiForgeryToken()
-                <input type="hidden" id="editId" name="id" value="" />
-                <div class="modal-body p-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Tên Loại Gói <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="tenLoaiGoi" name="tenLoaiGoi" required maxlength="100" placeholder="VD: GYM VIP 1 KÈM 1" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Mô Tả Quyền Lợi</label>
-                        <textarea class="form-control" id="moTa" name="moTa" rows="3" maxlength="500" placeholder="Nhập tóm tắt tiện ích, quyền lợi gói tập..."></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Trạng Thái</label>
-                        <select class="form-select" id="trangThai" name="trangThai">
-                            <option value="Active">Hoạt động (Active)</option>
-                            <option value="Inactive">Ngừng áp dụng (Inactive)</option>
-                        </select>
-                    </div>
-                    <div id="modalAlert" class="alert alert-danger d-none" role="alert"></div>
-                </div>
-                <div class="modal-footer bg-light rounded-bottom-4">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="submit" class="btn btn-warning fw-bold px-4" id="btnSave">Lưu Thay Đổi</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script>
-        const modalEl = document.getElementById('loaiGoiModal');
-        const modal = new bootstrap.Modal(modalEl);
-        const form = document.getElementById('loaiGoiForm');
-        const alertBox = document.getElementById('modalAlert');
-
-        function openCreateModal() {
-            document.getElementById('modalTitle').textContent = 'Thêm Loại Gói Tập Mới';
-            document.getElementById('editId').value = '';
-            document.getElementById('tenLoaiGoi').value = '';
-            document.getElementById('moTa').value = '';
-            document.getElementById('trangThai').value = 'Active';
-            alertBox.classList.add('d-none');
-            modal.show();
-        }
-
-        function openEditModal(id, ten, mota, trangThai) {
-            document.getElementById('modalTitle').textContent = 'Chỉnh Sửa Loại Gói Tập #' + id;
-            document.getElementById('editId').value = id;
-            document.getElementById('tenLoaiGoi').value = ten;
-            document.getElementById('moTa').value = mota;
-            document.getElementById('trangThai').value = trangThai || 'Active';
-            alertBox.classList.add('d-none');
-            modal.show();
-        }
-
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            alertBox.classList.add('d-none');
-
-            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-            const id = document.getElementById('editId').value;
-            const tenLoaiGoi = document.getElementById('tenLoaiGoi').value.trim();
-            const moTa = document.getElementById('moTa').value.trim();
-            const trangThai = document.getElementById('trangThai').value;
-
-            const formData = new URLSearchParams();
-            formData.append('__RequestVerificationToken', token);
-            if (id) formData.append('id', id);
-            formData.append('tenLoaiGoi', tenLoaiGoi);
-            formData.append('moTa', moTa);
-            formData.append('trangThai', trangThai);
-
-            try {
-                const res = await fetch('/LoaiGoiTap/SaveAjax', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: formData.toString()
-                });
-                const data = await res.json();
-                if (data.success) {
-                    modal.hide();
-                    window.location.reload();
-                } else {
-                    alertBox.textContent = data.message || 'Có lỗi xảy ra!';
-                    alertBox.classList.remove('d-none');
-                }
-            } catch (err) {
-                alertBox.textContent = 'Lỗi kết nối tới máy chủ!';
-                alertBox.classList.remove('d-none');
-            }
-        });
-
-        async function deleteItem(id, ten, soGoi) {
-            if (soGoi > 0) {
-                alert(`Không thể xóa loại gói "${ten}" vì đang có ${soGoi} gói tập trực thuộc!`);
-                return;
-            }
-            if (!confirm(`Bạn có chắc chắn muốn xóa loại gói "${ten}" không?`)) {
-                return;
-            }
-
-            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-            const formData = new URLSearchParams();
-            formData.append('__RequestVerificationToken', token);
-            formData.append('id', id);
-
-            try {
-                const res = await fetch('/LoaiGoiTap/DeleteAjax', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: formData.toString()
-                });
-                const data = await res.json();
-                if (data.success) {
-                    window.location.reload();
-                } else {
-                    alert(data.message || 'Lỗi khi xóa!');
-                }
-            } catch (err) {
-                alert('Lỗi kết nối tới máy chủ!');
-            }
-        }
-    </script>
 }
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MaLoaiGoi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenLoaiGoi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoTa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoGoiTrucThuoc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayCapNhat)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaLoaiGoi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenLoaiGoi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTa)
+            </td>
+            <td>
+                @if (item.TrangThai == "Active" || item.TrangThai == "Unlock" || item.TrangThai == "Hoạt động")
+                {
+                    <span class="badge bg-success">@item.TrangThai</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">@item.TrangThai</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoGoiTrucThuoc)
+            </td>
+            <td>
+                @item.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaLoaiGoi">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaLoaiGoi">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaLoaiGoi">Delete</a> |
+                <a asp-action="ChangeStatus" asp-route-id="@item.MaLoaiGoi">Cập nhật trạng thái</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Admin" asp-action="Index">Quay lại Quản trị</a>
+</div>

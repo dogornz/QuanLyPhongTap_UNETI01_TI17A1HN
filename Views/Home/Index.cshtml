@@ -1,72 +1,776 @@
-﻿@{
-    ViewData["Title"] = "Trang Chủ";
+@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.MemberDashboardViewModel
+@{
+    ViewData["Title"] = "Trang chủ";
+    var isAuthenticated = User.Identity != null && User.Identity.IsAuthenticated;
 }
 
-<div class="p-5 mb-4 bg-light rounded-4 border shadow-sm text-center position-relative overflow-hidden"
-     style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #fff;">
-    <div class="container-fluid py-4">
-        <h1 class="display-5 fw-bold text-warning mb-3">🏋️‍♂️ HỆ THỐNG QUẢN LÝ PHÒNG TẬP GYM</h1>
-        <p class="col-md-8 fs-5 mx-auto text-light opacity-75 mb-4">
-            Giải pháp số hóa toàn diện dành cho phòng tập thể hình - Quản lý hội viên, gói tập, huấn luyện viên và tài khoản nhanh chóng, chính xác.
-        </p>
+@Html.AntiForgeryToken()
 
-        @if (User.Identity != null && User.Identity.IsAuthenticated)
-        {
-            <div class="d-inline-flex flex-wrap gap-2 justify-content-center">
-                <span class="btn btn-outline-warning disabled border-2 text-warning fw-semibold px-4 py-2">
-                    Chào mừng trở lại, @User.Identity.Name!
-                </span>
-                @if (User.IsInRole("Admin") || User.IsInRole("admin"))
-                {
-                    <a asp-controller="TaiKhoans" asp-action="Index" class="btn btn-warning px-4 py-2 fw-bold shadow">
-                        👤 Quản lý Tài Khoản
-                    </a>
-                    <a asp-controller="PhieuDangKys" asp-action="Index" class="btn btn-outline-light px-4 py-2 fw-semibold">
-                        Phiếu đăng ký
-                    </a>
+<h1>Trang chủ</h1>
+<h4>Hệ thống Quản Lý Phòng Tập</h4>
+<hr />
+
+@if (!isAuthenticated)
+{
+    <div class="alert alert-info">
+        Chào mừng bạn đến với hệ thống Quản lý phòng tập! Vui lòng <a asp-controller="Account" asp-action="Login"><strong>Đăng nhập</strong></a> hoặc <a asp-controller="Account" asp-action="Register"><strong>Đăng ký tài khoản hội viên</strong></a> để xem và đăng ký các gói tập luyện.
+    </div>
+}
+else
+{
+    <!-- THÔNG TIN HỘI VIÊN -->
+    <div class="card mb-4">
+        <div class="card-header bg-light">
+            <strong>Thông tin hội viên:</strong> @(Model.HoiVien?.HoTen ?? Model.TaiKhoan?.HoTen ?? User.Identity?.Name)
+            <span class="badge bg-success float-end">@(Model.HoiVien?.TrangThai ?? "Đang hoạt động")</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <p class="mb-1"><strong>Mã hội viên:</strong> @(Model.HoiVien?.MaHoiVien ?? "HV01")</p>
+                    <p class="mb-1"><strong>Tài khoản:</strong> @(Model.TaiKhoan?.TenDangNhap ?? User.Identity?.Name)</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="mb-1"><strong>Email:</strong> @(Model.HoiVien?.Email ?? Model.TaiKhoan?.Email)</p>
+                    <p class="mb-1"><strong>Số điện thoại:</strong> @(Model.HoiVien?.SoDienThoai ?? "Chưa cập nhật")</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="mb-1"><strong>Ngày gia nhập:</strong> @(Model.HoiVien?.NgayThamGia.ToString("dd/MM/yyyy") ?? DateTime.Today.ToString("dd/MM/yyyy"))</p>
+                    <p class="mb-1"><strong>Gói đang tập:</strong> <span class="text-primary fw-bold">@(Model.GoiHienTai?.GoiTap?.TenGoiTap ?? "Chưa kích hoạt")</span></p>
+                </div>
+                <div class="col-md-3">
+                    <p class="mb-1"><strong>Tổng gói đã đăng ký:</strong> <span class="badge bg-secondary">@Model.TongGoiDaDangKy</span></p>
+                    <p class="mb-1"><strong>Gói đang hiệu lực:</strong> <span class="badge bg-success">@Model.SoGoiDangHieuLuc</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- ======================================================== -->
+<!-- 1. XEM, TÌM KIẾM, LỌC VÀ SẮP XẾP GÓI TẬP -->
+<!-- ======================================================== -->
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">1. Danh sách Gói tập</h5>
+    </div>
+    <div class="card-body">
+        <!-- Bộ lọc & Tìm kiếm -->
+        <div class="row g-2 mb-3">
+            <div class="col-md-4">
+                <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo tên gói tập..." oninput="filterAndSortPackages()" />
+            </div>
+            <div class="col-md-3">
+                <select id="categoryFilter" class="form-select" onchange="filterAndSortPackages()">
+                    <option value="all">-- Tất cả loại gói --</option>
+                    <option value="gym">Gym &amp; Thể hình</option>
+                    <option value="pt">Huấn luyện viên PT 1-1</option>
+                    <option value="yoga">Yoga &amp; Thiền</option>
+                    <option value="boi">Bơi lội</option>
+                    <option value="combo">Combo VIP</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="sortFilter" class="form-select" onchange="filterAndSortPackages()">
+                    <option value="default">-- Sắp xếp: Mặc định --</option>
+                    <option value="price-asc">Giá: Thấp đến cao</option>
+                    <option value="price-desc">Giá: Cao đến thấp</option>
+                    <option value="duration-desc">Thời hạn: Dài nhất</option>
+                    <option value="name-asc">Tên gói: A - Z</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-outline-secondary w-100" onclick="resetFilters()">Đặt lại</button>
+            </div>
+        </div>
+
+        <!-- Bảng danh sách gói tập -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle" id="packagesTable">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 100px;">Mã gói</th>
+                        <th>Tên gói tập</th>
+                        <th style="width: 120px;">Thời hạn</th>
+                        <th style="width: 140px;">Số buổi tối đa</th>
+                        <th style="width: 140px;">Đơn giá</th>
+                        <th style="width: 130px;">Trạng thái</th>
+                        <th style="width: 160px;" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="packagesTableBody">
+                    @foreach (var item in Model.DanhSachGoiTap)
+                    {
+                        var isCombo = item.TenGoiTap.Contains("Combo", StringComparison.OrdinalIgnoreCase);
+                        var isPt = item.TenGoiTap.Contains("PT", StringComparison.OrdinalIgnoreCase);
+                        var isYoga = item.TenGoiTap.Contains("Yoga", StringComparison.OrdinalIgnoreCase);
+                        var isBoi = item.TenGoiTap.Contains("Bơi", StringComparison.OrdinalIgnoreCase);
+                        var catKey = isCombo ? "combo" : isPt ? "pt" : isYoga ? "yoga" : isBoi ? "boi" : "gym";
+
+                        int months = 1;
+                        int.TryParse(item.ThoiHanThang, out months);
+                        if (months == 0) months = item.TenGoiTap.Contains("12 Tháng") ? 12 : item.TenGoiTap.Contains("6 Tháng") ? 6 : item.TenGoiTap.Contains("3 Tháng") ? 3 : 1;
+
+                        <tr class="package-row"
+                            data-id="@item.MaGoiTap"
+                            data-name="@item.TenGoiTap.ToLower()"
+                            data-cat="@catKey"
+                            data-price="@((long)item.DonGia)"
+                            data-duration="@months">
+                            <td><code>@item.MaGoiTap</code></td>
+                            <td>
+                                <strong>@item.TenGoiTap</strong>
+                                @if (!string.IsNullOrWhiteSpace(item.MoTa))
+                                {
+                                    <div class="small text-muted">@item.MoTa</div>
+                                }
+                            </td>
+                            <td>@(item.ThoiHanThang ?? "1") tháng</td>
+                            <td>@(item.SoBuoiToiDa > 0 ? item.SoBuoiToiDa + " buổi" : "Không giới hạn")</td>
+                            <td class="text-danger fw-bold">@item.DonGia.ToString("N0") đ</td>
+                            <td>
+                                @if (item.TrangThai == "Đang áp dụng")
+                                {
+                                    <span class="badge bg-success">@item.TrangThai</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@item.TrangThai</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (isAuthenticated)
+                                {
+                                    <button type="button" class="btn btn-sm btn-primary"
+                                            onclick="openRegisterModal('@item.MaGoiTap', '@item.TenGoiTap', @((long)item.DonGia), '@item.ThoiHanThang')">
+                                        Đăng ký
+                                    </button>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Account" asp-action="Login" class="btn btn-sm btn-outline-primary">
+                                        Đăng ký
+                                    </a>
+                                }
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="viewDetail('@item.MaGoiTap', '@item.TenGoiTap', '@item.DonGia.ToString("N0")', '@item.ThoiHanThang', '@item.SoBuoiToiDa', '@item.MoTa')">
+                                    Chi tiết
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@if (isAuthenticated)
+{
+    <!-- ======================================================== -->
+    <!-- 2. DANH SÁCH GÓI ĐÃ ĐĂNG KÝ -->
+    <!-- ======================================================== -->
+    <div class="card mb-4" id="section-registered">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">2. Gói tập đã đăng ký (@Model.TongGoiDaDangKy)</h5>
+        </div>
+        <div class="card-body">
+            @if (Model.DanhSachPhieuDangKy != null && Model.DanhSachPhieuDangKy.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mã phiếu</th>
+                                <th>Gói tập</th>
+                                <th>Ngày đăng ký</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày kết thúc</th>
+                                <th>Hạn sử dụng</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var phieu in Model.DanhSachPhieuDangKy)
+                            {
+                                var daysLeft = (phieu.NgayKetThuc - DateTime.Today).Days;
+                                if (daysLeft < 0) daysLeft = 0;
+                                var isHieuLuc = phieu.TrangThai == "Đang hiệu lực";
+                                var isCho = phieu.TrangThai == "Chờ xác nhận";
+
+                                <tr id="row-@phieu.MaPhieu">
+                                    <td><code>@phieu.MaPhieu</code></td>
+                                    <td><strong>@(phieu.GoiTap?.TenGoiTap ?? phieu.MaGoiTap)</strong></td>
+                                    <td>@phieu.NgayDangKy.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@phieu.NgayBatDau.ToString("dd/MM/yyyy")</td>
+                                    <td>@phieu.NgayKetThuc.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        @if (isHieuLuc)
+                                        {
+                                            if (daysLeft > 0)
+                                            {
+                                                <span class="badge bg-success">Còn @daysLeft ngày</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Hết hạn</span>
+                                            }
+                                        }
+                                        else if (isCho)
+                                        {
+                                            <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Đã hủy</span>
+                                        }
+                                    </td>
+                                    <td class="text-danger fw-bold">@phieu.TongTien.ToString("N0") đ</td>
+                                    <td>
+                                        @if (isHieuLuc)
+                                        {
+                                            <span class="badge bg-success">@phieu.TrangThai</span>
+                                        }
+                                        else if (isCho)
+                                        {
+                                            <span class="badge bg-warning text-dark">@phieu.TrangThai</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">@phieu.TrangThai</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-info text-white"
+                                                onclick="showCardModal('@phieu.MaPhieu', '@(phieu.GoiTap?.TenGoiTap ?? phieu.MaGoiTap)', '@Model.HoiVien?.HoTen', '@phieu.NgayBatDau.ToString("dd/MM/yyyy")', '@phieu.NgayKetThuc.ToString("dd/MM/yyyy")', '@phieu.TrangThai')">
+                                            Xem thẻ
+                                        </button>
+                                        @if (isHieuLuc || isCho)
+                                        {
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="cancelRegistration('@phieu.MaPhieu')">
+                                                Hủy
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-light border text-center">
+                    Bạn chưa đăng ký gói tập nào. Hãy chọn gói tập ở bảng phía trên để bắt đầu luyện tập.
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 3. XEM VÀ CẬP NHẬT THÔNG TIN CÁ NHÂN -->
+    <!-- ======================================================== -->
+    <div class="row mb-4" id="section-profile">
+        <!-- Form cập nhật thông tin -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">3. Cập nhật thông tin cá nhân</h5>
+                </div>
+                <div class="card-body">
+                    <form id="formProfile" onsubmit="handleProfileUpdate(event)">
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold">Họ và tên <span class="text-danger">*</span></label>
+                            <input type="text" id="profHoTen" class="form-control" required
+                                   value="@(Model.HoiVien?.HoTen ?? Model.TaiKhoan?.HoTen)" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                            <input type="email" id="profEmail" class="form-control" required
+                                   value="@(Model.HoiVien?.Email ?? Model.TaiKhoan?.Email)" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold">Số điện thoại</label>
+                            <input type="tel" id="profPhone" class="form-control"
+                                   value="@(Model.HoiVien?.SoDienThoai ?? "0988776655")" />
+                        </div>
+                        <div class="row">
+                            <div class="col-6 form-group mb-3">
+                                <label class="form-label fw-bold">Ngày sinh</label>
+                                <input type="date" id="profDob" class="form-control"
+                                       value="@(Model.HoiVien?.NgaySinh.ToString("yyyy-MM-dd") ?? "1995-08-15")" />
+                            </div>
+                            <div class="col-6 form-group mb-3">
+                                <label class="form-label fw-bold">Giới tính</label>
+                                <select id="profGender" class="form-select">
+                                    <option value="Nam" selected="@(Model.HoiVien?.GioiTinh == "Nam")">Nam</option>
+                                    <option value="Nữ" selected="@(Model.HoiVien?.GioiTinh == "Nữ")">Nữ</option>
+                                    <option value="Khác" selected="@(Model.HoiVien?.GioiTinh == "Khác")">Khác</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="btnSaveProfile" class="btn btn-primary">Lưu thông tin cá nhân</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form đổi mật khẩu -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Đổi mật khẩu tài khoản</h5>
+                </div>
+                <div class="card-body">
+                    <form id="formPassword" onsubmit="handlePasswordChange(event)">
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold">Mật khẩu hiện tại <span class="text-danger">*</span></label>
+                            <input type="password" id="oldPassword" class="form-control" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold">Mật khẩu mới (6 - 12 ký tự) <span class="text-danger">*</span></label>
+                            <input type="password" id="newPassword" class="form-control" minlength="6" maxlength="12" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
+                            <input type="password" id="confirmPassword" class="form-control" minlength="6" maxlength="12" required />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="btnChangePass" class="btn btn-warning">Đổi mật khẩu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- ======================================================== -->
+<!-- MODAL: ĐĂNG KÝ GÓI TẬP -->
+<!-- ======================================================== -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Đăng ký gói tập</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formRegister" onsubmit="handleRegisterSubmit(event)">
+                <div class="modal-body">
+                    <input type="hidden" id="regPackageId" />
+                    <input type="hidden" id="regMonths" value="1" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tên gói tập</label>
+                        <input type="text" id="regPackageName" class="form-control" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Đơn giá thanh toán</label>
+                        <input type="text" id="regPriceFormatted" class="form-control fw-bold text-danger" readonly />
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label fw-bold">Ngày bắt đầu</label>
+                            <input type="date" id="regStartDate" class="form-control" required onchange="calculateEndDate()" />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-bold">Ngày kết thúc dự kiến</label>
+                            <input type="text" id="regEndDate" class="form-control" readonly />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Phương thức thanh toán</label>
+                        <select id="regPayment" class="form-select">
+                            <option value="qr">Chuyển khoản VietQR</option>
+                            <option value="cash">Thanh toán tại quầy lễ tân</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Ghi chú (Tùy chọn)</label>
+                        <input type="text" id="regNote" class="form-control" placeholder="Ghi chú thêm nếu có..." />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" id="btnSubmitReg" class="btn btn-primary">Xác nhận đăng ký</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- MODAL: CHI TIẾT GÓI TẬP -->
+<!-- ======================================================== -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Chi tiết gói tập</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Mã gói:</dt>
+                    <dd class="col-sm-8" id="dtCode">-</dd>
+
+                    <dt class="col-sm-4">Tên gói:</dt>
+                    <dd class="col-sm-8 fw-bold" id="dtTitle">-</dd>
+
+                    <dt class="col-sm-4">Đơn giá:</dt>
+                    <dd class="col-sm-8 text-danger fw-bold" id="dtPrice">-</dd>
+
+                    <dt class="col-sm-4">Thời hạn:</dt>
+                    <dd class="col-sm-8" id="dtDuration">-</dd>
+
+                    <dt class="col-sm-4">Số buổi tối đa:</dt>
+                    <dd class="col-sm-8" id="dtSessions">-</dd>
+
+                    <dt class="col-sm-4">Mô tả đặc quyền:</dt>
+                    <dd class="col-sm-8" id="dtDesc">-</dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- MODAL: XEM THẺ TẬP SỐ (DIGITAL CARD) -->
+<!-- ======================================================== -->
+<div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cardModalLabel">Thẻ hội viên</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card border p-3">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                        <h5 class="mb-0 fw-bold text-primary">THẺ TẬP GYM</h5>
+                        <span class="badge bg-success" id="cardStatus">-</span>
+                    </div>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Mã phiếu:</dt>
+                        <dd class="col-sm-8 fw-bold" id="cardCode">-</dd>
+
+                        <dt class="col-sm-4">Gói tập:</dt>
+                        <dd class="col-sm-8 fw-bold" id="cardPackage">-</dd>
+
+                        <dt class="col-sm-4">Hội viên:</dt>
+                        <dd class="col-sm-8" id="cardMember">-</dd>
+
+                        <dt class="col-sm-4">Ngày bắt đầu:</dt>
+                        <dd class="col-sm-8" id="cardStart">-</dd>
+
+                        <dt class="col-sm-4">Ngày kết thúc:</dt>
+                        <dd class="col-sm-8" id="cardEnd">-</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // ==========================================
+        // 1. TÌM KIẾM, LỌC VÀ SẮP XẾP GÓI TẬP
+        // ==========================================
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = 'all';
+            document.getElementById('sortFilter').value = 'default';
+            filterAndSortPackages();
+        }
+
+        function filterAndSortPackages() {
+            const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const sort = document.getElementById('sortFilter').value;
+
+            const tbody = document.getElementById('packagesTableBody');
+            const rows = Array.from(tbody.querySelectorAll('.package-row'));
+
+            rows.forEach(row => {
+                const name = row.dataset.name || '';
+                const cat = row.dataset.cat || '';
+
+                const matchQuery = !query || name.includes(query);
+                const matchCat = category === 'all' || cat === category;
+
+                if (matchQuery && matchCat) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
                 }
-            </div>
-        }
-        else
-        {
-            <div class="d-flex flex-wrap gap-3 justify-content-center">
-                <a asp-controller="Account" asp-action="Login" class="btn btn-warning btn-lg px-4 py-2 fw-bold shadow">
-                    Đăng Nhập Ngay
-                </a>
-                <a asp-controller="Account" asp-action="Register" class="btn btn-outline-light btn-lg px-4 py-2 fw-semibold">
-                    Đăng Ký Thành Viên
-                </a>
-            </div>
-        }
-    </div>
-</div>
+            });
 
-<div class="row g-4 py-3">
-    <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
-            <div class="fs-1 mb-3">👥</div>
-            <h4 class="fw-bold mb-2">Hội Viên & Tài Khoản</h4>
-            <p class="text-muted small">
-                Quản lý hồ sơ thành viên, theo dõi tình trạng thẻ tập và phân quyền tài khoản chặt chẽ.
-            </p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
-            <div class="fs-1 mb-3">🎫</div>
-            <h4 class="fw-bold mb-2">Gói Tập Đa Dạng</h4>
-            <p class="text-muted small">
-                Hỗ trợ thiết lập các gói tập linh hoạt theo ngày, tháng, năm với nhiều ưu đãi hấp dẫn.
-            </p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
-            <div class="fs-1 mb-3">⚡</div>
-            <h4 class="fw-bold mb-2">Huấn Luyện Viên PT</h4>
-            <p class="text-muted small">
-                Kết nối thành viên với các huấn luyện viên chuyên nghiệp, lên lịch tập luyện khoa học.
-            </p>
-        </div>
-    </div>
-</div>
+            // Sắp xếp
+            rows.sort((a, b) => {
+                const priceA = parseFloat(a.dataset.price) || 0;
+                const priceB = parseFloat(b.dataset.price) || 0;
+                const durA = parseInt(a.dataset.duration) || 0;
+                const durB = parseInt(b.dataset.duration) || 0;
+                const nameA = a.dataset.name || '';
+                const nameB = b.dataset.name || '';
+
+                if (sort === 'price-asc') return priceA - priceB;
+                if (sort === 'price-desc') return priceB - priceA;
+                if (sort === 'duration-desc') return durB - durA;
+                if (sort === 'name-asc') return nameA.localeCompare(nameB);
+                return (a.dataset.id || '').localeCompare(b.dataset.id || '');
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        // ==========================================
+        // 2. CHI TIẾT GÓI TẬP
+        // ==========================================
+        function viewDetail(id, title, price, duration, sessions, desc) {
+            document.getElementById('dtCode').textContent = id;
+            document.getElementById('dtTitle').textContent = title;
+            document.getElementById('dtPrice').textContent = price + ' đ';
+            document.getElementById('dtDuration').textContent = (duration || 1) + ' tháng';
+            document.getElementById('dtSessions').textContent = sessions > 0 ? sessions + ' buổi' : 'Không giới hạn';
+            document.getElementById('dtDesc').textContent = desc || 'Gói tập tiêu chuẩn với đầy đủ quyền lợi luyện tập.';
+
+            const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+            modal.show();
+        }
+
+        // ==========================================
+        // 3. ĐĂNG KÝ GÓI TẬP (MODAL & AJAX)
+        // ==========================================
+        function openRegisterModal(id, title, price, duration) {
+            document.getElementById('regPackageId').value = id;
+            document.getElementById('regPackageName').value = title;
+            document.getElementById('regPriceFormatted').value = price.toLocaleString('vi-VN') + ' đ';
+
+            let months = parseInt(duration) || 1;
+            if (months === 0) {
+                if (title.includes('12 Tháng')) months = 12;
+                else if (title.includes('6 Tháng')) months = 6;
+                else if (title.includes('3 Tháng')) months = 3;
+                else months = 1;
+            }
+            document.getElementById('regMonths').value = months;
+
+            const today = new Date().toISOString().split('T')[0];
+            const startInput = document.getElementById('regStartDate');
+            startInput.value = today;
+            startInput.min = today;
+
+            calculateEndDate();
+
+            const modal = new bootstrap.Modal(document.getElementById('registerModal'));
+            modal.show();
+        }
+
+        function calculateEndDate() {
+            const startVal = document.getElementById('regStartDate').value;
+            const months = parseInt(document.getElementById('regMonths').value) || 1;
+            if (!startVal) return;
+
+            const start = new Date(startVal);
+            const end = new Date(start);
+            end.setMonth(end.getMonth() + months);
+
+            const dd = String(end.getDate()).padStart(2, '0');
+            const mm = String(end.getMonth() + 1).padStart(2, '0');
+            const yyyy = end.getFullYear();
+            document.getElementById('regEndDate').value = `${dd}/${mm}/${yyyy}`;
+        }
+
+        async function handleRegisterSubmit(event) {
+            event.preventDefault();
+
+            const packageId = document.getElementById('regPackageId').value;
+            const startDate = document.getElementById('regStartDate').value;
+            const note = document.getElementById('regNote').value;
+            const payment = document.getElementById('regPayment').value;
+
+            const btn = document.getElementById('btnSubmitReg');
+            btn.disabled = true;
+
+            try {
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                const formData = new FormData();
+                formData.append('MaGoiTap', packageId);
+                formData.append('NgayBatDau', startDate);
+                formData.append('GhiChu', note);
+                formData.append('PhuongThucThanhToan', payment);
+                formData.append('__RequestVerificationToken', token);
+
+                const res = await fetch('/Home/DangKyGoiTap', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    const modalEl = document.getElementById('registerModal');
+                    const modal = bootstrap.Modal.getInstance(modalEl);
+                    if (modal) modal.hide();
+
+                    alert(data.message);
+                    window.location.reload();
+                } else {
+                    alert(data.message || 'Đăng ký không thành công.');
+                }
+            } catch (err) {
+                alert('Lỗi: ' + err.message);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // ==========================================
+        // 4. XEM THẺ TẬP & HỦY PHIẾU
+        // ==========================================
+        function showCardModal(code, pkg, member, start, end, status) {
+            document.getElementById('cardCode').textContent = code;
+            document.getElementById('cardPackage').textContent = pkg;
+            document.getElementById('cardMember').textContent = member;
+            document.getElementById('cardStart').textContent = start;
+            document.getElementById('cardEnd').textContent = end;
+            document.getElementById('cardStatus').textContent = status;
+
+            const modal = new bootstrap.Modal(document.getElementById('cardModal'));
+            modal.show();
+        }
+
+        async function cancelRegistration(maPhieu) {
+            if (!confirm(`Bạn có chắc chắn muốn hủy phiếu đăng ký ${maPhieu}?`)) return;
+
+            try {
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                const formData = new FormData();
+                formData.append('maPhieu', maPhieu);
+                formData.append('__RequestVerificationToken', token);
+
+                const res = await fetch('/Home/HuyDangKy', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert(data.message);
+                    const row = document.getElementById(`row-${maPhieu}`);
+                    if (row) {
+                        row.classList.add('table-secondary', 'text-muted');
+                        row.querySelectorAll('.badge').forEach(b => {
+                            b.className = 'badge bg-secondary';
+                            b.textContent = 'Đã hủy';
+                        });
+                    }
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert('Lỗi khi hủy: ' + err.message);
+            }
+        }
+
+        // ==========================================
+        // 5. CẬP NHẬT THÔNG TIN CÁ NHÂN & ĐỔI MẬT KHẨU
+        // ==========================================
+        async function handleProfileUpdate(event) {
+            event.preventDefault();
+
+            const hoTen = document.getElementById('profHoTen').value;
+            const email = document.getElementById('profEmail').value;
+            const phone = document.getElementById('profPhone').value;
+            const dob = document.getElementById('profDob').value;
+            const gender = document.getElementById('profGender').value;
+
+            const btn = document.getElementById('btnSaveProfile');
+            btn.disabled = true;
+
+            try {
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                const formData = new FormData();
+                formData.append('HoTen', hoTen);
+                formData.append('Email', email);
+                formData.append('SoDienThoai', phone);
+                formData.append('NgaySinh', dob);
+                formData.append('GioiTinh', gender);
+                formData.append('__RequestVerificationToken', token);
+
+                const res = await fetch('/Home/CapNhatThongTin', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert('Lỗi: ' + err.message);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        async function handlePasswordChange(event) {
+            event.preventDefault();
+
+            const oldPass = document.getElementById('oldPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (newPass !== confirmPass) {
+                alert('Xác nhận mật khẩu mới không khớp!');
+                return;
+            }
+
+            const btn = document.getElementById('btnChangePass');
+            btn.disabled = true;
+
+            try {
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                const formData = new FormData();
+                formData.append('MatKhauCu', oldPass);
+                formData.append('MatKhauMoi', newPass);
+                formData.append('XacNhanMatKhauMoi', confirmPass);
+                formData.append('__RequestVerificationToken', token);
+
+                const res = await fetch('/Home/DoiMatKhau', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert(data.message);
+                    document.getElementById('formPassword').reset();
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert('Lỗi: ' + err.message);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+}

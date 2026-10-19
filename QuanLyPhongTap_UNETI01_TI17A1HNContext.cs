@@ -35,6 +35,12 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
             .HasForeignKey(p => p.MaGoiTap)
             .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<GoiTap>()
+            .HasOne(g => g.LoaiGoiTap)
+            .WithMany()
+            .HasForeignKey(g => g.MaLoaiGoi)
+            .OnDelete(DeleteBehavior.Restrict);
+
         modelBuilder.Entity<GoiTap>(entity =>
         {
             entity.Property(e => e.TenGoiTap)
@@ -70,21 +76,21 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
 
         // 3. Seed GoiTap (15 packages)
         modelBuilder.Entity<GoiTap>().HasData(
-            new GoiTap { MaGoiTap = "GT01", TenGoiTap = "GYM 1 Tháng", ThoiHanThang = "1", DonGia = 150000m, SoBuoiToiDa = 30, MoTa = "Tập gym 1 tháng không giới hạn khung giờ", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT02", TenGoiTap = "GYM 3 Tháng", ThoiHanThang = "3", DonGia = 350000m, SoBuoiToiDa = 90, MoTa = "Tập gym 3 tháng kèm 1 buổi định hướng HLV", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT03", TenGoiTap = "GYM 6 Tháng", ThoiHanThang = "6", DonGia = 600000m, SoBuoiToiDa = 180, MoTa = "Gói 6 tháng, miễn phí tủ locker cá nhân và nước uống", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT04", TenGoiTap = "GYM 12 Tháng", ThoiHanThang = "12", DonGia = 1000000m, SoBuoiToiDa = 365, MoTa = "Tập luyện cả năm, kèm dịch vụ phòng xông hơi Sauna", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT05", TenGoiTap = "PT 1-1 10 Buổi", ThoiHanThang = "2", DonGia = 2000000m, SoBuoiToiDa = 10, MoTa = "10 buổi tập kèm riêng HLV Master, kèm thực đơn", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT06", TenGoiTap = "PT 1-1 20 Buổi", ThoiHanThang = "3", DonGia = 3500000m, SoBuoiToiDa = 20, MoTa = "20 buổi tập kèm riêng HLV Master, cam kết tiến độ", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT07", TenGoiTap = "Yoga Tháng", ThoiHanThang = "1", DonGia = 250000m, SoBuoiToiDa = 30, MoTa = "Tham gia không giới hạn các lớp Yoga cơ bản và nâng cao", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT08", TenGoiTap = "Yoga 3 Tháng", ThoiHanThang = "3", DonGia = 600000m, SoBuoiToiDa = 90, MoTa = "Khóa Yoga trị liệu, thiền định và dẻo dai toàn diện", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT09", TenGoiTap = "Bơi 1 Tháng", ThoiHanThang = "1", DonGia = 200000m, SoBuoiToiDa = 30, MoTa = "Bơi tự do tại hồ bơi nước mặn 4 mùa tiêu chuẩn Olympic", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT10", TenGoiTap = "Bơi 6 Tháng", ThoiHanThang = "6", DonGia = 900000m, SoBuoiToiDa = 180, MoTa = "Thẻ bơi 6 tháng kèm tiện ích xông hơi đá muối thảo dược", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT11", TenGoiTap = "Combo 3 Tháng", ThoiHanThang = "3", DonGia = 1200000m, SoBuoiToiDa = 90, MoTa = "Gym + Yoga + Bơi lội trọn gói trong 3 tháng", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT12", TenGoiTap = "Combo 6 Tháng", ThoiHanThang = "6", DonGia = 2000000m, SoBuoiToiDa = 180, MoTa = "Gym + Yoga + Bơi + Sauna không giới hạn 6 tháng", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT13", TenGoiTap = "Combo 12 Tháng", ThoiHanThang = "12", DonGia = 3500000m, SoBuoiToiDa = 365, MoTa = "Đặc quyền cao cấp nhất, toàn bộ dịch vụ và tiện ích", TrangThai = "Đang áp dụng" },
-            new GoiTap { MaGoiTap = "GT14", TenGoiTap = "Combo Hè Giới Hạn", ThoiHanThang = "3", DonGia = 800000m, SoBuoiToiDa = 90, MoTa = "Gói ưu đãi chiến dịch hè (đã ngừng áp dụng)", TrangThai = "Ngừng áp dụng" },
-            new GoiTap { MaGoiTap = "GT15", TenGoiTap = "Bơi + Yoga", ThoiHanThang = "2", DonGia = 700000m, SoBuoiToiDa = 60, MoTa = "Kết hợp Yoga thanh lọc cơ thể và bơi lội rèn luyện sức bền", TrangThai = "Đang áp dụng" }
+            new GoiTap { MaGoiTap = "GT01", TenGoiTap = "GYM 1 Tháng", ThoiHanThang = "1", DonGia = 150000m, SoBuoiToiDa = 30, MoTa = "Tập gym 1 tháng không giới hạn khung giờ", TrangThai = "Đang áp dụng", MaLoaiGoi = 1 },
+            new GoiTap { MaGoiTap = "GT02", TenGoiTap = "GYM 3 Tháng", ThoiHanThang = "3", DonGia = 350000m, SoBuoiToiDa = 90, MoTa = "Tập gym 3 tháng kèm 1 buổi định hướng HLV", TrangThai = "Đang áp dụng", MaLoaiGoi = 1 },
+            new GoiTap { MaGoiTap = "GT03", TenGoiTap = "GYM 6 Tháng", ThoiHanThang = "6", DonGia = 600000m, SoBuoiToiDa = 180, MoTa = "Gói 6 tháng, miễn phí tủ locker cá nhân và nước uống", TrangThai = "Đang áp dụng", MaLoaiGoi = 1 },
+            new GoiTap { MaGoiTap = "GT04", TenGoiTap = "GYM 12 Tháng", ThoiHanThang = "12", DonGia = 1000000m, SoBuoiToiDa = 365, MoTa = "Tập luyện cả năm, kèm dịch vụ phòng xông hơi Sauna", TrangThai = "Đang áp dụng", MaLoaiGoi = 1 },
+            new GoiTap { MaGoiTap = "GT05", TenGoiTap = "PT 1-1 10 Buổi", ThoiHanThang = "2", DonGia = 2000000m, SoBuoiToiDa = 10, MoTa = "10 buổi tập kèm riêng HLV Master, kèm thực đơn", TrangThai = "Đang áp dụng", MaLoaiGoi = 2 },
+            new GoiTap { MaGoiTap = "GT06", TenGoiTap = "PT 1-1 20 Buổi", ThoiHanThang = "3", DonGia = 3500000m, SoBuoiToiDa = 20, MoTa = "20 buổi tập kèm riêng HLV Master, cam kết tiến độ", TrangThai = "Đang áp dụng", MaLoaiGoi = 2 },
+            new GoiTap { MaGoiTap = "GT07", TenGoiTap = "Yoga Tháng", ThoiHanThang = "1", DonGia = 250000m, SoBuoiToiDa = 30, MoTa = "Tham gia không giới hạn các lớp Yoga cơ bản và nâng cao", TrangThai = "Đang áp dụng", MaLoaiGoi = 3 },
+            new GoiTap { MaGoiTap = "GT08", TenGoiTap = "Yoga 3 Tháng", ThoiHanThang = "3", DonGia = 600000m, SoBuoiToiDa = 90, MoTa = "Khóa Yoga trị liệu, thiền định và dẻo dai toàn diện", TrangThai = "Đang áp dụng", MaLoaiGoi = 3 },
+            new GoiTap { MaGoiTap = "GT09", TenGoiTap = "Bơi 1 Tháng", ThoiHanThang = "1", DonGia = 200000m, SoBuoiToiDa = 30, MoTa = "Bơi tự do tại hồ bơi nước mặn 4 mùa tiêu chuẩn Olympic", TrangThai = "Đang áp dụng", MaLoaiGoi = 4 },
+            new GoiTap { MaGoiTap = "GT10", TenGoiTap = "Bơi 6 Tháng", ThoiHanThang = "6", DonGia = 900000m, SoBuoiToiDa = 180, MoTa = "Thẻ bơi 6 tháng kèm tiện ích xông hơi đá muối thảo dược", TrangThai = "Đang áp dụng", MaLoaiGoi = 4 },
+            new GoiTap { MaGoiTap = "GT11", TenGoiTap = "Combo 3 Tháng", ThoiHanThang = "3", DonGia = 1200000m, SoBuoiToiDa = 90, MoTa = "Gym + Yoga + Bơi lội trọn gói trong 3 tháng", TrangThai = "Đang áp dụng", MaLoaiGoi = 5 },
+            new GoiTap { MaGoiTap = "GT12", TenGoiTap = "Combo 6 Tháng", ThoiHanThang = "6", DonGia = 2000000m, SoBuoiToiDa = 180, MoTa = "Gym + Yoga + Bơi + Sauna không giới hạn 6 tháng", TrangThai = "Đang áp dụng", MaLoaiGoi = 5 },
+            new GoiTap { MaGoiTap = "GT13", TenGoiTap = "Combo 12 Tháng", ThoiHanThang = "12", DonGia = 3500000m, SoBuoiToiDa = 365, MoTa = "Đặc quyền cao cấp nhất, toàn bộ dịch vụ và tiện ích", TrangThai = "Đang áp dụng", MaLoaiGoi = 5 },
+            new GoiTap { MaGoiTap = "GT14", TenGoiTap = "Combo Hè Giới Hạn", ThoiHanThang = "3", DonGia = 800000m, SoBuoiToiDa = 90, MoTa = "Gói ưu đãi chiến dịch hè (đã ngừng áp dụng)", TrangThai = "Ngừng áp dụng", MaLoaiGoi = 6 },
+            new GoiTap { MaGoiTap = "GT15", TenGoiTap = "Bơi + Yoga", ThoiHanThang = "2", DonGia = 700000m, SoBuoiToiDa = 60, MoTa = "Kết hợp Yoga thanh lọc cơ thể và bơi lội rèn luyện sức bền", TrangThai = "Đang áp dụng", MaLoaiGoi = 3 }
         );
 
         // 4. Seed HoiVien (20 members)
