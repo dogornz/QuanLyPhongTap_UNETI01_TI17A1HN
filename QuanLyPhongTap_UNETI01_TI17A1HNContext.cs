@@ -25,11 +25,28 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
             .WithMany(g => g.PhieuDangKy)
             .HasForeignKey(p => p.MaGoiTap);
 
+<<<<<<< Updated upstream
         // LoaiGoiTap (1) -- (n) GoiTap
         modelBuilder.Entity<GoiTap>()
             .HasOne(g => g.LoaiGoiTap)
             .WithMany(l => l.GoiTap)
             .HasForeignKey(g => g.LoaiGoiTapId);
+=======
+        modelBuilder.Entity<GoiTap>()
+        .Property(g => g.DonGia)
+        .HasPrecision(18, 2);
+
+        modelBuilder.Entity<PhieuDangKy>()
+            .Property(p => p.DonGia)
+            .HasPrecision(18, 2);
+
+        modelBuilder.Entity<PhieuDangKy>()
+            .Property(p => p.TongTien)
+            .HasPrecision(18, 2);
+
+        // 1. Seed TaiKhoan
+        modelBuilder.Entity<TaiKhoan>().HasIndex(tdn => tdn.TenDangNhap).IsUnique();
+>>>>>>> Stashed changes
         modelBuilder.Entity<TaiKhoan>().HasData(
                new TaiKhoan { MaTaiKhoan = 1, TenDangNhap = "admin01", MatKhau = "admin123", HoTen = "Admin 01", Email = "admin01@gym.com", VaiTro = "admin", TrangThai = "Lock" },
                new TaiKhoan { MaTaiKhoan = 2, TenDangNhap = "admin02", MatKhau = "admin123", HoTen = "Admin 02", Email = "admin02@gym.com", VaiTro = "admin", TrangThai = "Unlock" },
