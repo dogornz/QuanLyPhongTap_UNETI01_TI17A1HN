@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-﻿using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
-=======
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
->>>>>>> Stashed changes
 using QuanLyPhongTap_UNETI01_TI17A1HN.Repositories;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Services.QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
@@ -10,60 +6,44 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
 {
     public class PhieuDangKyService
     {
-        private readonly PhieuDangKyRepository _repo;
+        private readonly IPhieuDangKyRepository _phieuRepository;
+        private readonly IGoiTapRepository _goiTapRepository;
+        private readonly IHoiVienRepository _hoiVienRepository;
 
-        public PhieuDangKyService(PhieuDangKyRepository repo)
+        public PhieuDangKyService(
+            IPhieuDangKyRepository phieuRepository,
+            IGoiTapRepository goiTapRepository,
+            IHoiVienRepository hoiVienRepository)
         {
-            _repo = repo;
+            _phieuRepository = phieuRepository;
+            _goiTapRepository = goiTapRepository;
+            _hoiVienRepository = hoiVienRepository;
         }
 
-<<<<<<< Updated upstream
-        
-=======
         // ===== Truy vấn =====
 
->>>>>>> Stashed changes
         public List<PhieuDangKy> GetAll()
         {
-            return _repo.GetAll();
+            return _phieuRepository.GetAll();
         }
 
-<<<<<<< Updated upstream
-        
-        public PhieuDangKy GetById(int id)
-=======
+        public List<PhieuDangKy> GetByHoiVien(string maHoiVien)
+        {
+            if (string.IsNullOrWhiteSpace(maHoiVien)) return new List<PhieuDangKy>();
+            return _phieuRepository.GetAll()
+                .Where(p => p.MaHoiVien == maHoiVien)
+                .OrderByDescending(p => p.NgayDangKy)
+                .ToList();
+        }
+
         public PhieuDangKy? GetById(string maPhieu)
->>>>>>> Stashed changes
         {
-            return _repo.GetById(id);
+            if (string.IsNullOrWhiteSpace(maPhieu))
+                return null;
+
+            return _phieuRepository.GetById(maPhieu);
         }
 
-<<<<<<< Updated upstream
-        
-        public bool Add(PhieuDangKy phieu)
-        {
-            if (phieu == null) return false;
-            phieu.TrangThai = "Chờ xác nhận";
-            _repo.Add(phieu);
-            return true;
-        }
-
-       
-        public bool XacNhan(int id)
-        {
-            var phieu = GetById(id);
-            if (phieu == null || phieu.TrangThai != "Chờ xác nhận") return false;
-            if (phieu.HoiVien == null || phieu.HoiVien.TrangThai != "active") return false;
-            if (phieu.GoiTap == null || !phieu.GoiTap.ConApDung) return false;
-
-            phieu.TrangThai = "Đang hiệu lực";
-            _repo.Update(phieu);
-            return true;
-        }
-
-       
-        public bool GiaHan(int id, int thoiHan)
-=======
         // 8.1: Lọc theo hội viên, gói tập, trạng thái, khoảng ngày đăng ký
         public List<PhieuDangKy> TimKiem(string? maHoiVien, string? maGoiTap, string? trangThai,
                                          DateTime? tuNgay, DateTime? denNgay)
@@ -101,7 +81,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             return _goiTapRepository.GetGoiDangApDung();
         }
 
-        // ===== 6. Đăng ký gói tập =====
+        // ===== Đăng ký gói tập =====
 
         public (bool Success, string Message) DangKy(string maHoiVien, string maGoiTap, DateTime ngayBatDau)
         {
@@ -217,11 +197,10 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
                 return (false, "Gói tập không còn tồn tại.");
 
             // Còn hạn: cộng tiếp từ ngày kết thúc cũ. Hết hạn: tính từ hôm nay.
-            // Quy tắc này nhóm cần thống nhất.
             var ngayGoc = phieu.NgayKetThuc > DateTime.Now ? phieu.NgayKetThuc : DateTime.Now;
             phieu.NgayKetThuc = ngayGoc.AddMonths(soThang);
 
-            // Giá trị thanh toán lấy từ dữ liệu hệ thống, không nhận từ người dùng
+            // Giá lấy từ dữ liệu hệ thống
             phieu.TongTien += goiTap.DonGia;
 
             try
@@ -239,29 +218,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         // ===== 8.4: Hủy =====
 
         public (bool Success, string Message) Huy(string maPhieu)
->>>>>>> Stashed changes
         {
-            var phieu = GetById(id);
-            if (phieu == null || phieu.TrangThai == "Đã hủy") return false;
-            if (thoiHan <= 0 || phieu.GoiTap == null) return false;
+            var phieu = GetById(maPhieu);
+            if (phieu == null)
+                return (false, "Phiếu đăng ký không tồn tại.");
 
-<<<<<<< Updated upstream
-            phieu.NgayKetThuc = phieu.NgayKetThuc.AddDays(thoiHan);
-            phieu.DonGia = phieu.GoiTap.GiaGoiTap;
-            _repo.Update(phieu);
-            return true;
-        }
-
-       
-        public bool Huy(int id)
-        {
-            var phieu = GetById(id);
-            if (phieu == null) return false;
-
-            phieu.TrangThai = "Đã hủy";
-            _repo.Update(phieu);
-            return true;
-=======
             if (phieu.TrangThai == TrangThaiPhieu.DaHuy)
                 return (false, "Phiếu này đã được hủy trước đó.");
 
@@ -279,12 +240,9 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             }
         }
 
-        // ===== Tiện ích =====
-
         private static string TaoMaPhieu()
         {
             return "PDK" + Guid.NewGuid().ToString("N")[..10].ToUpperInvariant();
->>>>>>> Stashed changes
         }
     }
 }

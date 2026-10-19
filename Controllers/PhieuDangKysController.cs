@@ -1,10 +1,11 @@
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
+    [Authorize]
     public class PhieuDangKysController : Controller
     {
         private readonly PhieuDangKyService _service;
@@ -15,25 +16,25 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         }
 
         
-       
         [HttpGet]
-        public IActionResult Index(string? maHoiVien, string? maGoiTap, string? trangThai,
-                           DateTime? tuNgay, DateTime? denNgay)
+        public IActionResult Index(string? maHoiVien)
         {
-            var danhSach = _service.TimKiem(maHoiVien, maGoiTap, trangThai, tuNgay, denNgay);
+            var danhSach = string.IsNullOrWhiteSpace(maHoiVien)
+                ? _service.GetAll()
+                : _service.GetByHoiVien(maHoiVien);
 
             ViewBag.MaHoiVien = maHoiVien;
-            ViewBag.MaGoiTap = maGoiTap;
-            ViewBag.TrangThai = trangThai;
-            ViewBag.TuNgay = tuNgay?.ToString("yyyy-MM-dd");
-            ViewBag.DenNgay = denNgay?.ToString("yyyy-MM-dd");
 
-            ViewBag.HoiViens = new SelectList(_service.GetHoiViens(), "MaHoiVien", "HoTen", maHoiVien);
-            ViewBag.GoiTaps = new SelectList(_service.GetGoiTaps(), "MaGoiTap", "TenGoiTap", maGoiTap);
+            ViewBag.HoiViens = new SelectList(
+                _service.GetHoiViens(),
+                "MaHoiVien",
+                "HoTen",
+                maHoiVien);
 
             return View(danhSach);
         }
 
+        
         [HttpGet]
         public IActionResult Create()
         {
@@ -102,10 +103,17 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult GiaHan(string id, int soThang)
+        public IActionResult GiaHan(string id, int soThang = 1)
         {
             var res = _service.GiaHan(id, soThang);
-            TempData[res.Success ? "Success" : "Error"] = res.Message;
+            if (res.Success)
+            {
+                TempData["Success"] = res.Message;
+            }
+            else
+            {
+                TempData["Error"] = res.Message;
+            }
             return RedirectToAction(nameof(Index));
         }
 

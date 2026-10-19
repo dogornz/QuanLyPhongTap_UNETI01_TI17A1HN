@@ -1,5 +1,4 @@
-﻿using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
@@ -7,23 +6,33 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
     public class PhieuDangKy
     {
         [Key]
-        public int MaPhieu { get; set; }
-        [ForeignKey("MaHoiVien")] 
-        public int MaHoiVien { get; set; }
-        [ForeignKey("MaGoiTap")]
-        public int MaGoiTap { get; set; }
+        public string MaPhieu { get; set; } = null!;
+
+        [Required]
+        public string MaHoiVien { get; set; } = null!;
+
+        [Required]
+        public string MaGoiTap { get; set; } = null!;
+
         [Required]
         public DateTime NgayDangKy { get; set; }
+
         [Required]
         public DateTime NgayBatDau { get; set; }
+
         [Required]
         public DateTime NgayKetThuc { get; set; }
+
         [Required]
-        public decimal DonGia { get; set; } //wait accept, existing, canceled 
-        
+        public decimal DonGia { get; set; }
+
+        [Required]
+        public decimal TongTien { get; set; }
+
         [Required(ErrorMessage = "Trạng thái không được để trống")]
-        public string TrangThai { get; set; } // "Chờ xác nhận", "Đang hiệu lực", "Đã hủy"
-        public HoiVien HoiVien { get; set; }
-        public GoiTap GoiTap { get; set; }
+        public string TrangThai { get; set; } = null!;
+
+        public HoiVien HoiVien { get; set; } = null!;
+        public GoiTap GoiTap { get; set; } = null!;
     }
 }

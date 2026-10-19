@@ -7,6 +7,10 @@ var connectionString = builder.Configuration.GetConnectionString("Quanlyphongtap
 builder.Services.AddDbContext<QuanLyPhongTap_UNETI01_TI17A1HNContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<PhieuDangKyRepository>();
 builder.Services.AddScoped<PhieuDangKyService>();
+builder.Services.AddScoped<IPhieuDangKyRepository, PhieuDangKyRepository>();
+builder.Services.AddScoped<IGoiTapRepository, GoiTapRepository>();
+builder.Services.AddScoped<IHoiVienRepository, HoiVienRepository>();
+builder.Services.AddScoped<HoiVienService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

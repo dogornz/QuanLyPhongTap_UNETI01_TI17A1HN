@@ -1,5 +1,4 @@
-﻿using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
@@ -7,20 +6,28 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
     public class GoiTap
     {
         [Key]
-        public int IdGoiTap { get; set; }
+        public string MaGoiTap { get; set; } = null!;
+
         [Required(ErrorMessage = "Tên gói tập không được để trống")]
-        [StringLength(50, MinimumLength = 5)]
-        public string TenGoiTap { get; set; }
+        public string TenGoiTap { get; set; } = null!;
+
         [Required(ErrorMessage = "Giá gói tập không được để trống")]
-        public decimal GiaGoiTap { get; set; }
+        public decimal DonGia { get; set; }
+
         [Required(ErrorMessage = "Thời hạn không được để trống")]
-        public int ThoiHan { get; set; } // số ngày
-        public bool ConApDung { get; set; } = true;
-        [ForeignKey("LoaiGoiTapId")]
-        [Required(ErrorMessage = "Loại gói tập không được để trống")]  
-        
-        public int LoaiGoiTapId { get; set; }
-        public ICollection<PhieuDangKy> PhieuDangKy { get; set; }
-        public LoaiGoiTap LoaiGoiTap { get; set; }
+        public string ThoiHanThang { get; set; } = null!;
+
+        [Required]
+        public string TrangThai { get; set; } = null!;
+
+        [Required]
+        public string MoTa { get; set; } = null!;
+
+        public int SoBuoiToiDa { get; set; }
+
+        public int MaLoaiGoi { get; set; }
+        public LoaiGoiTap LoaiGoiTap { get; set; } = null!;
+
+        public ICollection<PhieuDangKy> PhieuDangKy { get; set; } = new List<PhieuDangKy>();
     }
 }
