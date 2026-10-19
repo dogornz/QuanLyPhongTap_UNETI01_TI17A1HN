@@ -1,0 +1,53 @@
+@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.LoginAccount
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>Tài khoản hệ thống</h4>
+<hr />
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (ViewData["ReturnUrl"] != null)
+            {
+                <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+            }
+            <div class="form-group mb-3">
+                <label asp-for="TenDangNhap" class="control-label">Tên đăng nhập</label>
+                <input asp-for="TenDangNhap" class="form-control" />
+                <span asp-validation-for="TenDangNhap" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="MatKhau" class="control-label">Mật khẩu</label>
+                <input asp-for="MatKhau" type="password" class="form-control" />
+                <span asp-validation-for="MatKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check mb-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="GhiNho" /> Ghi nhớ đăng nhập
+                </label>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Đăng nhập" class="btn btn-primary" />
+            </div>
+        </form>
+        <div>
+            <p>Chưa có tài khoản? <a asp-action="Register">Đăng ký tài khoản mới</a></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,52 @@
+@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.RegisterAccount
+
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>Tạo tài khoản hội viên mới</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="TenDangNhap" class="control-label">Tên đăng nhập</label>
+                <input asp-for="TenDangNhap" class="form-control" />
+                <span asp-validation-for="TenDangNhap" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="MatKhau" class="control-label">Mật khẩu</label>
+                <input asp-for="MatKhau" type="password" class="form-control" />
+                <span asp-validation-for="MatKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="XacNhanMatKhau" class="control-label">Xác nhận mật khẩu</label>
+                <input asp-for="XacNhanMatKhau" type="password" class="form-control" />
+                <span asp-validation-for="XacNhanMatKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="HoTen" class="control-label">Họ và tên</label>
+                <input asp-for="HoTen" class="form-control" />
+                <span asp-validation-for="HoTen" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Đăng ký" class="btn btn-primary" />
+            </div>
+        </form>
+        <div>
+            <p>Đã có tài khoản? <a asp-action="Login">Đăng nhập</a></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

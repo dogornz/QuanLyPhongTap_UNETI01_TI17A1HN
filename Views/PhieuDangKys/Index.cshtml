@@ -80,7 +80,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.Any())
+                @if (Model != null && Model.Any())
                 {
                     @foreach (var item in Model)
                     {
@@ -101,7 +101,7 @@
                             <td>@item.NgayBatDau.ToString("dd/MM/yyyy")</td>
                             <td>@item.NgayKetThuc.ToString("dd/MM/yyyy")</td>
                             <td>
-                                @if (item.TrangThai == "Đang hiệu lực")
+                                @if (item.TrangThai == "Đang hiệu lực" || item.TrangThai == "Đã xác nhận")
                                 {
                                     <span class="badge bg-success">✔ @item.TrangThai</span>
                                 }
@@ -124,25 +124,25 @@
                                     {
                                         <form asp-action="XacNhan" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-success btn-sm px-2 py-1">Duyệt</button>
+                                            <button type="submit" class="btn btn-success btn-sm px-2 py-1" title="Kích hoạt phiếu">Duyệt</button>
                                         </form>
                                         <form asp-action="Huy" asp-route-id="@item.MaPhieu" method="post" class="d-inline"
                                               onsubmit="return confirm('Bạn có chắc muốn hủy phiếu này?');">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1">Hủy</button>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" title="Hủy phiếu">Hủy</button>
                                         </form>
                                     }
-                                    else if (item.TrangThai == "Đang hiệu lực")
+                                    else if (item.TrangThai == "Đang hiệu lực" || item.TrangThai == "Đã xác nhận")
                                     {
                                         <form asp-action="GiaHan" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="soThang" value="1" />
-                                            <button type="submit" class="btn btn-primary btn-sm px-2 py-1">+1 Th</button>
+                                            <button type="submit" class="btn btn-primary btn-sm px-2 py-1" title="Gia hạn thêm 1 tháng">+1 Th</button>
                                         </form>
                                         <form asp-action="Huy" asp-route-id="@item.MaPhieu" method="post" class="d-inline"
                                               onsubmit="return confirm('Bạn có chắc muốn hủy phiếu này?');">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1">Hủy</button>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" title="Hủy phiếu">Hủy</button>
                                         </form>
                                     }
                                     else

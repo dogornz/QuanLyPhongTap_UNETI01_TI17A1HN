@@ -1,4 +1,4 @@
-@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy
+﻿@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy
 
 @{
     ViewData["Title"] = "Details";
@@ -38,21 +38,27 @@
             @Html.DisplayFor(model => model.NgayBatDau)
         </dd>
     </dl>
-</dl>
-<dt class="col-sm-2">
-    @Html.DisplayNameFor(model => model.NgayKetThuc)
-</dt>
-<dd class="col-sm-10">
-    @Html.DisplayFor(model => model.NgayKetThuc)
-</dd>
-</dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayKetThuc)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NgayKetThuc)
+        </dd>
+    </dl>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DonGia)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DonGia)
         </dd>
-   
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+    </dl>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TrangThai)
         </dt>

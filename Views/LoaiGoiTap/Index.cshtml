@@ -1,0 +1,93 @@
+@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.LoaiGoiTap>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MaLoaiGoi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenLoaiGoi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoTa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoGoiTrucThuoc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayCapNhat)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaLoaiGoi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenLoaiGoi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTa)
+            </td>
+            <td>
+                @if (item.TrangThai == "Active" || item.TrangThai == "Unlock" || item.TrangThai == "Hoạt động")
+                {
+                    <span class="badge bg-success">@item.TrangThai</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">@item.TrangThai</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoGoiTrucThuoc)
+            </td>
+            <td>
+                @item.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaLoaiGoi">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaLoaiGoi">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaLoaiGoi">Delete</a> |
+                <a asp-action="ChangeStatus" asp-route-id="@item.MaLoaiGoi">Cập nhật trạng thái</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Admin" asp-action="Index">Quay lại Quản trị</a>
+</div>

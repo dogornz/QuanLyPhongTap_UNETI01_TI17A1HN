@@ -1,0 +1,69 @@
+@{
+    ViewData["Title"] = "Quản trị hệ thống";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>Bảng điều khiển quản trị</h4>
+<hr />
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center mb-3">
+            <div class="card-header">Tổng tài khoản</div>
+            <div class="card-body">
+                <h3 class="card-title">@ViewBag.TotalAccounts</h3>
+                <p class="card-text text-muted">Tài khoản trong hệ thống</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center mb-3">
+            <div class="card-header text-success">Đang hoạt động</div>
+            <div class="card-body">
+                <h3 class="card-title text-success">@ViewBag.ActiveAccounts</h3>
+                <p class="card-text text-muted">Trạng thái Unlock</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center mb-3">
+            <div class="card-header text-primary">Quản trị viên</div>
+            <div class="card-body">
+                <h3 class="card-title text-primary">@ViewBag.AdminAccounts</h3>
+                <p class="card-text text-muted">Vai trò Admin</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center mb-3">
+            <div class="card-header text-info">Hội viên</div>
+            <div class="card-body">
+                <h3 class="card-title text-info">@ViewBag.UserAccounts</h3>
+                <p class="card-text text-muted">Vai trò Hội viên</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4>Chức năng quản trị</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Quản lý Tài Khoản</h5>
+                <p class="card-text">Xem danh sách, thêm mới, sửa, xem chi tiết và xóa tài khoản.</p>
+                <a asp-controller="TaiKhoans" asp-action="Index" class="btn btn-primary">Đi đến Quản lý Tài Khoản</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Quản lý Loại Gói Tập</h5>
+                <p class="card-text">Xem và quản lý các danh mục loại gói tập trong phòng gym.</p>
+                <a asp-controller="LoaiGoiTap" asp-action="Index" class="btn btn-primary">Đi đến Quản lý Loại Gói</a>
+            </div>
+        </div>
+    </div>
+</div>

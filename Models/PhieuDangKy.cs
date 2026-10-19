@@ -1,38 +1,41 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
 {
+    [Table("PhieuDangKy")]
     public class PhieuDangKy
     {
         [Key]
-        public string MaPhieu { get; set; } = null!;
+        [StringLength(450)]
+        public string MaPhieu { get; set; } = string.Empty;
 
         [Required]
-        public string MaHoiVien { get; set; } = null!;
+        [StringLength(450)]
+        public string MaHoiVien { get; set; } = string.Empty;
 
         [Required]
-        public string MaGoiTap { get; set; } = null!;
+        [StringLength(450)]
+        public string MaGoiTap { get; set; } = string.Empty;
 
-        [Required]
-        public DateTime NgayDangKy { get; set; }
+        public DateTime NgayDangKy { get; set; } = DateTime.Now;
 
-        [Required]
-        public DateTime NgayBatDau { get; set; }
+        public DateTime NgayBatDau { get; set; } = DateTime.Now;
 
-        [Required]
-        public DateTime NgayKetThuc { get; set; }
+        public DateTime NgayKetThuc { get; set; } = DateTime.Now;
 
-        [Required]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal DonGia { get; set; }
 
-        [Required]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal TongTien { get; set; }
 
-        [Required(ErrorMessage = "Trạng thái không được để trống")]
-        public string TrangThai { get; set; } = null!;
+        public string TrangThai { get; set; } = "Chờ xác nhận";
 
-        public HoiVien HoiVien { get; set; } = null!;
-        public GoiTap GoiTap { get; set; } = null!;
+        [ForeignKey("MaHoiVien")]
+        public virtual HoiVien? HoiVien { get; set; }
+
+        [ForeignKey("MaGoiTap")]
+        public virtual GoiTap? GoiTap { get; set; }
     }
 }

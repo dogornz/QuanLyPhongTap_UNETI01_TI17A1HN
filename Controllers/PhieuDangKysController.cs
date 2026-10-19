@@ -17,19 +17,18 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 
         
         [HttpGet]
-        public IActionResult Index(string? maHoiVien)
+        public IActionResult Index(string? maHoiVien, string? maGoiTap, string? trangThai, DateTime? tuNgay, DateTime? denNgay)
         {
-            var danhSach = string.IsNullOrWhiteSpace(maHoiVien)
-                ? _service.GetAll()
-                : _service.GetByHoiVien(maHoiVien);
+            var danhSach = _service.TimKiem(maHoiVien, maGoiTap, trangThai, tuNgay, denNgay);
 
             ViewBag.MaHoiVien = maHoiVien;
+            ViewBag.MaGoiTap = maGoiTap;
+            ViewBag.TrangThai = trangThai;
+            ViewBag.TuNgay = tuNgay?.ToString("yyyy-MM-dd");
+            ViewBag.DenNgay = denNgay?.ToString("yyyy-MM-dd");
 
-            ViewBag.HoiViens = new SelectList(
-                _service.GetHoiViens(),
-                "MaHoiVien",
-                "HoTen",
-                maHoiVien);
+            ViewBag.HoiViens = new SelectList(_service.GetHoiViens(), "MaHoiVien", "HoTen", maHoiVien);
+            ViewBag.GoiTaps = new SelectList(_service.GetGoiTaps(), "MaGoiTap", "TenGoiTap", maGoiTap);
 
             return View(danhSach);
         }

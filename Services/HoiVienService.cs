@@ -5,18 +5,65 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
 {
     public class HoiVienService
     {
-        private readonly IHoiVienRepository _repo;
+        private readonly IHoiVienRepository _repository;
 
-        public HoiVienService(IHoiVienRepository repo)
+        public HoiVienService(IHoiVienRepository repository)
         {
-            _repo = repo;
+            _repository = repository;
         }
 
-        public List<HoiVien> GetAll() => _repo.GetAll();
+        // ================================
+        // LẤY DANH SÁCH
+        // ================================
+        public List<HoiVien> GetAll()
+        {
+            return _repository.GetAll();
+        }
 
-        public List<HoiVien> Search(string keyword) => _repo.Search(keyword);
+        // ================================
+        // TÌM KIẾM
+        // ================================
+        public List<HoiVien> Search(string keyword)
+        {
+            return _repository.Search(keyword);
+        }
 
-        public HoiVien? GetById(string id) => _repo.GetById(id);
+        // ================================
+        // CẬP NHẬT TRẠNG THÁI
+        // ================================
+        public (bool success, string message) UpdateTrangThai(string maHv, string trangThai)
+        {
+            if (string.IsNullOrWhiteSpace(maHv))
+            {
+                return (false, "Mã hội viên không được để trống.");
+            }
+
+            if (trangThai != "Đang hoạt động" && trangThai != "Ngừng hoạt động")
+            {
+                return (false, "Trạng thái không hợp lệ.");
+            }
+
+            var hoiVien = _repository.GetById(maHv);
+
+            if (hoiVien == null)
+            {
+                return (false, "Không tìm thấy hội viên.");
+            }
+
+            bool result = _repository.UpdateTrangThai(maHv, trangThai);
+
+            if (result)
+            {
+                return (true, "Cập nhật trạng thái thành công.");
+            }
+
+            return (false, "Cập nhật trạng thái thất bại.");
+        }
+
+        public HoiVien? GetById(string maHv)
+        {
+            return _repository.GetById(maHv);
+        }
 
         public (bool success, string message) Add(HoiVien model)
         {
@@ -24,11 +71,17 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             {
                 if (string.IsNullOrWhiteSpace(model.MaHoiVien))
                 {
-                    model.MaHoiVien = "HV" + DateTime.Now.Ticks;
+                    return (false, "Mã hội viên không được để trống.");
                 }
 
-                _repo.Add(model);
-                _repo.Save();
+                var existing = _repository.GetById(model.MaHoiVien);
+                if (existing != null)
+                {
+                    return (false, "Mã hội viên đã tồn tại.");
+                }
+
+                _repository.Add(model);
+                _repository.Save();
                 return (true, "Thêm hội viên thành công.");
             }
             catch (Exception ex)
@@ -41,46 +94,33 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         {
             try
             {
-                var exist = _repo.GetById(model.MaHoiVien);
-                if (exist == null) return (false, "Hội viên không tồn tại.");
-
-                _repo.Update(model);
-                _repo.Save();
+                _repository.Update(model);
+                _repository.Save();
                 return (true, "Cập nhật thông tin hội viên thành công.");
             }
             catch (Exception ex)
             {
-                return (false, "Lỗi khi cập nhật: " + ex.Message);
+                return (false, "Lỗi khi cập nhật hội viên: " + ex.Message);
             }
         }
 
-        public (bool success, string message) Delete(string maHoiVien)
+        public (bool success, string message) Delete(string maHv)
         {
             try
             {
-                var exist = _repo.GetById(maHoiVien);
-                if (exist == null) return (false, "Hội viên không tồn tại.");
+                var item = _repository.GetById(maHv);
+                if (item == null)
+                {
+                    return (false, "Không tìm thấy hội viên cần xóa.");
+                }
 
-                _repo.Delete(exist);
-                _repo.Save();
+                _repository.Delete(item);
+                _repository.Save();
                 return (true, "Xóa hội viên thành công.");
             }
             catch (Exception ex)
             {
-                return (false, "Lỗi khi xóa: " + ex.Message);
-            }
-        }
-
-        public (bool success, string message) UpdateTrangThai(string maHv, string trangThai)
-        {
-            try
-            {
-                var ok = _repo.UpdateTrangThai(maHv, trangThai);
-                return ok ? (true, "Cập nhật trạng thái thành công.") : (false, "Không tìm thấy hội viên.");
-            }
-            catch (Exception ex)
-            {
-                return (false, "Lỗi khi cập nhật trạng thái: " + ex.Message);
+                return (false, "Lỗi khi xóa hội viên (có thể do đã có phiếu đăng ký liên quan): " + ex.Message);
             }
         }
     }

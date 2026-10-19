@@ -1,72 +1,70 @@
-@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy
-
-@{
-    ViewData["Title"] = "Create";
+﻿@{
+    ViewData["Title"] = "Đăng ký gói tập";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Đăng ký gói tập</h4>
+        </div>
 
-<h4>PhieuDangKy</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="card-body">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Error"]
+                </div>
+            }
 
-            <div class="form-group">
-                <label asp-for="MaHoiVien" class="control-label"></label>
-                <input asp-for="MaHoiVien" class="form-control" />
-                <span asp-validation-for="MaHoiVien" class="text-danger"></span>
-            </div>
+            <form asp-controller="PhieuDangKys"
+                  asp-action="Create"
+                  method="post">
+                @Html.AntiForgeryToken()
 
-            <div class="form-group">
-                <label asp-for="MaGoiTap" class="control-label"></label>
-                <input asp-for="MaGoiTap" class="form-control" />
-                <span asp-validation-for="MaGoiTap" class="text-danger"></span>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Hội viên</label>
+                    <select name="maHoiVien"
+                            class="form-select"
+                            asp-items="ViewBag.HoiViens"
+                            required>
+                        <option value="">-- Chọn hội viên --</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="NgayDangKy" class="control-label"></label>
-                <input asp-for="NgayDangKy" class="form-control" />
-                <span asp-validation-for="NgayDangKy" class="text-danger"></span>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Gói tập</label>
+                    <select name="maGoiTap"
+                            class="form-select"
+                            asp-items="ViewBag.GoiTaps"
+                            required>
+                        <option value="">-- Chọn gói tập --</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="NgayKetThuc" class="control-label"></label>
-                <input asp-for="NgayKetThuc" class="form-control" />
-                <span asp-validation-for="NgayKetThuc" class="text-danger"></span>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Ngày bắt đầu</label>
+                    <input type="date"
+                           name="ngayBatDau"
+                           class="form-control"
+                           min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           value="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           required />
+                </div>
 
-            <div class="form-group">
-                <label asp-for="DonGia" class="control-label"></label>
-                <input asp-for="DonGia" class="form-control" />
-                <span asp-validation-for="DonGia" class="text-danger"></span>
-            </div>
+                <div class="alert alert-info">
+                    Phiếu đăng ký sẽ ở trạng thái
+                    <strong>Chờ xác nhận</strong> sau khi gửi.
+                </div>
 
-            <div class="form-group">
-                <label asp-for="TrangThai" class="control-label"></label>
-                <input asp-for="TrangThai" class="form-control" />
-                <span asp-validation-for="TrangThai" class="text-danger"></span>
-            </div>
+                <button type="submit" class="btn btn-primary">
+                    Đăng ký
+                </button>
 
-            <div class="form-group">
-                <label asp-for="HoiVien" class="control-label"></label>
-                <input asp-for="HoiVien" class="form-control" />
-                <span asp-validation-for="HoiVien" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="GoiTap" class="control-label"></label>
-                <input asp-for="GoiTap" class="form-control" />
-                <span asp-validation-for="GoiTap" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    Xem gói đã đăng ký
+                </a>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>

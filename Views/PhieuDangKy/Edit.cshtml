@@ -1,4 +1,4 @@
-@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy
+﻿@model QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy
 
 @{
     ViewData["Title"] = "Edit";
@@ -34,16 +34,25 @@
                 <span asp-validation-for="NgayBatDau" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="NgayKetThuc" class="control-label"></label>
+                <input asp-for="NgayKetThuc" class="form-control" />
+                <span asp-validation-for="NgayKetThuc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="DonGia" class="control-label"></label>
                 <input asp-for="DonGia" class="form-control" />
                 <span asp-validation-for="DonGia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TongTien" class="control-label"></label>
+                <input asp-for="TongTien" class="form-control" />
+                <span asp-validation-for="TongTien" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TrangThai" class="control-label"></label>
                 <input asp-for="TrangThai" class="form-control" />
                 <span asp-validation-for="TrangThai" class="text-danger"></span>
             </div>
-           
             <div class="form-group">
                 <label asp-for="HoiVien" class="control-label"></label>
                 <input asp-for="HoiVien" class="form-control" />
