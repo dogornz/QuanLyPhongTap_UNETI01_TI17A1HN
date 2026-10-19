@@ -24,9 +24,9 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             {
                 if (User.IsInRole("Admin") || User.IsInRole("admin"))
                 {
-                    return RedirectToAction("Index", "TaiKhoans");
+                    return RedirectToAction("Index", "Admin");
                 }
-                return RedirectToAction("Index", "PhieuDangKys");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -88,17 +88,17 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl) && model.ReturnUrl != "/" && !model.ReturnUrl.Contains("Account/Login") && !model.ReturnUrl.Contains("admin", StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl) && model.ReturnUrl != "/" && !model.ReturnUrl.Contains("Account/Login"))
             {
                 return Redirect(model.ReturnUrl);
             }
 
             if (string.Equals(user.VaiTro, "admin", StringComparison.OrdinalIgnoreCase))
             {
-                return RedirectToAction("Index", "TaiKhoans");
+                return RedirectToAction("Index", "Admin");
             }
 
-            return RedirectToAction("Index", "PhieuDangKys");
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: /Account/Register
@@ -109,9 +109,9 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             {
                 if (User.IsInRole("Admin") || User.IsInRole("admin"))
                 {
-                    return RedirectToAction("Index", "TaiKhoans");
+                    return RedirectToAction("Index", "Admin");
                 }
-                return RedirectToAction("Index", "PhieuDangKys");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(new RegisterAccount());

@@ -16,9 +16,14 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         }
 
         // GET: /Admin or /Admin/Index
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return RedirectToAction("Index", "TaiKhoans");
+            ViewBag.TotalAccounts = await _context.TaiKhoan.CountAsync();
+            ViewBag.ActiveAccounts = await _context.TaiKhoan.CountAsync(t => t.TrangThai == "Unlock");
+            ViewBag.AdminAccounts = await _context.TaiKhoan.CountAsync(t => t.VaiTro == "admin");
+            ViewBag.UserAccounts = await _context.TaiKhoan.CountAsync(t => t.VaiTro != "admin");
+
+            return View();
         }
     }
 }
