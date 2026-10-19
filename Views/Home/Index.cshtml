@@ -50,7 +50,7 @@ else
 <!-- ======================================================== -->
 <!-- 1. XEM, TÌM KIẾM, LỌC VÀ SẮP XẾP GÓI TẬP -->
 <!-- ======================================================== -->
-<div class="card mb-4">
+<div class="card mb-4" id="section-packages">
     <div class="card-header bg-light">
         <h5 class="mb-0">1. Danh sách Gói tập</h5>
     </div>
@@ -63,11 +63,11 @@ else
             <div class="col-md-3">
                 <select id="categoryFilter" class="form-select" onchange="filterAndSortPackages()">
                     <option value="all">-- Tất cả loại gói --</option>
-                    <option value="gym">Gym &amp; Thể hình</option>
-                    <option value="pt">Huấn luyện viên PT 1-1</option>
-                    <option value="yoga">Yoga &amp; Thiền</option>
-                    <option value="boi">Bơi lội</option>
-                    <option value="combo">Combo VIP</option>
+                    <option value="1">Gym &amp; Thể hình</option>
+                    <option value="2">Huấn luyện viên PT 1-1</option>
+                    <option value="3">Yoga &amp; Thiền</option>
+                    <option value="4">Bơi lội &amp; Spa</option>
+                    <option value="5">Combo VIP toàn năng</option>
                 </select>
             </div>
             <div class="col-md-3">
@@ -104,12 +104,14 @@ else
                         var isCombo = item.TenGoiTap.Contains("Combo", StringComparison.OrdinalIgnoreCase);
                         var isPt = item.TenGoiTap.Contains("PT", StringComparison.OrdinalIgnoreCase);
                         var isYoga = item.TenGoiTap.Contains("Yoga", StringComparison.OrdinalIgnoreCase);
-                        var isBoi = item.TenGoiTap.Contains("Bơi", StringComparison.OrdinalIgnoreCase);
-                        var catKey = isCombo ? "combo" : isPt ? "pt" : isYoga ? "yoga" : isBoi ? "boi" : "gym";
+                        var isBoi = item.TenGoiTap.Contains("Bơi", StringComparison.OrdinalIgnoreCase) || item.TenGoiTap.Contains("Boi", StringComparison.OrdinalIgnoreCase);
+                        var catKey = item.MaLoaiGoi.HasValue ? item.MaLoaiGoi.Value.ToString() : (isCombo ? "5" : isBoi ? "4" : isYoga ? "3" : isPt ? "2" : "1");
 
                         int months = 1;
-                        int.TryParse(item.ThoiHanThang, out months);
-                        if (months == 0) months = item.TenGoiTap.Contains("12 Tháng") ? 12 : item.TenGoiTap.Contains("6 Tháng") ? 6 : item.TenGoiTap.Contains("3 Tháng") ? 3 : 1;
+                        if (!int.TryParse(item.ThoiHanThang, out months) || months <= 0)
+                        {
+                            months = item.TenGoiTap.Contains("12 Tháng") ? 12 : item.TenGoiTap.Contains("6 Tháng") ? 6 : item.TenGoiTap.Contains("3 Tháng") ? 3 : 1;
+                        }
 
                         <tr class="package-row"
                             data-id="@item.MaGoiTap"
@@ -141,8 +143,11 @@ else
                             <td class="text-center">
                                 @if (isAuthenticated)
                                 {
-                                    <button type="button" class="btn btn-sm btn-primary"
-                                            onclick="openRegisterModal('@item.MaGoiTap', '@item.TenGoiTap', @((long)item.DonGia), '@item.ThoiHanThang')">
+                                    <button type="button" class="btn btn-sm btn-primary btn-open-register"
+                                            data-id="@item.MaGoiTap"
+                                            data-name="@item.TenGoiTap"
+                                            data-price="@((long)item.DonGia)"
+                                            data-duration="@months">
                                         Đăng ký
                                     </button>
                                 }
@@ -152,8 +157,13 @@ else
                                         Đăng ký
                                     </a>
                                 }
-                                <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        onclick="viewDetail('@item.MaGoiTap', '@item.TenGoiTap', '@item.DonGia.ToString("N0")', '@item.ThoiHanThang', '@item.SoBuoiToiDa', '@item.MoTa')">
+                                <button type="button" class="btn btn-sm btn-outline-secondary btn-open-detail"
+                                        data-id="@item.MaGoiTap"
+                                        data-name="@item.TenGoiTap"
+                                        data-price="@item.DonGia.ToString("N0")"
+                                        data-duration="@(item.ThoiHanThang ?? "1")"
+                                        data-sessions="@item.SoBuoiToiDa"
+                                        data-desc="@item.MoTa">
                                     Chi tiết
                                 </button>
                             </td>
@@ -243,13 +253,19 @@ else
                                         }
                                     </td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-info text-white"
-                                                onclick="showCardModal('@phieu.MaPhieu', '@(phieu.GoiTap?.TenGoiTap ?? phieu.MaGoiTap)', '@Model.HoiVien?.HoTen', '@phieu.NgayBatDau.ToString("dd/MM/yyyy")', '@phieu.NgayKetThuc.ToString("dd/MM/yyyy")', '@phieu.TrangThai')">
+                                        <button type="button" class="btn btn-sm btn-info text-white btn-open-card"
+                                                data-code="@phieu.MaPhieu"
+                                                data-pkg="@(phieu.GoiTap?.TenGoiTap ?? phieu.MaGoiTap)"
+                                                data-member="@(Model.HoiVien?.HoTen ?? Model.TaiKhoan?.HoTen ?? User.Identity?.Name)"
+                                                data-start="@phieu.NgayBatDau.ToString("dd/MM/yyyy")"
+                                                data-end="@phieu.NgayKetThuc.ToString("dd/MM/yyyy")"
+                                                data-status="@phieu.TrangThai">
                                             Xem thẻ
                                         </button>
                                         @if (isHieuLuc || isCho)
                                         {
-                                            <button type="button" class="btn btn-sm btn-danger" onclick="cancelRegistration('@phieu.MaPhieu')">
+                                            <button type="button" class="btn btn-sm btn-danger btn-cancel-pdk"
+                                                    data-code="@phieu.MaPhieu">
                                                 Hủy
                                             </button>
                                         }
@@ -507,7 +523,7 @@ else
             const rows = Array.from(tbody.querySelectorAll('.package-row'));
 
             rows.forEach(row => {
-                const name = row.dataset.name || '';
+                const name = (row.dataset.name || '').toLowerCase();
                 const cat = row.dataset.cat || '';
 
                 const matchQuery = !query || name.includes(query);
@@ -543,14 +559,15 @@ else
         // 2. CHI TIẾT GÓI TẬP
         // ==========================================
         function viewDetail(id, title, price, duration, sessions, desc) {
-            document.getElementById('dtCode').textContent = id;
-            document.getElementById('dtTitle').textContent = title;
-            document.getElementById('dtPrice').textContent = price + ' đ';
+            document.getElementById('dtCode').textContent = id || '-';
+            document.getElementById('dtTitle').textContent = title || '-';
+            document.getElementById('dtPrice').textContent = (price ? price + ' đ' : '-');
             document.getElementById('dtDuration').textContent = (duration || 1) + ' tháng';
             document.getElementById('dtSessions').textContent = sessions > 0 ? sessions + ' buổi' : 'Không giới hạn';
             document.getElementById('dtDesc').textContent = desc || 'Gói tập tiêu chuẩn với đầy đủ quyền lợi luyện tập.';
 
-            const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+            const modalEl = document.getElementById('detailModal');
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
             modal.show();
         }
 
@@ -560,7 +577,7 @@ else
         function openRegisterModal(id, title, price, duration) {
             document.getElementById('regPackageId').value = id;
             document.getElementById('regPackageName').value = title;
-            document.getElementById('regPriceFormatted').value = price.toLocaleString('vi-VN') + ' đ';
+            document.getElementById('regPriceFormatted').value = Number(price || 0).toLocaleString('vi-VN') + ' đ';
 
             let months = parseInt(duration) || 1;
             if (months === 0) {
@@ -578,7 +595,8 @@ else
 
             calculateEndDate();
 
-            const modal = new bootstrap.Modal(document.getElementById('registerModal'));
+            const modalEl = document.getElementById('registerModal');
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
             modal.show();
         }
 
@@ -644,14 +662,15 @@ else
         // 4. XEM THẺ TẬP & HỦY PHIẾU
         // ==========================================
         function showCardModal(code, pkg, member, start, end, status) {
-            document.getElementById('cardCode').textContent = code;
-            document.getElementById('cardPackage').textContent = pkg;
-            document.getElementById('cardMember').textContent = member;
-            document.getElementById('cardStart').textContent = start;
-            document.getElementById('cardEnd').textContent = end;
-            document.getElementById('cardStatus').textContent = status;
+            document.getElementById('cardCode').textContent = code || '-';
+            document.getElementById('cardPackage').textContent = pkg || '-';
+            document.getElementById('cardMember').textContent = member || '-';
+            document.getElementById('cardStart').textContent = start || '-';
+            document.getElementById('cardEnd').textContent = end || '-';
+            document.getElementById('cardStatus').textContent = status || '-';
 
-            const modal = new bootstrap.Modal(document.getElementById('cardModal'));
+            const modalEl = document.getElementById('cardModal');
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
             modal.show();
         }
 
@@ -679,6 +698,8 @@ else
                             b.className = 'badge bg-secondary';
                             b.textContent = 'Đã hủy';
                         });
+                        const cancelBtn = row.querySelector('.btn-cancel-pdk');
+                        if (cancelBtn) cancelBtn.remove();
                     }
                 } else {
                     alert(data.message);
@@ -721,6 +742,7 @@ else
 
                 if (data.success) {
                     alert(data.message);
+                    window.location.reload();
                 } else {
                     alert(data.message);
                 }
@@ -772,5 +794,34 @@ else
                 btn.disabled = false;
             }
         }
+
+        // ==========================================
+        // EVENT DELEGATION
+        // ==========================================
+        document.addEventListener('click', function(e) {
+            const regBtn = e.target.closest('.btn-open-register');
+            if (regBtn) {
+                openRegisterModal(regBtn.dataset.id, regBtn.dataset.name, parseFloat(regBtn.dataset.price) || 0, regBtn.dataset.duration);
+                return;
+            }
+
+            const dtBtn = e.target.closest('.btn-open-detail');
+            if (dtBtn) {
+                viewDetail(dtBtn.dataset.id, dtBtn.dataset.name, dtBtn.dataset.price, dtBtn.dataset.duration, dtBtn.dataset.sessions, dtBtn.dataset.desc);
+                return;
+            }
+
+            const cardBtn = e.target.closest('.btn-open-card');
+            if (cardBtn) {
+                showCardModal(cardBtn.dataset.code, cardBtn.dataset.pkg, cardBtn.dataset.member, cardBtn.dataset.start, cardBtn.dataset.end, cardBtn.dataset.status);
+                return;
+            }
+
+            const cancelBtn = e.target.closest('.btn-cancel-pdk');
+            if (cancelBtn) {
+                cancelRegistration(cancelBtn.dataset.code);
+                return;
+            }
+        });
     </script>
 }
