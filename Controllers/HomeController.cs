@@ -40,16 +40,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                         var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan);
                         viewModel.HoiVien = hoiVien;
 
-                        // Tải các phiếu đăng ký thuộc về hội viên này
-                        var hvList = await _context.HoiVien
-                            .Where(h => h.MaTaiKhoan == taiKhoan.MaTaiKhoan.ToString() || h.MaHoiVien == hoiVien.MaHoiVien)
-                            .Select(h => h.MaHoiVien)
-                            .ToListAsync();
-
+                        // Tải các phiếu đăng ký thuộc về chính hội viên này
                         viewModel.DanhSachPhieuDangKy = await _context.PhieuDangKy
                             .Include(p => p.GoiTap)
                             .Include(p => p.HoiVien)
-                            .Where(p => hvList.Contains(p.MaHoiVien))
+                            .Where(p => p.MaHoiVien == hoiVien.MaHoiVien)
                             .OrderByDescending(p => p.NgayDangKy)
                             .ToListAsync();
                     }
@@ -91,9 +86,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 }
 
                 // Tính toán ngày bắt đầu và ngày kết thúc
-                DateTime ngayBatDau = dto.NgayBatDau.HasValue && dto.NgayBatDau.Value >= DateTime.Today
-                    ? dto.NgayBatDau.Value
-                    : DateTime.Today;
+                DateTime ngayBatDau = dto.NgayBatDau.HasValue ? dto.NgayBatDau.Value.Date : DateTime.Today;
 
                 int months = ParseMonths(goiTap.ThoiHanThang, goiTap.TenGoiTap);
                 DateTime ngayKetThuc = ngayBatDau.AddMonths(months > 0 ? months : 1);
@@ -166,10 +159,19 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                     return Json(new { success = false, message = "Vui lòng đăng nhập!" });
                 }
 
-                var phieu = await _context.PhieuDangKy.FirstOrDefaultAsync(p => p.MaPhieu == maPhieu);
+                var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan);
+
+                var phieu = await _context.PhieuDangKy
+                    .FirstOrDefaultAsync(p => p.MaPhieu == maPhieu && p.MaHoiVien == hoiVien.MaHoiVien);
+
                 if (phieu == null)
                 {
-                    return Json(new { success = false, message = "Không tìm thấy phiếu đăng ký!" });
+                    return Json(new { success = false, message = "Không tìm thấy phiếu đăng ký hoặc bạn không có quyền hủy phiếu này!" });
+                }
+
+                if (phieu.TrangThai == "Đã hủy")
+                {
+                    return Json(new { success = false, message = "Phiếu đăng ký này đã được hủy trước đó!" });
                 }
 
                 // Cập nhật trạng thái thành Đã hủy
