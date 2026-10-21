@@ -19,7 +19,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         public async Task<IActionResult> Index()
         {
             await _context.Database.EnsureCreatedAsync();
-
+                
             var list = await _context.LoaiGoiTap.OrderBy(l => l.MaLoaiGoi).ToListAsync();
             if (list == null || list.Count == 0)
             {
@@ -96,7 +96,8 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 var isDuplicate = await _context.LoaiGoiTap.AnyAsync(l => l.TenLoaiGoi.ToLower() == trimmedName.ToLower());
                 if (isDuplicate)
                 {
-                    ModelState.AddModelError("TenLoaiGoi", "Tên loại gói tập đã tồn tại trong hệ thống. Vui lòng nhập tên khác!");
+                    ModelState.AddModelError("TenLoaiGoi", 
+                        "Tên loại gói tập đã tồn tại trong hệ thống. Vui lòng nhập tên khác!");
                 }
             }
 
@@ -283,7 +284,8 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             var hasRelatedGoiTap = await _context.GoiTap.AnyAsync(g => g.MaLoaiGoi == targetId) || loaiGoiTap.SoGoiTrucThuoc > 0;
             if (hasRelatedGoiTap)
             {
-                TempData["ErrorMessage"] = $"Không thể xóa loại gói '{loaiGoiTap.TenLoaiGoi}' vì đang có dữ liệu GoiTap trực thuộc liên quan! Vui lòng xóa hoặc chuyển các gói tập liên quan trước.";
+                TempData["ErrorMessage"] = $"Không thể xóa loại gói '{loaiGoiTap.TenLoaiGoi}" +
+                    $"' vì đang có dữ liệu GoiTap trực thuộc liên quan! Vui lòng xóa hoặc chuyển các gói tập liên quan trước.";
                 return RedirectToAction(nameof(Index));
             }
 

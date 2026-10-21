@@ -8,7 +8,8 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
     {
         [Key]
         public int MaTaiKhoan { get; set; }
-        [Required, StringLength(50), RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Tên đăng nhập không được chứa ký tự đặc biệt !!!")]
+        [Required, StringLength(50), RegularExpression(@"^[a-zA-Z0-9]+$", 
+            ErrorMessage = "Tên đăng nhập không được chứa ký tự đặc biệt !!!")]
         public string TenDangNhap { get; set; } = string.Empty;
         [Required, StringLength(12, MinimumLength = 6)]
         public string MatKhau { get; set; } = string.Empty;
