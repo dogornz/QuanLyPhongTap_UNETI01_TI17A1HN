@@ -1,0 +1,145 @@
+﻿@model QuanLyPhongTap_UNETI01_TI17A1HN.ViewModels.ThongKeViewModel
+@using QuanLyPhongTap_UNETI01_TI17A1HN.ViewModels
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Thống kê";
+    var vn = new CultureInfo("vi-VN");
+    var tongDoanhThu = Model.DoanhThuTheoThang.Sum(x => x.DoanhThu);
+
+    var nhom = new List<(string Tieu, string CotTen, List<ThongKeItemViewModel> Ds)>
+    {
+        ("Số gói tập theo loại", "Loại gói", Model.GoiTheoLoai),
+        ("Số hội viên theo trạng thái", "Trạng thái", Model.HoiVienTheoTrangThai),
+        ("Số phiếu đăng ký theo trạng thái", "Trạng thái", Model.PhieuTheoTrangThai),
+        ("Số lượt đăng ký theo gói", "Gói tập", Model.LuotTheoGoi),
+        ("Số lượt đăng ký theo loại gói", "Loại gói", Model.LuotTheoLoai)
+    };
+}
+
+<h1>Thống kê</h1>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Gói có nhiều lượt đăng ký nhất</h6>
+                @if (Model.GoiNhieuNhat != null)
+                {
+                    <h3>@Model.GoiNhieuNhat.Ten</h3>
+                    <span class="text-muted">@Model.GoiNhieuNhat.SoLuong lượt</span>
+                }
+                else
+                {
+                    <h3>Chưa có dữ liệu</h3>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Tổng doanh thu (đăng ký hợp lệ)</h6>
+                <h3>@tongDoanhThu.ToString("N0", vn) đ</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var n in nhom)
+    {
+        <div class="col-md-6 mb-3">
+            <div class="card h-100">
+                <div class="card-header fw-bold">@n.Tieu</div>
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>@n.CotTen</th>
+                                <th class="text-end">Số lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in n.Ds)
+                            {
+                                <tr>
+                                    <td>@item.Ten</td>
+                                    <td class="text-end">@item.SoLuong</td>
+                                </tr>
+                            }
+                            @if (!n.Ds.Any())
+                            {
+                                <tr><td colspan="2" class="text-center text-muted">Chưa có dữ liệu</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-header fw-bold">Số lượt đăng ký theo tháng</div>
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tháng</th>
+                            <th class="text-end">Số lượt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model.LuotTheoThang)
+                        {
+                            <tr>
+                                <td>@t.Thang.ToString("00")/@t.Nam</td>
+                                <td class="text-end">@t.SoLuot</td>
+                            </tr>
+                        }
+                        @if (!Model.LuotTheoThang.Any())
+                        {
+                            <tr><td colspan="2" class="text-center text-muted">Chưa có dữ liệu</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-header fw-bold">Doanh thu theo tháng (đăng ký hợp lệ)</div>
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tháng</th>
+                            <th class="text-end">Doanh thu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var d in Model.DoanhThuTheoThang)
+                        {
+                            <tr>
+                                <td>@d.Thang.ToString("00")/@d.Nam</td>
+                                <td class="text-end">@d.DoanhThu.ToString("N0", vn) đ</td>
+                            </tr>
+                        }
+                        @if (!Model.DoanhThuTheoThang.Any())
+                        {
+                            <tr><td colspan="2" class="text-center text-muted">Chưa có dữ liệu</td></tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="fw-bold">
+                            <td>Tổng</td>
+                            <td class="text-end">@tongDoanhThu.ToString("N0", vn) đ</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

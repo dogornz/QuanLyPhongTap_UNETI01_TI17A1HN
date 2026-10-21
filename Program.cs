@@ -31,9 +31,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddScoped<IPhieuDangKyRepository, PhieuDangKyRepository>();
 builder.Services.AddScoped<IGoiTapRepository, GoiTapRepository>();
 builder.Services.AddScoped<IHoiVienRepository, HoiVienRepository>();
+builder.Services.AddScoped<ILoaiGoiTapRepository, LoaiGoiTapRepository>();
 
+
+builder.Services.AddScoped<DashboardService>();
 builder.Services.AddScoped<PhieuDangKyService>();
 builder.Services.AddScoped<HoiVienService>();
+builder.Services.AddScoped<ThongKeService>();
 
 var app = builder.Build();
 

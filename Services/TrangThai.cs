@@ -10,6 +10,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
     public static class TrangThaiHoiVien
     {
         public const string HoatDong = "Đang hoạt động";
+        public const string NgungHoatDong = "Ngừng hoạt động";  
     }
 
     public static class TrangThaiGoiTap

@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Repositories;
 
@@ -247,5 +245,10 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         {
             return "PDK" + Guid.NewGuid().ToString("N")[..10].ToUpperInvariant();
         }
+        public static bool HetHan(PhieuDangKy p) =>
+    p.TrangThai == TrangThaiPhieu.DangHieuLuc && p.NgayKetThuc.Date < DateTime.Today;
+
+        public static bool ConHieuLuc(PhieuDangKy p) =>
+            p.TrangThai == TrangThaiPhieu.DangHieuLuc && p.NgayKetThuc.Date >= DateTime.Today;
     }
 }

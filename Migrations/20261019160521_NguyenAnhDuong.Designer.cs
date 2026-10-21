@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 {
     [DbContext(typeof(QuanLyPhongTap_UNETI01_TI17A1HNContext))]
-    [Migration("20261015012141_NguyenThiPhuongAnh")]
-    partial class NguyenThiPhuongAnh
+    [Migration("20261019160521_NguyenAnhDuong")]
+    partial class NguyenAnhDuong
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,14 +27,19 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
             modelBuilder.Entity("QuanLyPhongTap_UNETI01_TI17A1HN.Models.GoiTap", b =>
                 {
                     b.Property<string>("MaGoiTap")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("DonGia")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int?>("MaLoaiGoi")
+                        .HasColumnType("int");
 
                     b.Property<string>("MoTa")
                         .IsRequired()
+                        .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SoBuoiToiDa")
@@ -42,7 +47,9 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 
                     b.Property<string>("TenGoiTap")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ThoiHanThang")
                         .IsRequired()
@@ -50,9 +57,13 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 
                     b.Property<string>("TrangThai")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("MaGoiTap");
+
+                    b.HasIndex("MaLoaiGoi");
 
                     b.ToTable("GoiTap");
 
@@ -61,6 +72,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT01",
                             DonGia = 150000m,
+                            MaLoaiGoi = 1,
                             MoTa = "Tập gym 1 tháng không giới hạn khung giờ",
                             SoBuoiToiDa = 30,
                             TenGoiTap = "GYM 1 Tháng",
@@ -71,6 +83,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT02",
                             DonGia = 350000m,
+                            MaLoaiGoi = 1,
                             MoTa = "Tập gym 3 tháng kèm 1 buổi định hướng HLV",
                             SoBuoiToiDa = 90,
                             TenGoiTap = "GYM 3 Tháng",
@@ -81,6 +94,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT03",
                             DonGia = 600000m,
+                            MaLoaiGoi = 1,
                             MoTa = "Gói 6 tháng, miễn phí tủ locker cá nhân và nước uống",
                             SoBuoiToiDa = 180,
                             TenGoiTap = "GYM 6 Tháng",
@@ -91,6 +105,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT04",
                             DonGia = 1000000m,
+                            MaLoaiGoi = 1,
                             MoTa = "Tập luyện cả năm, kèm dịch vụ phòng xông hơi Sauna",
                             SoBuoiToiDa = 365,
                             TenGoiTap = "GYM 12 Tháng",
@@ -101,6 +116,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT05",
                             DonGia = 2000000m,
+                            MaLoaiGoi = 2,
                             MoTa = "10 buổi tập kèm riêng HLV Master, kèm thực đơn",
                             SoBuoiToiDa = 10,
                             TenGoiTap = "PT 1-1 10 Buổi",
@@ -111,6 +127,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT06",
                             DonGia = 3500000m,
+                            MaLoaiGoi = 2,
                             MoTa = "20 buổi tập kèm riêng HLV Master, cam kết tiến độ",
                             SoBuoiToiDa = 20,
                             TenGoiTap = "PT 1-1 20 Buổi",
@@ -121,6 +138,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT07",
                             DonGia = 250000m,
+                            MaLoaiGoi = 3,
                             MoTa = "Tham gia không giới hạn các lớp Yoga cơ bản và nâng cao",
                             SoBuoiToiDa = 30,
                             TenGoiTap = "Yoga Tháng",
@@ -131,6 +149,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT08",
                             DonGia = 600000m,
+                            MaLoaiGoi = 3,
                             MoTa = "Khóa Yoga trị liệu, thiền định và dẻo dai toàn diện",
                             SoBuoiToiDa = 90,
                             TenGoiTap = "Yoga 3 Tháng",
@@ -141,6 +160,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT09",
                             DonGia = 200000m,
+                            MaLoaiGoi = 4,
                             MoTa = "Bơi tự do tại hồ bơi nước mặn 4 mùa tiêu chuẩn Olympic",
                             SoBuoiToiDa = 30,
                             TenGoiTap = "Bơi 1 Tháng",
@@ -151,6 +171,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT10",
                             DonGia = 900000m,
+                            MaLoaiGoi = 4,
                             MoTa = "Thẻ bơi 6 tháng kèm tiện ích xông hơi đá muối thảo dược",
                             SoBuoiToiDa = 180,
                             TenGoiTap = "Bơi 6 Tháng",
@@ -161,6 +182,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT11",
                             DonGia = 1200000m,
+                            MaLoaiGoi = 5,
                             MoTa = "Gym + Yoga + Bơi lội trọn gói trong 3 tháng",
                             SoBuoiToiDa = 90,
                             TenGoiTap = "Combo 3 Tháng",
@@ -171,6 +193,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT12",
                             DonGia = 2000000m,
+                            MaLoaiGoi = 5,
                             MoTa = "Gym + Yoga + Bơi + Sauna không giới hạn 6 tháng",
                             SoBuoiToiDa = 180,
                             TenGoiTap = "Combo 6 Tháng",
@@ -181,6 +204,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT13",
                             DonGia = 3500000m,
+                            MaLoaiGoi = 5,
                             MoTa = "Đặc quyền cao cấp nhất, toàn bộ dịch vụ và tiện ích",
                             SoBuoiToiDa = 365,
                             TenGoiTap = "Combo 12 Tháng",
@@ -191,6 +215,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT14",
                             DonGia = 800000m,
+                            MaLoaiGoi = 6,
                             MoTa = "Gói ưu đãi chiến dịch hè (đã ngừng áp dụng)",
                             SoBuoiToiDa = 90,
                             TenGoiTap = "Combo Hè Giới Hạn",
@@ -201,6 +226,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         {
                             MaGoiTap = "GT15",
                             DonGia = 700000m,
+                            MaLoaiGoi = 3,
                             MoTa = "Kết hợp Yoga thanh lọc cơ thể và bơi lội rèn luyện sức bền",
                             SoBuoiToiDa = 60,
                             TenGoiTap = "Bơi + Yoga",
@@ -212,6 +238,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
             modelBuilder.Entity("QuanLyPhongTap_UNETI01_TI17A1HN.Models.HoiVien", b =>
                 {
                     b.Property<string>("MaHoiVien")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
@@ -583,18 +610,21 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
             modelBuilder.Entity("QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy", b =>
                 {
                     b.Property<string>("MaPhieu")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("DonGia")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("MaGoiTap")
                         .IsRequired()
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MaHoiVien")
                         .IsRequired()
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("NgayBatDau")
@@ -608,7 +638,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 
                     b.Property<decimal>("TongTien")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("TrangThai")
                         .IsRequired()
@@ -995,18 +1025,17 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HoTen")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("MatKhau")
                         .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("TenDangNhap")
                         .IsRequired()
@@ -1069,6 +1098,16 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                             TrangThai = "Unlock",
                             VaiTro = "hoivien"
                         });
+                });
+
+            modelBuilder.Entity("QuanLyPhongTap_UNETI01_TI17A1HN.Models.GoiTap", b =>
+                {
+                    b.HasOne("QuanLyPhongTap_UNETI01_TI17A1HN.Models.LoaiGoiTap", "LoaiGoiTap")
+                        .WithMany()
+                        .HasForeignKey("MaLoaiGoi")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("LoaiGoiTap");
                 });
 
             modelBuilder.Entity("QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy", b =>

@@ -12,6 +12,12 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
         {
             _context = context;
         }
+        public List<GoiTap> GetAll()
+        {
+            return _context.GoiTap
+                .OrderBy(g => g.TenGoiTap)
+                .ToList();
+        }
 
         public List<GoiTap> GetGoiDangApDung()
         {

@@ -1,0 +1,74 @@
+﻿@model QuanLyPhongTap_UNETI01_TI17A1HN.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Tổng số loại gói</h6>
+                <h3>@Model.TongLoaiGoi</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Tổng số gói tập</h6>
+                <h3>@Model.TongGoiTap</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Tổng số hội viên</h6>
+                <h3>@Model.TongHoiVien</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Tổng số phiếu đăng ký</h6>
+                <h3>@Model.TongPhieu</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Phiếu chờ xác nhận</h6>
+                <h3>@Model.PhieuChoXacNhan</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Đăng ký đang hiệu lực</h6>
+                <h3>@Model.DangHieuLuc</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Đăng ký hết hạn</h6>
+                <h3>@Model.HetHan</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Gói tập đang áp dụng</h6>
+                <h3>@Model.GoiDangApDung</h3>
+            </div>
+        </div>
+    </div>
+</div>
