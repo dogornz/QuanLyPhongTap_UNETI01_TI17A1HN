@@ -55,6 +55,18 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
                   .IsUnicode(true);
         });
 
+        modelBuilder.Entity<GoiTap>()
+            .Property(g => g.DonGia)
+            .HasPrecision(18, 2);
+
+        modelBuilder.Entity<PhieuDangKy>()
+            .Property(p => p.DonGia)
+            .HasPrecision(18, 2);
+
+        modelBuilder.Entity<PhieuDangKy>()
+            .Property(p => p.TongTien)
+            .HasPrecision(18, 2);
+
         // 1. Seed TaiKhoan
         modelBuilder.Entity<TaiKhoan>().HasIndex(tdn => tdn.TenDangNhap).IsUnique();
         modelBuilder.Entity<TaiKhoan>().HasData(

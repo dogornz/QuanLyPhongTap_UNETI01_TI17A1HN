@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
 {

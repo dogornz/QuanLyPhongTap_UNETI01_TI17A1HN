@@ -7,8 +7,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
     {
         private readonly IHoiVienRepository _repository;
 
-        public HoiVienService(
-            IHoiVienRepository repository)
+        public HoiVienService(IHoiVienRepository repository)
         {
             _repository = repository;
         }
@@ -32,54 +31,33 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         // ================================
         // CẬP NHẬT TRẠNG THÁI
         // ================================
-        public (bool success, string message)
-            UpdateTrangThai(
-                string maHv,
-                string trangThai)
+        public (bool success, string message) UpdateTrangThai(string maHv, string trangThai)
         {
             if (string.IsNullOrWhiteSpace(maHv))
             {
-                return (
-                    false,
-                    "Mã hội viên không được để trống."
-                );
+                return (false, "Mã hội viên không được để trống.");
             }
 
-            if (trangThai != "Đang hoạt động" &&
-                trangThai != "Ngừng hoạt động")
+            if (trangThai != "Đang hoạt động" && trangThai != "Ngừng hoạt động")
             {
-                return (
-                    false,
-                    "Trạng thái không hợp lệ."
-                );
+                return (false, "Trạng thái không hợp lệ.");
             }
 
             var hoiVien = _repository.GetById(maHv);
 
             if (hoiVien == null)
             {
-                return (
-                    false,
-                    "Không tìm thấy hội viên."
-                );
+                return (false, "Không tìm thấy hội viên.");
             }
 
-            bool result = _repository.UpdateTrangThai(
-                maHv,
-                trangThai);
+            bool result = _repository.UpdateTrangThai(maHv, trangThai);
 
             if (result)
             {
-                return (
-                    true,
-                    "Cập nhật trạng thái thành công."
-                );
+                return (true, "Cập nhật trạng thái thành công.");
             }
 
-            return (
-                false,
-                "Cập nhật trạng thái thất bại."
-            );
+            return (false, "Cập nhật trạng thái thất bại.");
         }
 
         public HoiVien? GetById(string maHv)
@@ -146,5 +124,4 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             }
         }
     }
-    
 }

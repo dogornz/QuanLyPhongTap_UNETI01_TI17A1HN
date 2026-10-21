@@ -1,7 +1,4 @@
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Repositories;
 
@@ -42,18 +39,43 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         public List<PhieuDangKy> GetByHoiVien(string maHoiVien)
         {
             if (string.IsNullOrWhiteSpace(maHoiVien))
-                return GetAll();
+                return new List<PhieuDangKy>();
 
-            return GetAll()
+            return _phieuRepository.GetAll()
                 .Where(p => p.MaHoiVien == maHoiVien)
+                .OrderByDescending(p => p.NgayDangKy)
                 .ToList();
+        }
+
+        // Lọc theo hội viên, gói tập, trạng thái, khoảng ngày đăng ký
+        public List<PhieuDangKy> TimKiem(string? maHoiVien, string? maGoiTap, string? trangThai,
+                                         DateTime? tuNgay, DateTime? denNgay)
+        {
+            var query = _phieuRepository.GetAll().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(maHoiVien))
+                query = query.Where(p => p.MaHoiVien == maHoiVien);
+
+            if (!string.IsNullOrWhiteSpace(maGoiTap))
+                query = query.Where(p => p.MaGoiTap == maGoiTap);
+
+            if (!string.IsNullOrWhiteSpace(trangThai))
+                query = query.Where(p => p.TrangThai == trangThai);
+
+            if (tuNgay.HasValue)
+                query = query.Where(p => p.NgayDangKy >= tuNgay.Value.Date);
+
+            if (denNgay.HasValue)
+                query = query.Where(p => p.NgayDangKy < denNgay.Value.Date.AddDays(1));
+
+            return query.OrderByDescending(p => p.NgayDangKy).ToList();
         }
 
         // 4. Lấy danh sách hội viên đang hoạt động
         public List<HoiVien> GetHoiViens()
         {
             return _hoiVienRepository.GetAll()
-                .Where(h => h.TrangThai == "Đang hoạt động")
+                .Where(h => h.TrangThai == TrangThaiHoiVien.HoatDong)
                 .OrderBy(h => h.HoTen)
                 .ToList();
         }
@@ -65,80 +87,37 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         }
 
         // 6. Đăng ký gói tập
-        public (bool Success, string Message) DangKy(
-            string maHoiVien,
-            string maGoiTap,
-            DateTime ngayBatDau)
+        public (bool Success, string Message) DangKy(string maHoiVien, string maGoiTap, DateTime ngayBatDau)
         {
-            // Kiểm tra mã hội viên
             if (string.IsNullOrWhiteSpace(maHoiVien))
-            {
                 return (false, "Vui lòng chọn hội viên.");
-            }
 
-            // Kiểm tra mã gói tập
             if (string.IsNullOrWhiteSpace(maGoiTap))
-            {
                 return (false, "Vui lòng chọn gói tập.");
-            }
 
-            // Kiểm tra ngày bắt đầu
             if (ngayBatDau == default)
-            {
                 return (false, "Vui lòng chọn ngày bắt đầu.");
-            }
 
             if (ngayBatDau.Date < DateTime.Today)
-            {
                 return (false, "Ngày bắt đầu không được ở trong quá khứ.");
-            }
 
-            // Kiểm tra hội viên tồn tại
             var hoiVien = _hoiVienRepository.GetById(maHoiVien);
-
             if (hoiVien == null)
-            {
                 return (false, "Hội viên không tồn tại.");
-            }
 
-            if (hoiVien.TrangThai != "Đang hoạt động")
-            {
+            if (hoiVien.TrangThai != TrangThaiHoiVien.HoatDong)
                 return (false, "Hội viên hiện không hoạt động.");
-            }
 
-            // Kiểm tra gói tập tồn tại
             var goiTap = _goiTapRepository.GetById(maGoiTap);
-
             if (goiTap == null)
-            {
                 return (false, "Gói tập không tồn tại.");
-            }
 
-            if (goiTap.TrangThai != "Đang áp dụng")
-            {
+            if (goiTap.TrangThai != TrangThaiGoiTap.ApDung)
                 return (false, "Gói tập hiện không được áp dụng.");
-            }
 
-            // Model GoiTap hiện tại sử dụng string ThoiHanThang
-            if (!int.TryParse(goiTap.ThoiHanThang, out int soThang)
-                || soThang <= 0)
-            {
+            if (!int.TryParse(goiTap.ThoiHanThang, out int soThang) || soThang <= 0)
                 return (false, "Thời hạn gói tập không hợp lệ.");
-            }
 
-            // Tính ngày kết thúc
-            DateTime ngayKetThuc;
-
-            try
-            {
-                ngayKetThuc = ngayBatDau.Date.AddMonths(soThang);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return (false, "Không thể tính ngày kết thúc của gói tập.");
-            }
-
-            // Tạo phiếu đăng ký mới
             var phieu = new PhieuDangKy
             {
                 MaPhieu = TaoMaPhieu(),
@@ -146,65 +125,71 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
                 MaGoiTap = maGoiTap,
                 NgayDangKy = DateTime.Now,
                 NgayBatDau = ngayBatDau.Date,
-                NgayKetThuc = ngayKetThuc,
+                NgayKetThuc = ngayBatDau.Date.AddMonths(soThang),
                 DonGia = goiTap.DonGia,
-                TongTien = goiTap.DonGia,
-                TrangThai = "Chờ xác nhận"
+                TongTien = goiTap.DonGia * soThang,
+                TrangThai = TrangThaiPhieu.ChoXacNhan
             };
 
             try
             {
                 _phieuRepository.Add(phieu);
                 _phieuRepository.Save();
-
-                return (
-                    true,
-                    "Đăng ký gói tập thành công. Phiếu đang chờ xác nhận."
-                );
+                return (true, "Đăng ký gói tập thành công. Phiếu đang chờ xác nhận.");
             }
             catch (Exception)
             {
-                return (
-                    false,
-                    "Không thể lưu phiếu đăng ký. Vui lòng kiểm tra dữ liệu và thử lại."
-                );
+                return (false, "Không thể lưu phiếu đăng ký. Vui lòng thử lại.");
             }
         }
 
-        // 7. Xác nhận phiếu đăng ký
+        // 7. Xác nhận
         public (bool Success, string Message) XacNhan(string maPhieu)
         {
             var phieu = GetById(maPhieu);
             if (phieu == null)
                 return (false, "Phiếu đăng ký không tồn tại.");
 
-            if (phieu.TrangThai != "Chờ xác nhận")
-                return (false, "Chỉ có thể xác nhận phiếu đang ở trạng thái Chờ xác nhận.");
+            if (phieu.TrangThai != TrangThaiPhieu.ChoXacNhan)
+                return (false, "Chỉ xác nhận được phiếu đang ở trạng thái Chờ xác nhận.");
 
-            phieu.TrangThai = "Đang hiệu lực";
+            var hoiVien = _hoiVienRepository.GetById(phieu.MaHoiVien);
+            if (hoiVien == null || hoiVien.TrangThai != TrangThaiHoiVien.HoatDong)
+                return (false, "Hội viên không còn hoạt động.");
+
+            var goiTap = _goiTapRepository.GetById(phieu.MaGoiTap);
+            if (goiTap == null)
+                return (false, "Gói tập không còn tồn tại.");
+
+            if (goiTap.TrangThai != TrangThaiGoiTap.ApDung)
+                return (false, "Gói tập không còn được áp dụng.");
+
+            phieu.TrangThai = TrangThaiPhieu.DangHieuLuc;
+
             try
             {
                 _phieuRepository.Update(phieu);
                 _phieuRepository.Save();
-                return (true, $"Xác nhận kích hoạt phiếu #{phieu.MaPhieu} thành công.");
+                return (true, $"Xác nhận phiếu #{phieu.MaPhieu} thành công.");
             }
             catch (Exception)
             {
-                return (false, "Lỗi khi cập nhật trạng thái phiếu đăng ký.");
+                return (false, "Lỗi khi cập nhật trạng thái phiếu.");
             }
         }
 
-        // 8. Hủy phiếu đăng ký
+        // 8. Hủy
         public (bool Success, string Message) Huy(string maPhieu)
         {
             var phieu = GetById(maPhieu);
             if (phieu == null)
                 return (false, "Phiếu đăng ký không tồn tại.");
 
-            if (phieu.TrangThai == "Đã hủy")
-                return (false, "Phiếu này đã được hủy trước đó.");
+            if (phieu.TrangThai == TrangThaiPhieu.DaHuy)
+                return (false, "Phiếu đã bị hủy trước đó.");
 
-            phieu.TrangThai = "Đã hủy";
+            phieu.TrangThai = TrangThaiPhieu.DaHuy;
+
             try
             {
                 _phieuRepository.Update(phieu);
@@ -220,22 +205,28 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         // 9. Gia hạn phiếu đăng ký
         public (bool Success, string Message) GiaHan(string maPhieu, int soThang = 1)
         {
+            if (soThang <= 0)
+                return (false, "Số tháng gia hạn phải lớn hơn 0.");
+
             var phieu = GetById(maPhieu);
             if (phieu == null)
                 return (false, "Phiếu đăng ký không tồn tại.");
 
-            if (phieu.TrangThai != "Đang hiệu lực")
-                return (false, "Chỉ có thể gia hạn cho phiếu đang có hiệu lực.");
+            if (phieu.TrangThai == TrangThaiPhieu.DaHuy)
+                return (false, "Không thể gia hạn phiếu đã hủy.");
 
-            if (soThang <= 0)
-                return (false, "Số tháng gia hạn phải lớn hơn 0.");
+            if (phieu.TrangThai != TrangThaiPhieu.DangHieuLuc)
+                return (false, "Chỉ gia hạn được phiếu đang có hiệu lực.");
+
+            var goiTap = _goiTapRepository.GetById(phieu.MaGoiTap);
+            if (goiTap == null)
+                return (false, "Gói tập không còn tồn tại.");
 
             var baseDate = phieu.NgayKetThuc > DateTime.Now ? phieu.NgayKetThuc : DateTime.Now;
             phieu.NgayKetThuc = baseDate.AddMonths(soThang);
-            if (phieu.GoiTap != null)
-            {
-                phieu.TongTien += phieu.GoiTap.DonGia;
-            }
+
+            // tăng tiền theo số tháng và đơn giá gói (nếu áp dụng)
+            phieu.TongTien += goiTap.DonGia * soThang;
 
             try
             {
@@ -249,11 +240,15 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             }
         }
 
-        // 10. Sinh mã phiếu đăng ký
+        // 10. Tạo mã phiếu đăng ký
         private static string TaoMaPhieu()
         {
-            return "PDK" +
-                   Guid.NewGuid().ToString("N")[..10].ToUpperInvariant();
+            return "PDK" + Guid.NewGuid().ToString("N")[..10].ToUpperInvariant();
         }
+        public static bool HetHan(PhieuDangKy p) =>
+    p.TrangThai == TrangThaiPhieu.DangHieuLuc && p.NgayKetThuc.Date < DateTime.Today;
+
+        public static bool ConHieuLuc(PhieuDangKy p) =>
+            p.TrangThai == TrangThaiPhieu.DangHieuLuc && p.NgayKetThuc.Date >= DateTime.Today;
     }
 }

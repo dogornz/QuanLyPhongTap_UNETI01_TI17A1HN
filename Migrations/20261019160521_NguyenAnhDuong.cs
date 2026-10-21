@@ -8,33 +8,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 {
     /// <inheritdoc />
-    public partial class NguyenThiPhuongAnh : Migration
+    public partial class NguyenAnhDuong : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "GoiTap",
-                columns: table => new
-                {
-                    MaGoiTap = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TenGoiTap = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ThoiHanThang = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DonGia = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    SoBuoiToiDa = table.Column<int>(type: "int", nullable: false),
-                    MoTa = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GoiTap", x => x.MaGoiTap);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "HoiVien",
                 columns: table => new
                 {
-                    MaHoiVien = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MaHoiVien = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     MaTaiKhoan = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HoTen = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NgaySinh = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -73,9 +56,9 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                     MaTaiKhoan = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenDangNhap = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MatKhau = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    HoTen = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MatKhau = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    HoTen = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VaiTro = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -85,12 +68,36 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GoiTap",
+                columns: table => new
+                {
+                    MaGoiTap = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    TenGoiTap = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ThoiHanThang = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DonGia = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    SoBuoiToiDa = table.Column<int>(type: "int", nullable: false),
+                    MoTa = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TrangThai = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MaLoaiGoi = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GoiTap", x => x.MaGoiTap);
+                    table.ForeignKey(
+                        name: "FK_GoiTap_LoaiGoiTap_MaLoaiGoi",
+                        column: x => x.MaLoaiGoi,
+                        principalTable: "LoaiGoiTap",
+                        principalColumn: "MaLoaiGoi",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PhieuDangKy",
                 columns: table => new
                 {
-                    MaPhieu = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MaHoiVien = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MaGoiTap = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MaPhieu = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    MaHoiVien = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    MaGoiTap = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     NgayDangKy = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NgayBatDau = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NgayKetThuc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -113,28 +120,6 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         principalTable: "HoiVien",
                         principalColumn: "MaHoiVien",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.InsertData(
-                table: "GoiTap",
-                columns: new[] { "MaGoiTap", "DonGia", "MoTa", "SoBuoiToiDa", "TenGoiTap", "ThoiHanThang", "TrangThai" },
-                values: new object[,]
-                {
-                    { "GT01", 150000m, "Tập gym 1 tháng không giới hạn khung giờ", 30, "GYM 1 Tháng", "1", "Đang áp dụng" },
-                    { "GT02", 350000m, "Tập gym 3 tháng kèm 1 buổi định hướng HLV", 90, "GYM 3 Tháng", "3", "Đang áp dụng" },
-                    { "GT03", 600000m, "Gói 6 tháng, miễn phí tủ locker cá nhân và nước uống", 180, "GYM 6 Tháng", "6", "Đang áp dụng" },
-                    { "GT04", 1000000m, "Tập luyện cả năm, kèm dịch vụ phòng xông hơi Sauna", 365, "GYM 12 Tháng", "12", "Đang áp dụng" },
-                    { "GT05", 2000000m, "10 buổi tập kèm riêng HLV Master, kèm thực đơn", 10, "PT 1-1 10 Buổi", "2", "Đang áp dụng" },
-                    { "GT06", 3500000m, "20 buổi tập kèm riêng HLV Master, cam kết tiến độ", 20, "PT 1-1 20 Buổi", "3", "Đang áp dụng" },
-                    { "GT07", 250000m, "Tham gia không giới hạn các lớp Yoga cơ bản và nâng cao", 30, "Yoga Tháng", "1", "Đang áp dụng" },
-                    { "GT08", 600000m, "Khóa Yoga trị liệu, thiền định và dẻo dai toàn diện", 90, "Yoga 3 Tháng", "3", "Đang áp dụng" },
-                    { "GT09", 200000m, "Bơi tự do tại hồ bơi nước mặn 4 mùa tiêu chuẩn Olympic", 30, "Bơi 1 Tháng", "1", "Đang áp dụng" },
-                    { "GT10", 900000m, "Thẻ bơi 6 tháng kèm tiện ích xông hơi đá muối thảo dược", 180, "Bơi 6 Tháng", "6", "Đang áp dụng" },
-                    { "GT11", 1200000m, "Gym + Yoga + Bơi lội trọn gói trong 3 tháng", 90, "Combo 3 Tháng", "3", "Đang áp dụng" },
-                    { "GT12", 2000000m, "Gym + Yoga + Bơi + Sauna không giới hạn 6 tháng", 180, "Combo 6 Tháng", "6", "Đang áp dụng" },
-                    { "GT13", 3500000m, "Đặc quyền cao cấp nhất, toàn bộ dịch vụ và tiện ích", 365, "Combo 12 Tháng", "12", "Đang áp dụng" },
-                    { "GT14", 800000m, "Gói ưu đãi chiến dịch hè (đã ngừng áp dụng)", 90, "Combo Hè Giới Hạn", "3", "Ngừng áp dụng" },
-                    { "GT15", 700000m, "Kết hợp Yoga thanh lọc cơ thể và bơi lội rèn luyện sức bền", 60, "Bơi + Yoga", "2", "Đang áp dụng" }
                 });
 
             migrationBuilder.InsertData(
@@ -189,6 +174,28 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "GoiTap",
+                columns: new[] { "MaGoiTap", "DonGia", "MaLoaiGoi", "MoTa", "SoBuoiToiDa", "TenGoiTap", "ThoiHanThang", "TrangThai" },
+                values: new object[,]
+                {
+                    { "GT01", 150000m, 1, "Tập gym 1 tháng không giới hạn khung giờ", 30, "GYM 1 Tháng", "1", "Đang áp dụng" },
+                    { "GT02", 350000m, 1, "Tập gym 3 tháng kèm 1 buổi định hướng HLV", 90, "GYM 3 Tháng", "3", "Đang áp dụng" },
+                    { "GT03", 600000m, 1, "Gói 6 tháng, miễn phí tủ locker cá nhân và nước uống", 180, "GYM 6 Tháng", "6", "Đang áp dụng" },
+                    { "GT04", 1000000m, 1, "Tập luyện cả năm, kèm dịch vụ phòng xông hơi Sauna", 365, "GYM 12 Tháng", "12", "Đang áp dụng" },
+                    { "GT05", 2000000m, 2, "10 buổi tập kèm riêng HLV Master, kèm thực đơn", 10, "PT 1-1 10 Buổi", "2", "Đang áp dụng" },
+                    { "GT06", 3500000m, 2, "20 buổi tập kèm riêng HLV Master, cam kết tiến độ", 20, "PT 1-1 20 Buổi", "3", "Đang áp dụng" },
+                    { "GT07", 250000m, 3, "Tham gia không giới hạn các lớp Yoga cơ bản và nâng cao", 30, "Yoga Tháng", "1", "Đang áp dụng" },
+                    { "GT08", 600000m, 3, "Khóa Yoga trị liệu, thiền định và dẻo dai toàn diện", 90, "Yoga 3 Tháng", "3", "Đang áp dụng" },
+                    { "GT09", 200000m, 4, "Bơi tự do tại hồ bơi nước mặn 4 mùa tiêu chuẩn Olympic", 30, "Bơi 1 Tháng", "1", "Đang áp dụng" },
+                    { "GT10", 900000m, 4, "Thẻ bơi 6 tháng kèm tiện ích xông hơi đá muối thảo dược", 180, "Bơi 6 Tháng", "6", "Đang áp dụng" },
+                    { "GT11", 1200000m, 5, "Gym + Yoga + Bơi lội trọn gói trong 3 tháng", 90, "Combo 3 Tháng", "3", "Đang áp dụng" },
+                    { "GT12", 2000000m, 5, "Gym + Yoga + Bơi + Sauna không giới hạn 6 tháng", 180, "Combo 6 Tháng", "6", "Đang áp dụng" },
+                    { "GT13", 3500000m, 5, "Đặc quyền cao cấp nhất, toàn bộ dịch vụ và tiện ích", 365, "Combo 12 Tháng", "12", "Đang áp dụng" },
+                    { "GT14", 800000m, 6, "Gói ưu đãi chiến dịch hè (đã ngừng áp dụng)", 90, "Combo Hè Giới Hạn", "3", "Ngừng áp dụng" },
+                    { "GT15", 700000m, 3, "Kết hợp Yoga thanh lọc cơ thể và bơi lội rèn luyện sức bền", 60, "Bơi + Yoga", "2", "Đang áp dụng" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "PhieuDangKy",
                 columns: new[] { "MaPhieu", "DonGia", "MaGoiTap", "MaHoiVien", "NgayBatDau", "NgayDangKy", "NgayKetThuc", "TongTien", "TrangThai" },
                 values: new object[,]
@@ -226,6 +233,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_GoiTap_MaLoaiGoi",
+                table: "GoiTap",
+                column: "MaLoaiGoi");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PhieuDangKy_MaGoiTap",
                 table: "PhieuDangKy",
                 column: "MaGoiTap");
@@ -246,9 +258,6 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "LoaiGoiTap");
-
-            migrationBuilder.DropTable(
                 name: "PhieuDangKy");
 
             migrationBuilder.DropTable(
@@ -259,6 +268,9 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 
             migrationBuilder.DropTable(
                 name: "HoiVien");
+
+            migrationBuilder.DropTable(
+                name: "LoaiGoiTap");
         }
     }
 }

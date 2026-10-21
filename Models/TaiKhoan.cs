@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
@@ -8,17 +6,28 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
     {
         [Key]
         public int MaTaiKhoan { get; set; }
-        [Required, StringLength(50), RegularExpression(@"^[a-zA-Z0-9]+$", 
-            ErrorMessage = "Tên đăng nhập không được chứa ký tự đặc biệt !!!")]
-        public string TenDangNhap { get; set; } = string.Empty;
-        [Required, StringLength(12, MinimumLength = 6)]
-        public string MatKhau { get; set; } = string.Empty;
-        [StringLength(50, ErrorMessage = "Họ tên không được vượt quá 50 ký tự !!!")]
-        public string? HoTen { get; set; }
-        [Required, StringLength(50), EmailAddress (ErrorMessage = "Email không đúng định dạng !!!")]
-        public string Email { get; set; } = string.Empty;
-        public string VaiTro { get; set; } = "hoivien";
-        public string TrangThai { get; set; } = "Unlock";
 
+        [Required(ErrorMessage = "Tên đăng nhập không được để trống")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Tên đăng nhập từ 5 đến 50 ký tự")]
+        [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Tên đăng nhập không được chứa ký tự đặc biệt !!!")]
+        public string TenDangNhap { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Mật khẩu không được để trống")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu tối thiểu 6 ký tự")]
+        public string MatKhau { get; set; } = string.Empty;
+
+        [StringLength(100, ErrorMessage = "Họ tên không được vượt quá 100 ký tự !!!")]
+        public string? HoTen { get; set; }
+
+        [Required(ErrorMessage = "Email không được để trống")]
+        [StringLength(100)]
+        [EmailAddress(ErrorMessage = "Email không đúng định dạng !!!")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        public string VaiTro { get; set; } = "hoivien"; // "admin", "hoivien"
+
+        [Required]
+        public string TrangThai { get; set; } = "Unlock"; // "Lock", "Unlock"
     }
 }

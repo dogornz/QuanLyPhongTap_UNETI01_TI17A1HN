@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy>
+@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy>
 
 @{
     ViewData["Title"] = "Các gói đã đăng ký";
@@ -7,44 +7,58 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Gói tập đã đăng ký</h2>
-
-        <a asp-action="Create" class="btn btn-primary">
-            + Đăng ký gói tập
-        </a>
+        <a asp-action="Create" class="btn btn-primary">+ Đăng ký gói tập</a>
     </div>
 
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show">
-            @TempData["Success"]
-        </div>
+        <div class="alert alert-success alert-dismissible fade show">@TempData["Success"]</div>
     }
-
     @if (TempData["Error"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show">
-            @TempData["Error"]
-        </div>
+        <div class="alert alert-danger alert-dismissible fade show">@TempData["Error"]</div>
     }
 
     <div class="card mb-3 shadow-sm border-0">
         <div class="card-body">
-            <form asp-action="Index" method="get">
-                <div class="row g-2">
-                    <div class="col-md-9">
-                        <select name="maHoiVien"
-                                class="form-select"
-                                asp-items="ViewBag.HoiViens">
-                            <option value="">-- Tất cả hội viên --</option>
-                        </select>
-                    </div>
+            <form asp-action="Index" method="get" class="row g-2 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Hội viên</label>
+                    <select name="maHoiVien" class="form-select" asp-items="ViewBag.HoiViens">
+                        <option value="">-- Tất cả hội viên --</option>
+                    </select>
+                </div>
 
-                    <div class="col-md-3">
-                        <button type="submit"
-                                class="btn btn-outline-primary w-100">
-                            🔍 Lọc hội viên
-                        </button>
-                    </div>
+                <div class="col-md-3">
+                    <label class="form-label">Gói tập</label>
+                    <select name="maGoiTap" class="form-select" asp-items="ViewBag.GoiTaps">
+                        <option value="">-- Tất cả gói tập --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Trạng thái</label>
+                    <select name="trangThai" class="form-select">
+                        <option value="">-- Tất cả --</option>
+                        <option value="Chờ xác nhận" selected="@(ViewBag.TrangThai == "Chờ xác nhận")">Chờ xác nhận</option>
+                        <option value="Đang hiệu lực" selected="@(ViewBag.TrangThai == "Đang hiệu lực")">Đang hiệu lực</option>
+                        <option value="Đã hủy" selected="@(ViewBag.TrangThai == "Đã hủy")">Đã hủy</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Đăng ký từ</label>
+                    <input type="date" name="tuNgay" class="form-control" value="@ViewBag.TuNgay" />
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Đến</label>
+                    <input type="date" name="denNgay" class="form-control" value="@ViewBag.DenNgay" />
+                </div>
+
+                <div class="col-12 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Lọc</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Xóa lọc</a>
                 </div>
             </form>
         </div>
@@ -65,9 +79,8 @@
                     <th class="text-center" style="width: 180px;">Thao tác</th>
                 </tr>
             </thead>
-
             <tbody>
-                @if (Model.Any())
+                @if (Model != null && Model.Any())
                 {
                     @foreach (var item in Model)
                     {
@@ -75,15 +88,11 @@
                             <td class="fw-bold">@item.MaPhieu</td>
                             <td>
                                 <strong>@item.HoiVien?.HoTen</strong>
-                                <small class="d-block text-muted">
-                                    Mã: @item.MaHoiVien
-                                </small>
+                                <small class="d-block text-muted">Mã: @item.MaHoiVien</small>
                             </td>
                             <td>
                                 <span>@item.GoiTap?.TenGoiTap</span>
-                                <small class="d-block text-muted">
-                                    Mã: @item.MaGoiTap
-                                </small>
+                                <small class="d-block text-muted">Mã: @item.MaGoiTap</small>
                             </td>
                             <td class="text-primary fw-bold">
                                 @((item.TongTien > 0 ? item.TongTien : item.DonGia).ToString("N0")) đ
@@ -94,27 +103,19 @@
                             <td>
                                 @if (item.TrangThai == "Đang hiệu lực" || item.TrangThai == "Đã xác nhận")
                                 {
-                                    <span class="badge bg-success">
-                                        ✔ @item.TrangThai
-                                    </span>
+                                    <span class="badge bg-success">✔ @item.TrangThai</span>
                                 }
                                 else if (item.TrangThai == "Chờ xác nhận")
                                 {
-                                    <span class="badge bg-warning text-dark">
-                                        ⏳ @item.TrangThai
-                                    </span>
+                                    <span class="badge bg-warning text-dark">⏳ @item.TrangThai</span>
                                 }
                                 else if (item.TrangThai == "Đã hủy")
                                 {
-                                    <span class="badge bg-danger">
-                                        ✖ @item.TrangThai
-                                    </span>
+                                    <span class="badge bg-danger">✖ @item.TrangThai</span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-secondary">
-                                        @item.TrangThai
-                                    </span>
+                                    <span class="badge bg-secondary">@item.TrangThai</span>
                                 }
                             </td>
                             <td class="text-center">
@@ -123,30 +124,25 @@
                                     {
                                         <form asp-action="XacNhan" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-success btn-sm px-2 py-1" title="Kích hoạt phiếu">
-                                                Duyệt
-                                            </button>
+                                            <button type="submit" class="btn btn-success btn-sm px-2 py-1" title="Kích hoạt phiếu">Duyệt</button>
                                         </form>
-                                        <form asp-action="Huy" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
+                                        <form asp-action="Huy" asp-route-id="@item.MaPhieu" method="post" class="d-inline"
+                                              onsubmit="return confirm('Bạn có chắc muốn hủy phiếu này?');">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" onclick="return confirm('Bạn có chắc muốn hủy phiếu này?');" title="Hủy phiếu">
-                                                Hủy
-                                            </button>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" title="Hủy phiếu">Hủy</button>
                                         </form>
                                     }
                                     else if (item.TrangThai == "Đang hiệu lực" || item.TrangThai == "Đã xác nhận")
                                     {
-                                        <form asp-action="GiaHan" asp-route-id="@item.MaPhieu" asp-route-soThang="1" method="post" class="d-inline">
+                                        <form asp-action="GiaHan" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-primary btn-sm px-2 py-1" title="Gia hạn thêm 1 tháng">
-                                                +1 Th
-                                            </button>
+                                            <input type="hidden" name="soThang" value="1" />
+                                            <button type="submit" class="btn btn-primary btn-sm px-2 py-1" title="Gia hạn thêm 1 tháng">+1 Th</button>
                                         </form>
-                                        <form asp-action="Huy" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
+                                        <form asp-action="Huy" asp-route-id="@item.MaPhieu" method="post" class="d-inline"
+                                              onsubmit="return confirm('Bạn có chắc muốn hủy phiếu này?');">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" onclick="return confirm('Bạn có chắc muốn hủy phiếu này?');" title="Hủy phiếu">
-                                                Hủy
-                                            </button>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" title="Hủy phiếu">Hủy</button>
                                         </form>
                                     }
                                     else
@@ -161,9 +157,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="9" class="text-center text-muted py-4">
-                            Chưa có phiếu đăng ký nào.
-                        </td>
+                        <td colspan="9" class="text-center text-muted py-4">Chưa có phiếu đăng ký nào.</td>
                     </tr>
                 }
             </tbody>

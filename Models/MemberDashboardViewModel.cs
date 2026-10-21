@@ -12,7 +12,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
         public int SoGoiDangHieuLuc => DanhSachPhieuDangKy.Count(p => p.TrangThai == "Đang hiệu lực");
         public int SoGoiChoXacNhan => DanhSachPhieuDangKy.Count(p => p.TrangThai == "Chờ xác nhận");
         public decimal TongTienDaChi => DanhSachPhieuDangKy.Where(p => p.TrangThai == "Đang hiệu lực").Sum(p => p.TongTien);
-        
+
         // Active subscription info if available
         public PhieuDangKy? GoiHienTai => DanhSachPhieuDangKy
             .Where(p => p.TrangThai == "Đang hiệu lực" && p.NgayKetThuc >= DateTime.Today)
