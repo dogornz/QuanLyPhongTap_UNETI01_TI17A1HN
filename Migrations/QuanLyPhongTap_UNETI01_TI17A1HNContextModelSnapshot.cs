@@ -276,241 +276,241 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         new
                         {
                             MaHoiVien = "HV01",
-                            Email = "hoivien1@email.com",
-                            GioiTinh = "Nữ",
-                            HoTen = "Hội viên 1",
+                            Email = "an.nguyen@gym.com",
+                            GioiTinh = "Nam",
+                            HoTen = "Nguyễn Văn An",
                             MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1991, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 12, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345671",
+                            NgaySinh = new DateTime(1998, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345001",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV02",
-                            Email = "hoivien2@email.com",
-                            GioiTinh = "Nam",
-                            HoTen = "Hội viên 2",
+                            Email = "bich.tran@gym.com",
+                            GioiTinh = "Nữ",
+                            HoTen = "Trần Thị Bích",
                             MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1992, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345672",
+                            NgaySinh = new DateTime(1999, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345002",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV03",
-                            Email = "hoivien3@email.com",
-                            GioiTinh = "Nữ",
-                            HoTen = "Hội viên 3",
-                            MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1993, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345673",
+                            Email = "cuong.le@gym.com",
+                            GioiTinh = "Nam",
+                            HoTen = "Lê Hoàng Cường",
+                            MaTaiKhoan = "5",
+                            NgaySinh = new DateTime(1995, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345003",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV04",
-                            Email = "hoivien4@email.com",
+                            Email = "duc.pham@gym.com",
                             GioiTinh = "Nam",
-                            HoTen = "Hội viên 4",
-                            MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1994, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 11, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345674",
+                            HoTen = "Phạm Minh Đức",
+                            MaTaiKhoan = "6",
+                            NgaySinh = new DateTime(2001, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345004",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV05",
-                            Email = "hoivien5@email.com",
+                            Email = "dung.vu@gym.com",
                             GioiTinh = "Nữ",
-                            HoTen = "Hội viên 5",
-                            MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1995, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345675",
+                            HoTen = "Vũ Phương Dung",
+                            MaTaiKhoan = "7",
+                            NgaySinh = new DateTime(2000, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345005",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV06",
-                            Email = "hoivien6@email.com",
+                            Email = "hung.dang@gym.com",
                             GioiTinh = "Nam",
-                            HoTen = "Hội viên 6",
-                            MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1996, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345676",
+                            HoTen = "Đặng Quốc Hưng",
+                            MaTaiKhoan = "8",
+                            NgaySinh = new DateTime(1997, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345006",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV07",
-                            Email = "hoivien7@email.com",
+                            Email = "ha.bui@gym.com",
                             GioiTinh = "Nữ",
-                            HoTen = "Hội viên 7",
-                            MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1997, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345677",
+                            HoTen = "Bùi Thu Hà",
+                            MaTaiKhoan = "9",
+                            NgaySinh = new DateTime(2002, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345007",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV08",
-                            Email = "hoivien8@email.com",
+                            Email = "kiet.do@gym.com",
                             GioiTinh = "Nam",
-                            HoTen = "Hội viên 8",
-                            MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1998, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 10, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345678",
+                            HoTen = "Đỗ Tuấn Kiệt",
+                            MaTaiKhoan = "10",
+                            NgaySinh = new DateTime(1996, 12, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345008",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV09",
-                            Email = "hoivien9@email.com",
+                            Email = "linh.ho@gym.com",
                             GioiTinh = "Nữ",
-                            HoTen = "Hội viên 9",
-                            MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1999, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345679",
+                            HoTen = "Hồ Mai Linh",
+                            MaTaiKhoan = "11",
+                            NgaySinh = new DateTime(2003, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345009",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV10",
-                            Email = "hoivien10@email.com",
+                            Email = "nam.ngo@gym.com",
                             GioiTinh = "Nam",
-                            HoTen = "Hội viên 10",
-                            MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1990, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 9, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345670",
+                            HoTen = "Ngô Thành Nam",
+                            MaTaiKhoan = "12",
+                            NgaySinh = new DateTime(1994, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345010",
                             TrangThai = "Ngừng hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV11",
-                            Email = "hoivien11@email.com",
+                            Email = "oanh.duong@gym.com",
                             GioiTinh = "Nữ",
-                            HoTen = "Hội viên 11",
-                            MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1991, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345671",
+                            HoTen = "Dương Diệu Oanh",
+                            MaTaiKhoan = "13",
+                            NgaySinh = new DateTime(1999, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345011",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV12",
-                            Email = "hoivien12@email.com",
+                            Email = "phuc.ly@gym.com",
                             GioiTinh = "Nam",
-                            HoTen = "Hội viên 12",
-                            MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1992, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345672",
+                            HoTen = "Lý Gia Phúc",
+                            MaTaiKhoan = "14",
+                            NgaySinh = new DateTime(2001, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345012",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV13",
-                            Email = "hoivien13@email.com",
-                            GioiTinh = "Nữ",
-                            HoTen = "Hội viên 13",
-                            MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1993, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345673",
+                            Email = "quang.phan@gym.com",
+                            GioiTinh = "Nam",
+                            HoTen = "Phan Thanh Quang",
+                            MaTaiKhoan = "15",
+                            NgaySinh = new DateTime(1998, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345013",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV14",
-                            Email = "hoivien14@email.com",
+                            Email = "son.trinh@gym.com",
                             GioiTinh = "Nam",
-                            HoTen = "Hội viên 14",
-                            MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1994, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 8, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345674",
+                            HoTen = "Trịnh Bảo Sơn",
+                            MaTaiKhoan = "16",
+                            NgaySinh = new DateTime(1997, 11, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345014",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV15",
-                            Email = "hoivien15@email.com",
+                            Email = "tien.hoang@gym.com",
                             GioiTinh = "Nữ",
-                            HoTen = "Hội viên 15",
-                            MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1995, 4, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345675",
+                            HoTen = "Hoàng Thảo Tiên",
+                            MaTaiKhoan = "17",
+                            NgaySinh = new DateTime(2002, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345015",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV16",
-                            Email = "hoivien16@email.com",
+                            Email = "uy.mai@gym.com",
                             GioiTinh = "Nam",
-                            HoTen = "Hội viên 16",
-                            MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1996, 5, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345676",
+                            HoTen = "Mai Quốc Uy",
+                            MaTaiKhoan = "18",
+                            NgaySinh = new DateTime(1993, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345016",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV17",
-                            Email = "hoivien17@email.com",
+                            Email = "uyen.doan@gym.com",
                             GioiTinh = "Nữ",
-                            HoTen = "Hội viên 17",
-                            MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1997, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345677",
+                            HoTen = "Đoàn Tố Uyên",
+                            MaTaiKhoan = "19",
+                            NgaySinh = new DateTime(2000, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345017",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV18",
-                            Email = "hoivien18@email.com",
+                            Email = "viet.cao@gym.com",
                             GioiTinh = "Nam",
-                            HoTen = "Hội viên 18",
-                            MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1998, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345678",
+                            HoTen = "Cao Đăng Việt",
+                            MaTaiKhoan = "20",
+                            NgaySinh = new DateTime(1996, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345018",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV19",
-                            Email = "hoivien19@email.com",
+                            Email = "yen.nguyen@gym.com",
                             GioiTinh = "Nữ",
-                            HoTen = "Hội viên 19",
-                            MaTaiKhoan = "3",
-                            NgaySinh = new DateTime(1999, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345679",
+                            HoTen = "Nguyễn Hải Yến",
+                            MaTaiKhoan = "21",
+                            NgaySinh = new DateTime(2004, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345019",
                             TrangThai = "Đang hoạt động"
                         },
                         new
                         {
                             MaHoiVien = "HV20",
-                            Email = "hoivien20@email.com",
+                            Email = "tung.le@gym.com",
                             GioiTinh = "Nam",
-                            HoTen = "Hội viên 20",
-                            MaTaiKhoan = "4",
-                            NgaySinh = new DateTime(1990, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayThamGia = new DateTime(2025, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SoDienThoai = "0912345670",
+                            HoTen = "Lê Văn Tùng",
+                            MaTaiKhoan = "22",
+                            NgaySinh = new DateTime(1995, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayThamGia = new DateTime(2026, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SoDienThoai = "0912345020",
                             TrangThai = "Ngừng hoạt động"
                         });
                 });
@@ -655,359 +655,335 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                             MaPhieu = "PDK01",
                             DonGia = 350000m,
                             MaGoiTap = "GT02",
-                            MaHoiVien = "HV02",
-                            NgayBatDau = new DateTime(2026, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 4, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaHoiVien = "HV01",
+                            NgayBatDau = new DateTime(2026, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TongTien = 350000m,
-                            TrangThai = "Chờ xác nhận"
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK02",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT03",
-                            MaHoiVien = "HV03",
-                            NgayBatDau = new DateTime(2026, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
-                            TrangThai = "Chờ xác nhận"
+                            DonGia = 150000m,
+                            MaGoiTap = "GT01",
+                            MaHoiVien = "HV01",
+                            NgayBatDau = new DateTime(2026, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 150000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK03",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT04",
-                            MaHoiVien = "HV04",
-                            NgayBatDau = new DateTime(2026, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 4, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
+                            DonGia = 250000m,
+                            MaGoiTap = "GT07",
+                            MaHoiVien = "HV02",
+                            NgayBatDau = new DateTime(2026, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 250000m,
                             TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK04",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT05",
-                            MaHoiVien = "HV05",
-                            NgayBatDau = new DateTime(2026, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
-                            TrangThai = "Chờ xác nhận"
+                            DonGia = 600000m,
+                            MaGoiTap = "GT08",
+                            MaHoiVien = "HV02",
+                            NgayBatDau = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 600000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK05",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT06",
-                            MaHoiVien = "HV06",
-                            NgayBatDau = new DateTime(2026, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
-                            TrangThai = "Đã hủy"
+                            DonGia = 2000000m,
+                            MaGoiTap = "GT05",
+                            MaHoiVien = "HV03",
+                            NgayBatDau = new DateTime(2026, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 2000000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK06",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT07",
-                            MaHoiVien = "HV07",
-                            NgayBatDau = new DateTime(2026, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
+                            DonGia = 600000m,
+                            MaGoiTap = "GT03",
+                            MaHoiVien = "HV04",
+                            NgayBatDau = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 600000m,
                             TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK07",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT08",
-                            MaHoiVien = "HV08",
-                            NgayBatDau = new DateTime(2026, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
-                            TrangThai = "Chờ xác nhận"
+                            DonGia = 1200000m,
+                            MaGoiTap = "GT11",
+                            MaHoiVien = "HV05",
+                            NgayBatDau = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 1200000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK08",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT09",
-                            MaHoiVien = "HV09",
-                            NgayBatDau = new DateTime(2026, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 5, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
-                            TrangThai = "Chờ xác nhận"
+                            DonGia = 1000000m,
+                            MaGoiTap = "GT04",
+                            MaHoiVien = "HV06",
+                            NgayBatDau = new DateTime(2026, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2027, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 1000000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK09",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT10",
-                            MaHoiVien = "HV10",
-                            NgayBatDau = new DateTime(2026, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
+                            DonGia = 200000m,
+                            MaGoiTap = "GT09",
+                            MaHoiVien = "HV07",
+                            NgayBatDau = new DateTime(2026, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 200000m,
                             TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK10",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT11",
-                            MaHoiVien = "HV11",
-                            NgayBatDau = new DateTime(2026, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
-                            TrangThai = "Đã hủy"
+                            DonGia = 3500000m,
+                            MaGoiTap = "GT06",
+                            MaHoiVien = "HV08",
+                            NgayBatDau = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 3500000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK11",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT12",
-                            MaHoiVien = "HV12",
-                            NgayBatDau = new DateTime(2026, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
-                            TrangThai = "Chờ xác nhận"
+                            DonGia = 700000m,
+                            MaGoiTap = "GT15",
+                            MaHoiVien = "HV09",
+                            NgayBatDau = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 700000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK12",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT13",
-                            MaHoiVien = "HV13",
-                            NgayBatDau = new DateTime(2026, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 6, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
+                            DonGia = 150000m,
+                            MaGoiTap = "GT01",
+                            MaHoiVien = "HV10",
+                            NgayBatDau = new DateTime(2026, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 150000m,
                             TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK13",
-                            DonGia = 350000m,
-                            MaGoiTap = "GT14",
-                            MaHoiVien = "HV14",
-                            NgayBatDau = new DateTime(2026, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 350000m,
-                            TrangThai = "Chờ xác nhận"
+                            DonGia = 900000m,
+                            MaGoiTap = "GT10",
+                            MaHoiVien = "HV11",
+                            NgayBatDau = new DateTime(2026, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 900000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK14",
                             DonGia = 350000m,
-                            MaGoiTap = "GT15",
-                            MaHoiVien = "HV15",
-                            NgayBatDau = new DateTime(2026, 4, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 4, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaGoiTap = "GT02",
+                            MaHoiVien = "HV12",
+                            NgayBatDau = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TongTien = 350000m,
-                            TrangThai = "Chờ xác nhận"
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK15",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT01",
-                            MaHoiVien = "HV16",
-                            NgayBatDau = new DateTime(2026, 4, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 4, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Đã hủy"
+                            DonGia = 2000000m,
+                            MaGoiTap = "GT12",
+                            MaHoiVien = "HV13",
+                            NgayBatDau = new DateTime(2026, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2027, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 2000000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK16",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT02",
-                            MaHoiVien = "HV17",
-                            NgayBatDau = new DateTime(2026, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Chờ xác nhận"
+                            DonGia = 2000000m,
+                            MaGoiTap = "GT05",
+                            MaHoiVien = "HV14",
+                            NgayBatDau = new DateTime(2026, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 2000000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK17",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT03",
-                            MaHoiVien = "HV18",
-                            NgayBatDau = new DateTime(2026, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 7, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Chờ xác nhận"
+                            DonGia = 250000m,
+                            MaGoiTap = "GT07",
+                            MaHoiVien = "HV15",
+                            NgayBatDau = new DateTime(2026, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 250000m,
+                            TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK18",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT04",
-                            MaHoiVien = "HV19",
-                            NgayBatDau = new DateTime(2026, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
+                            DonGia = 600000m,
+                            MaGoiTap = "GT03",
+                            MaHoiVien = "HV16",
+                            NgayBatDau = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 600000m,
                             TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
                             MaPhieu = "PDK19",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT05",
-                            MaHoiVien = "HV20",
-                            NgayBatDau = new DateTime(2026, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Chờ xác nhận"
-                        },
-                        new
-                        {
-                            MaPhieu = "PDK20",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT06",
-                            MaHoiVien = "HV01",
-                            NgayBatDau = new DateTime(2026, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Đã hủy"
-                        },
-                        new
-                        {
-                            MaPhieu = "PDK21",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT07",
-                            MaHoiVien = "HV02",
-                            NgayBatDau = new DateTime(2026, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
+                            DonGia = 200000m,
+                            MaGoiTap = "GT09",
+                            MaHoiVien = "HV17",
+                            NgayBatDau = new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 200000m,
                             TrangThai = "Đang hiệu lực"
                         },
                         new
                         {
-                            MaPhieu = "PDK22",
-                            DonGia = 1000000m,
+                            MaPhieu = "PDK20",
+                            DonGia = 3500000m,
+                            MaGoiTap = "GT13",
+                            MaHoiVien = "HV18",
+                            NgayBatDau = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2027, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 3500000m,
+                            TrangThai = "Đang hiệu lực"
+                        },
+                        new
+                        {
+                            MaPhieu = "PDK21",
+                            DonGia = 600000m,
                             MaGoiTap = "GT08",
-                            MaHoiVien = "HV03",
-                            NgayBatDau = new DateTime(2026, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
+                            MaHoiVien = "HV19",
+                            NgayBatDau = new DateTime(2026, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2027, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 600000m,
                             TrangThai = "Chờ xác nhận"
                         },
                         new
                         {
+                            MaPhieu = "PDK22",
+                            DonGia = 150000m,
+                            MaGoiTap = "GT01",
+                            MaHoiVien = "HV20",
+                            NgayBatDau = new DateTime(2026, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 150000m,
+                            TrangThai = "Đã hủy"
+                        },
+                        new
+                        {
                             MaPhieu = "PDK23",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT09",
-                            MaHoiVien = "HV04",
-                            NgayBatDau = new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
+                            DonGia = 350000m,
+                            MaGoiTap = "GT02",
+                            MaHoiVien = "HV03",
+                            NgayBatDau = new DateTime(2026, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2027, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 350000m,
                             TrangThai = "Chờ xác nhận"
                         },
                         new
                         {
                             MaPhieu = "PDK24",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT10",
-                            MaHoiVien = "HV05",
-                            NgayBatDau = new DateTime(2026, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Đang hiệu lực"
+                            DonGia = 200000m,
+                            MaGoiTap = "GT09",
+                            MaHoiVien = "HV06",
+                            NgayBatDau = new DateTime(2026, 10, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 10, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 11, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 200000m,
+                            TrangThai = "Chờ xác nhận"
                         },
                         new
                         {
                             MaPhieu = "PDK25",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT11",
-                            MaHoiVien = "HV06",
-                            NgayBatDau = new DateTime(2026, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 9, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Đã hủy"
+                            DonGia = 700000m,
+                            MaGoiTap = "GT15",
+                            MaHoiVien = "HV08",
+                            NgayBatDau = new DateTime(2026, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 12, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 700000m,
+                            TrangThai = "Chờ xác nhận"
                         },
                         new
                         {
                             MaPhieu = "PDK26",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT12",
-                            MaHoiVien = "HV07",
-                            NgayBatDau = new DateTime(2026, 7, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 7, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
+                            DonGia = 1200000m,
+                            MaGoiTap = "GT11",
+                            MaHoiVien = "HV11",
+                            NgayBatDau = new DateTime(2026, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2027, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 1200000m,
                             TrangThai = "Chờ xác nhận"
                         },
                         new
                         {
                             MaPhieu = "PDK27",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT13",
-                            MaHoiVien = "HV08",
-                            NgayBatDau = new DateTime(2026, 7, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 7, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Đang hiệu lực"
+                            DonGia = 800000m,
+                            MaGoiTap = "GT14",
+                            MaHoiVien = "HV14",
+                            NgayBatDau = new DateTime(2026, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 800000m,
+                            TrangThai = "Đã hủy"
                         },
                         new
                         {
                             MaPhieu = "PDK28",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT14",
-                            MaHoiVien = "HV09",
-                            NgayBatDau = new DateTime(2026, 7, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 7, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Chờ xác nhận"
-                        },
-                        new
-                        {
-                            MaPhieu = "PDK29",
-                            DonGia = 1000000m,
-                            MaGoiTap = "GT15",
-                            MaHoiVien = "HV10",
-                            NgayBatDau = new DateTime(2026, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
-                            TrangThai = "Chờ xác nhận"
-                        },
-                        new
-                        {
-                            MaPhieu = "PDK30",
-                            DonGia = 1000000m,
+                            DonGia = 150000m,
                             MaGoiTap = "GT01",
-                            MaHoiVien = "HV11",
-                            NgayBatDau = new DateTime(2026, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayDangKy = new DateTime(2026, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NgayKetThuc = new DateTime(2026, 10, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TongTien = 1000000m,
+                            MaHoiVien = "HV04",
+                            NgayBatDau = new DateTime(2026, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayDangKy = new DateTime(2026, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NgayKetThuc = new DateTime(2026, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TongTien = 150000m,
                             TrangThai = "Đã hủy"
                         });
                 });
@@ -1022,10 +998,10 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("HoTen")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -1062,7 +1038,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                             HoTen = "Admin 01",
                             MatKhau = "admin123",
                             TenDangNhap = "admin01",
-                            TrangThai = "Lock",
+                            TrangThai = "Unlock",
                             VaiTro = "admin"
                         },
                         new
@@ -1078,21 +1054,201 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
                         new
                         {
                             MaTaiKhoan = 3,
-                            Email = "vana@gym.com",
-                            HoTen = "Nguyễn Văn A",
+                            Email = "an.nguyen@gym.com",
+                            HoTen = "Nguyễn Văn An",
                             MatKhau = "hoivien123",
                             TenDangNhap = "hoivien01",
-                            TrangThai = "Lock",
+                            TrangThai = "Unlock",
                             VaiTro = "hoivien"
                         },
                         new
                         {
                             MaTaiKhoan = 4,
-                            Email = "thib@gym.com",
-                            HoTen = "Trần Thị B",
+                            Email = "bich.tran@gym.com",
+                            HoTen = "Trần Thị Bích",
                             MatKhau = "hoivien123",
                             TenDangNhap = "hoivien02",
                             TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 5,
+                            Email = "cuong.le@gym.com",
+                            HoTen = "Lê Hoàng Cường",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien03",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 6,
+                            Email = "duc.pham@gym.com",
+                            HoTen = "Phạm Minh Đức",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien04",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 7,
+                            Email = "dung.vu@gym.com",
+                            HoTen = "Vũ Phương Dung",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien05",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 8,
+                            Email = "hung.dang@gym.com",
+                            HoTen = "Đặng Quốc Hưng",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien06",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 9,
+                            Email = "ha.bui@gym.com",
+                            HoTen = "Bùi Thu Hà",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien07",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 10,
+                            Email = "kiet.do@gym.com",
+                            HoTen = "Đỗ Tuấn Kiệt",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien08",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 11,
+                            Email = "linh.ho@gym.com",
+                            HoTen = "Hồ Mai Linh",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien09",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 12,
+                            Email = "nam.ngo@gym.com",
+                            HoTen = "Ngô Thành Nam",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien10",
+                            TrangThai = "Lock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 13,
+                            Email = "oanh.duong@gym.com",
+                            HoTen = "Dương Diệu Oanh",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien11",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 14,
+                            Email = "phuc.ly@gym.com",
+                            HoTen = "Lý Gia Phúc",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien12",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 15,
+                            Email = "quang.phan@gym.com",
+                            HoTen = "Phan Thanh Quang",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien13",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 16,
+                            Email = "son.trinh@gym.com",
+                            HoTen = "Trịnh Bảo Sơn",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien14",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 17,
+                            Email = "tien.hoang@gym.com",
+                            HoTen = "Hoàng Thảo Tiên",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien15",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 18,
+                            Email = "uy.mai@gym.com",
+                            HoTen = "Mai Quốc Uy",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien16",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 19,
+                            Email = "uyen.doan@gym.com",
+                            HoTen = "Đoàn Tố Uyên",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien17",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 20,
+                            Email = "viet.cao@gym.com",
+                            HoTen = "Cao Đăng Việt",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien18",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 21,
+                            Email = "yen.nguyen@gym.com",
+                            HoTen = "Nguyễn Hải Yến",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien19",
+                            TrangThai = "Unlock",
+                            VaiTro = "hoivien"
+                        },
+                        new
+                        {
+                            MaTaiKhoan = 22,
+                            Email = "tung.le@gym.com",
+                            HoTen = "Lê Văn Tùng",
+                            MatKhau = "hoivien123",
+                            TenDangNhap = "hoivien20",
+                            TrangThai = "Lock",
                             VaiTro = "hoivien"
                         });
                 });

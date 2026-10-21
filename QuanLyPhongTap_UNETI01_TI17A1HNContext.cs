@@ -67,14 +67,55 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
             .Property(p => p.TongTien)
             .HasPrecision(18, 2);
 
-        // 1. Seed TaiKhoan
+        // Danh sách thông tin 20 hội viên thực tế
+        var memberData = new (string HoTen, string GioiTinh, DateTime NgaySinh, string Phone, string Email, string TrangThai)[]
+        {
+            ("Nguyễn Văn An", "Nam", new DateTime(1998, 5, 15), "0912345001", "an.nguyen@gym.com", "Unlock"),
+            ("Trần Thị Bích", "Nữ", new DateTime(1999, 8, 20), "0912345002", "bich.tran@gym.com", "Unlock"),
+            ("Lê Hoàng Cường", "Nam", new DateTime(1995, 11, 10), "0912345003", "cuong.le@gym.com", "Unlock"),
+            ("Phạm Minh Đức", "Nam", new DateTime(2001, 3, 25), "0912345004", "duc.pham@gym.com", "Unlock"),
+            ("Vũ Phương Dung", "Nữ", new DateTime(2000, 9, 12), "0912345005", "dung.vu@gym.com", "Unlock"),
+            ("Đặng Quốc Hưng", "Nam", new DateTime(1997, 7, 8), "0912345006", "hung.dang@gym.com", "Unlock"),
+            ("Bùi Thu Hà", "Nữ", new DateTime(2002, 1, 30), "0912345007", "ha.bui@gym.com", "Unlock"),
+            ("Đỗ Tuấn Kiệt", "Nam", new DateTime(1996, 12, 4), "0912345008", "kiet.do@gym.com", "Unlock"),
+            ("Hồ Mai Linh", "Nữ", new DateTime(2003, 4, 18), "0912345009", "linh.ho@gym.com", "Unlock"),
+            ("Ngô Thành Nam", "Nam", new DateTime(1994, 6, 22), "0912345010", "nam.ngo@gym.com", "Lock"),
+            ("Dương Diệu Oanh", "Nữ", new DateTime(1999, 10, 14), "0912345011", "oanh.duong@gym.com", "Unlock"),
+            ("Lý Gia Phúc", "Nam", new DateTime(2001, 8, 5), "0912345012", "phuc.ly@gym.com", "Unlock"),
+            ("Phan Thanh Quang", "Nam", new DateTime(1998, 2, 28), "0912345013", "quang.phan@gym.com", "Unlock"),
+            ("Trịnh Bảo Sơn", "Nam", new DateTime(1997, 11, 19), "0912345014", "son.trinh@gym.com", "Unlock"),
+            ("Hoàng Thảo Tiên", "Nữ", new DateTime(2002, 7, 27), "0912345015", "tien.hoang@gym.com", "Unlock"),
+            ("Mai Quốc Uy", "Nam", new DateTime(1993, 3, 16), "0912345016", "uy.mai@gym.com", "Unlock"),
+            ("Đoàn Tố Uyên", "Nữ", new DateTime(2000, 12, 9), "0912345017", "uyen.doan@gym.com", "Unlock"),
+            ("Cao Đăng Việt", "Nam", new DateTime(1996, 9, 3), "0912345018", "viet.cao@gym.com", "Unlock"),
+            ("Nguyễn Hải Yến", "Nữ", new DateTime(2004, 5, 21), "0912345019", "yen.nguyen@gym.com", "Unlock"),
+            ("Lê Văn Tùng", "Nam", new DateTime(1995, 4, 11), "0912345020", "tung.le@gym.com", "Lock")
+        };
+
+        // 1. Seed TaiKhoan (2 Admin + 20 Hội viên liên kết 1-1)
         modelBuilder.Entity<TaiKhoan>().HasIndex(tdn => tdn.TenDangNhap).IsUnique();
-        modelBuilder.Entity<TaiKhoan>().HasData(
-            new TaiKhoan { MaTaiKhoan = 1, TenDangNhap = "admin01", MatKhau = "admin123", HoTen = "Admin 01", Email = "admin01@gym.com", VaiTro = "admin", TrangThai = "Lock" },
-            new TaiKhoan { MaTaiKhoan = 2, TenDangNhap = "admin02", MatKhau = "admin123", HoTen = "Admin 02", Email = "admin02@gym.com", VaiTro = "admin", TrangThai = "Unlock" },
-            new TaiKhoan { MaTaiKhoan = 3, TenDangNhap = "hoivien01", MatKhau = "hoivien123", HoTen = "Nguyễn Văn A", Email = "vana@gym.com", VaiTro = "hoivien", TrangThai = "Lock" },
-            new TaiKhoan { MaTaiKhoan = 4, TenDangNhap = "hoivien02", MatKhau = "hoivien123", HoTen = "Trần Thị B", Email = "thib@gym.com", VaiTro = "hoivien", TrangThai = "Unlock" }
-        );
+        var taiKhoans = new List<TaiKhoan>
+        {
+            new TaiKhoan { MaTaiKhoan = 1, TenDangNhap = "admin01", MatKhau = "admin123", HoTen = "Admin 01", Email = "admin01@gym.com", VaiTro = "admin", TrangThai = "Unlock" },
+            new TaiKhoan { MaTaiKhoan = 2, TenDangNhap = "admin02", MatKhau = "admin123", HoTen = "Admin 02", Email = "admin02@gym.com", VaiTro = "admin", TrangThai = "Unlock" }
+        };
+
+        for (int i = 0; i < memberData.Length; i++)
+        {
+            int maTk = i + 3;
+            var m = memberData[i];
+            taiKhoans.Add(new TaiKhoan
+            {
+                MaTaiKhoan = maTk,
+                TenDangNhap = $"hoivien{i + 1:D2}",
+                MatKhau = "hoivien123",
+                HoTen = m.HoTen,
+                Email = m.Email,
+                VaiTro = "hoivien",
+                TrangThai = m.TrangThai
+            });
+        }
+        modelBuilder.Entity<TaiKhoan>().HasData(taiKhoans);
 
         // 2. Seed LoaiGoiTap (6 categories)
         modelBuilder.Entity<LoaiGoiTap>().HasData(
@@ -105,52 +146,59 @@ public class QuanLyPhongTap_UNETI01_TI17A1HNContext(DbContextOptions<QuanLyPhong
             new GoiTap { MaGoiTap = "GT15", TenGoiTap = "Bơi + Yoga", ThoiHanThang = "2", DonGia = 700000m, SoBuoiToiDa = 60, MoTa = "Kết hợp Yoga thanh lọc cơ thể và bơi lội rèn luyện sức bền", TrangThai = "Đang áp dụng", MaLoaiGoi = 3 }
         );
 
-        // 4. Seed HoiVien (20 members)
+        // 4. Seed HoiVien (20 members liên kết 1-1 với TaiKhoan)
         var hoiViens = new List<HoiVien>();
-        for (int i = 1; i <= 20; i++)
+        for (int i = 0; i < memberData.Length; i++)
         {
+            int maTk = i + 3;
+            var m = memberData[i];
             hoiViens.Add(new HoiVien
             {
-                MaHoiVien = $"HV{i:D2}",
-                MaTaiKhoan = (i % 2 == 0 ? 4 : 3).ToString(),
-                HoTen = $"Hội viên {i}",
-                NgaySinh = new DateTime(1990 + (i % 10), (i % 12) + 1, (i % 28) + 1),
-                GioiTinh = i % 2 == 0 ? "Nam" : "Nữ",
-                SoDienThoai = $"091234567{i % 10}",
-                Email = $"hoivien{i}@email.com",
-                NgayThamGia = new DateTime(2026, 1, 1).AddDays(-i * 10),
-                TrangThai = i % 10 == 0 ? "Ngừng hoạt động" : "Đang hoạt động"
+                MaHoiVien = $"HV{i + 1:D2}",
+                MaTaiKhoan = maTk.ToString(),
+                HoTen = m.HoTen,
+                NgaySinh = m.NgaySinh,
+                GioiTinh = m.GioiTinh,
+                SoDienThoai = m.Phone,
+                Email = m.Email,
+                NgayThamGia = new DateTime(2026, 1, 10).AddDays(i * 5),
+                TrangThai = m.TrangThai == "Unlock" ? "Đang hoạt động" : "Ngừng hoạt động"
             });
         }
         modelBuilder.Entity<HoiVien>().HasData(hoiViens);
 
-        // 5. Seed PhieuDangKy (30 tickets)
-        var phieus = new List<PhieuDangKy>();
-        for (int i = 1; i <= 30; i++)
+        // 5. Seed PhieuDangKy (28 tickets liên kết chính xác với HoiVien và GoiTap)
+        var phieus = new List<PhieuDangKy>
         {
-            var hoiVienId = (i % 20) + 1;
-            var goiTapId = (i % 15) + 1;
-            var ngayDangKy = new DateTime(2026, 1, 1).AddDays(i * 7);
-            var trangThai = "Chờ xác nhận";
-
-            if (i % 5 == 0) trangThai = "Đã hủy";
-            else if (i % 3 == 0) trangThai = "Đang hiệu lực";
-
-            var donGia = i < 15 ? 350000m : 1000000m;
-
-            phieus.Add(new PhieuDangKy
-            {
-                MaPhieu = $"PDK{i:D2}",
-                MaHoiVien = $"HV{hoiVienId:D2}",
-                MaGoiTap = $"GT{goiTapId:D2}",
-                NgayDangKy = ngayDangKy,
-                NgayBatDau = ngayDangKy,
-                NgayKetThuc = ngayDangKy.AddDays(90),
-                DonGia = donGia,
-                TongTien = donGia,
-                TrangThai = trangThai
-            });
-        }
+            new PhieuDangKy { MaPhieu = "PDK01", MaHoiVien = "HV01", MaGoiTap = "GT02", NgayDangKy = new DateTime(2026, 9, 15), NgayBatDau = new DateTime(2026, 9, 15), NgayKetThuc = new DateTime(2026, 12, 15), DonGia = 350000m, TongTien = 350000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK02", MaHoiVien = "HV01", MaGoiTap = "GT01", NgayDangKy = new DateTime(2026, 5, 10), NgayBatDau = new DateTime(2026, 5, 10), NgayKetThuc = new DateTime(2026, 6, 10), DonGia = 150000m, TongTien = 150000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK03", MaHoiVien = "HV02", MaGoiTap = "GT07", NgayDangKy = new DateTime(2026, 10, 5), NgayBatDau = new DateTime(2026, 10, 5), NgayKetThuc = new DateTime(2026, 11, 5), DonGia = 250000m, TongTien = 250000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK04", MaHoiVien = "HV02", MaGoiTap = "GT08", NgayDangKy = new DateTime(2026, 4, 1), NgayBatDau = new DateTime(2026, 4, 1), NgayKetThuc = new DateTime(2026, 7, 1), DonGia = 600000m, TongTien = 600000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK05", MaHoiVien = "HV03", MaGoiTap = "GT05", NgayDangKy = new DateTime(2026, 9, 20), NgayBatDau = new DateTime(2026, 9, 20), NgayKetThuc = new DateTime(2026, 11, 20), DonGia = 2000000m, TongTien = 2000000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK06", MaHoiVien = "HV04", MaGoiTap = "GT03", NgayDangKy = new DateTime(2026, 7, 1), NgayBatDau = new DateTime(2026, 7, 1), NgayKetThuc = new DateTime(2027, 1, 1), DonGia = 600000m, TongTien = 600000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK07", MaHoiVien = "HV05", MaGoiTap = "GT11", NgayDangKy = new DateTime(2026, 8, 15), NgayBatDau = new DateTime(2026, 8, 15), NgayKetThuc = new DateTime(2026, 11, 15), DonGia = 1200000m, TongTien = 1200000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK08", MaHoiVien = "HV06", MaGoiTap = "GT04", NgayDangKy = new DateTime(2026, 1, 15), NgayBatDau = new DateTime(2026, 1, 15), NgayKetThuc = new DateTime(2027, 1, 15), DonGia = 1000000m, TongTien = 1000000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK09", MaHoiVien = "HV07", MaGoiTap = "GT09", NgayDangKy = new DateTime(2026, 10, 10), NgayBatDau = new DateTime(2026, 10, 10), NgayKetThuc = new DateTime(2026, 11, 10), DonGia = 200000m, TongTien = 200000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK10", MaHoiVien = "HV08", MaGoiTap = "GT06", NgayDangKy = new DateTime(2026, 8, 1), NgayBatDau = new DateTime(2026, 8, 1), NgayKetThuc = new DateTime(2026, 11, 1), DonGia = 3500000m, TongTien = 3500000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK11", MaHoiVien = "HV09", MaGoiTap = "GT15", NgayDangKy = new DateTime(2026, 9, 1), NgayBatDau = new DateTime(2026, 9, 1), NgayKetThuc = new DateTime(2026, 11, 1), DonGia = 700000m, TongTien = 700000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK12", MaHoiVien = "HV10", MaGoiTap = "GT01", NgayDangKy = new DateTime(2026, 2, 1), NgayBatDau = new DateTime(2026, 2, 1), NgayKetThuc = new DateTime(2026, 3, 1), DonGia = 150000m, TongTien = 150000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK13", MaHoiVien = "HV11", MaGoiTap = "GT10", NgayDangKy = new DateTime(2026, 6, 15), NgayBatDau = new DateTime(2026, 6, 15), NgayKetThuc = new DateTime(2026, 12, 15), DonGia = 900000m, TongTien = 900000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK14", MaHoiVien = "HV12", MaGoiTap = "GT02", NgayDangKy = new DateTime(2026, 8, 20), NgayBatDau = new DateTime(2026, 8, 20), NgayKetThuc = new DateTime(2026, 11, 20), DonGia = 350000m, TongTien = 350000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK15", MaHoiVien = "HV13", MaGoiTap = "GT12", NgayDangKy = new DateTime(2026, 7, 10), NgayBatDau = new DateTime(2026, 7, 10), NgayKetThuc = new DateTime(2027, 1, 10), DonGia = 2000000m, TongTien = 2000000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK16", MaHoiVien = "HV14", MaGoiTap = "GT05", NgayDangKy = new DateTime(2026, 9, 10), NgayBatDau = new DateTime(2026, 9, 10), NgayKetThuc = new DateTime(2026, 11, 10), DonGia = 2000000m, TongTien = 2000000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK17", MaHoiVien = "HV15", MaGoiTap = "GT07", NgayDangKy = new DateTime(2026, 10, 12), NgayBatDau = new DateTime(2026, 10, 12), NgayKetThuc = new DateTime(2026, 11, 12), DonGia = 250000m, TongTien = 250000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK18", MaHoiVien = "HV16", MaGoiTap = "GT03", NgayDangKy = new DateTime(2026, 3, 1), NgayBatDau = new DateTime(2026, 3, 1), NgayKetThuc = new DateTime(2026, 9, 1), DonGia = 600000m, TongTien = 600000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK19", MaHoiVien = "HV17", MaGoiTap = "GT09", NgayDangKy = new DateTime(2026, 10, 15), NgayBatDau = new DateTime(2026, 10, 15), NgayKetThuc = new DateTime(2026, 11, 15), DonGia = 200000m, TongTien = 200000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK20", MaHoiVien = "HV18", MaGoiTap = "GT13", NgayDangKy = new DateTime(2026, 5, 1), NgayBatDau = new DateTime(2026, 5, 1), NgayKetThuc = new DateTime(2027, 5, 1), DonGia = 3500000m, TongTien = 3500000m, TrangThai = "Đang hiệu lực" },
+            new PhieuDangKy { MaPhieu = "PDK21", MaHoiVien = "HV19", MaGoiTap = "GT08", NgayDangKy = new DateTime(2026, 10, 18), NgayBatDau = new DateTime(2026, 10, 18), NgayKetThuc = new DateTime(2027, 1, 18), DonGia = 600000m, TongTien = 600000m, TrangThai = "Chờ xác nhận" },
+            new PhieuDangKy { MaPhieu = "PDK22", MaHoiVien = "HV20", MaGoiTap = "GT01", NgayDangKy = new DateTime(2026, 1, 10), NgayBatDau = new DateTime(2026, 1, 10), NgayKetThuc = new DateTime(2026, 2, 10), DonGia = 150000m, TongTien = 150000m, TrangThai = "Đã hủy" },
+            new PhieuDangKy { MaPhieu = "PDK23", MaHoiVien = "HV03", MaGoiTap = "GT02", NgayDangKy = new DateTime(2026, 10, 20), NgayBatDau = new DateTime(2026, 10, 20), NgayKetThuc = new DateTime(2027, 1, 20), DonGia = 350000m, TongTien = 350000m, TrangThai = "Chờ xác nhận" },
+            new PhieuDangKy { MaPhieu = "PDK24", MaHoiVien = "HV06", MaGoiTap = "GT09", NgayDangKy = new DateTime(2026, 10, 19), NgayBatDau = new DateTime(2026, 10, 19), NgayKetThuc = new DateTime(2026, 11, 19), DonGia = 200000m, TongTien = 200000m, TrangThai = "Chờ xác nhận" },
+            new PhieuDangKy { MaPhieu = "PDK25", MaHoiVien = "HV08", MaGoiTap = "GT15", NgayDangKy = new DateTime(2026, 10, 21), NgayBatDau = new DateTime(2026, 10, 21), NgayKetThuc = new DateTime(2026, 12, 21), DonGia = 700000m, TongTien = 700000m, TrangThai = "Chờ xác nhận" },
+            new PhieuDangKy { MaPhieu = "PDK26", MaHoiVien = "HV11", MaGoiTap = "GT11", NgayDangKy = new DateTime(2026, 10, 21), NgayBatDau = new DateTime(2026, 10, 21), NgayKetThuc = new DateTime(2027, 1, 21), DonGia = 1200000m, TongTien = 1200000m, TrangThai = "Chờ xác nhận" },
+            new PhieuDangKy { MaPhieu = "PDK27", MaHoiVien = "HV14", MaGoiTap = "GT14", NgayDangKy = new DateTime(2026, 6, 1), NgayBatDau = new DateTime(2026, 6, 1), NgayKetThuc = new DateTime(2026, 9, 1), DonGia = 800000m, TongTien = 800000m, TrangThai = "Đã hủy" },
+            new PhieuDangKy { MaPhieu = "PDK28", MaHoiVien = "HV04", MaGoiTap = "GT01", NgayDangKy = new DateTime(2026, 3, 15), NgayBatDau = new DateTime(2026, 3, 15), NgayKetThuc = new DateTime(2026, 4, 15), DonGia = 150000m, TongTien = 150000m, TrangThai = "Đã hủy" }
+        };
         modelBuilder.Entity<PhieuDangKy>().HasData(phieus);
     }
 }
