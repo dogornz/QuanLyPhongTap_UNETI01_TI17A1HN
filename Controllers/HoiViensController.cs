@@ -135,6 +135,14 @@ public class HoiViensController : Controller
             return NotFound();
         }
 
+        // Kiểm tra xem hội viên có còn thời gian gói tập không
+        var activePackages = _service.GetActivePackages(id);
+        bool hasActivePackage = activePackages.Any();
+
+        ViewBag.HasActivePackage = hasActivePackage;
+        ViewBag.ActivePackages = activePackages;
+        ViewBag.CanDelete = !hasActivePackage;
+
         return View(hoiVien);
     }
 
@@ -142,6 +150,13 @@ public class HoiViensController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(string maHoiVien)
     {
+        // Chặn admin xóa nếu hội viên vẫn còn thời gian tập
+        if (_service.HasActivePackage(maHoiVien))
+        {
+            TempData["Error"] = "Hội viên còn thời gian tập! Không thể xóa hội viên này.";
+            return RedirectToAction(nameof(Index));
+        }
+
         var res = _service.Delete(maHoiVien);
         if (res.success)
         {

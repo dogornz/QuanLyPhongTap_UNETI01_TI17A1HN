@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Đăng ký gói tập";
 }
 
@@ -16,14 +16,34 @@
                 </div>
             }
 
-            <form asp-controller="PhieuDangKys"
+            @if (ViewBag.RequireConfirm == true)
+            {
+                <div class="alert alert-warning border-warning" role="alert">
+                    <h5 class="alert-heading fw-bold">
+                        <i class="bi bi-exclamation-triangle-fill"></i> Cảnh báo gói tập đang sử dụng
+                    </h5>
+                    <p class="mb-2 fs-6">@ViewBag.ConfirmMessage</p>
+                    <hr />
+                    <p class="mb-0 small text-muted">
+                        Bấm <strong>"Xác nhận tiếp tục đăng ký"</strong> bên dưới nếu bạn vẫn muốn đăng ký gói tập này.
+                    </p>
+                </div>
+            }
+
+            <div id="liveAlertBox" style="display: none;" class="mb-3"></div>
+
+            <form id="formDangKy"
+                  asp-controller="PhieuDangKys"
                   asp-action="Create"
                   method="post">
                 @Html.AntiForgeryToken()
 
+                <input type="hidden" name="xacNhanGoiKhac" id="xacNhanGoiKhac" value="@(ViewBag.RequireConfirm == true ? "true" : "false")" />
+
                 <div class="mb-3">
-                    <label class="form-label">Hội viên</label>
+                    <label class="form-label fw-semibold">Hội viên</label>
                     <select name="maHoiVien"
+                            id="selectHoiVien"
                             class="form-select"
                             asp-items="ViewBag.HoiViens"
                             required>
@@ -32,8 +52,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Gói tập</label>
+                    <label class="form-label fw-semibold">Gói tập</label>
                     <select name="maGoiTap"
+                            id="selectGoiTap"
                             class="form-select"
                             asp-items="ViewBag.GoiTaps"
                             required>
@@ -42,29 +63,122 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Ngày bắt đầu</label>
+                    <label class="form-label fw-semibold">Ngày bắt đầu</label>
                     <input type="date"
                            name="ngayBatDau"
+                           id="inputNgayBatDau"
                            class="form-control"
                            min="@DateTime.Today.ToString("yyyy-MM-dd")"
-                           value="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           value="@(ViewBag.SelectedNgayBatDau ?? DateTime.Today.ToString("yyyy-MM-dd"))"
                            required />
+                    <div id="helpNgayBatDau" class="form-text text-primary fw-semibold mt-1"></div>
                 </div>
 
                 <div class="alert alert-info">
-                    Phiếu đăng ký sẽ ở trạng thái
-                    <strong>Chờ xác nhận</strong> sau khi gửi.
+                    Phiếu đăng ký sẽ ở trạng thái <strong>Chờ xác nhận</strong> sau khi gửi.
                 </div>
 
-                <button type="submit" class="btn btn-primary">
-                    Đăng ký
-                </button>
+                <div class="d-flex gap-2">
+                    <button type="submit" id="btnSubmit" class="btn btn-primary">
+                        @(ViewBag.RequireConfirm == true ? "Xác nhận tiếp tục đăng ký" : "Đăng ký")
+                    </button>
 
-                <a asp-action="Index"
-                   class="btn btn-secondary">
-                    Xem gói đã đăng ký
-                </a>
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        Xem gói đã đăng ký
+                    </a>
+                </div>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectHoiVien = document.getElementById("selectHoiVien");
+        const selectGoiTap = document.getElementById("selectGoiTap");
+        const inputNgayBatDau = document.getElementById("inputNgayBatDau");
+        const helpNgayBatDau = document.getElementById("helpNgayBatDau");
+        const liveAlertBox = document.getElementById("liveAlertBox");
+        const xacNhanGoiKhac = document.getElementById("xacNhanGoiKhac");
+        const formDangKy = document.getElementById("formDangKy");
+
+        let activePackageData = null;
+
+        async function kiemTraGoiTap() {
+            const maHv = selectHoiVien.value;
+            const maGt = selectGoiTap.value;
+
+            if (!maHv) {
+                liveAlertBox.style.display = "none";
+                activePackageData = null;
+                helpNgayBatDau.innerText = "";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/PhieuDangKys/KiemTraGoiTap?maHoiVien=${encodeURIComponent(maHv)}&maGoiTap=${encodeURIComponent(maGt || "")}`);
+                if (!response.ok) return;
+
+                const data = await response.json();
+                activePackageData = data;
+
+                if (data.hasActive) {
+                    if (maGt && data.isSamePackage) {
+                        // Cùng gói đã đăng ký
+                        liveAlertBox.className = "alert alert-success border-success";
+                        liveAlertBox.innerHTML = `<strong>ℹ️ Cộng dồn thời gian:</strong> Hội viên đang sử dụng gói tập <strong>${data.tenGoiHienTai}</strong> (hết hạn ngày <strong>${data.ngayKetThucHienTai}</strong>). Hệ thống sẽ tự động cộng thêm thời gian tiếp nối sau ngày kết thúc của gói tập trước.`;
+                        liveAlertBox.style.display = "block";
+
+                        if (inputNgayBatDau) {
+                            inputNgayBatDau.value = data.ngayKetThucHienTaiIso;
+                        }
+                        helpNgayBatDau.innerText = `Ngày bắt đầu được tự động gán tiếp nối từ ngày kết thúc của gói trước (${data.ngayKetThucHienTai}).`;
+                        xacNhanGoiKhac.value = "false";
+                    } else if (maGt && !data.isSamePackage) {
+                        // Khác gói đang sử dụng
+                        liveAlertBox.className = "alert alert-warning border-warning";
+                        liveAlertBox.innerHTML = `<strong>⚠️ Chú ý:</strong> Hội viên đang trong thời gian sử dụng của gói tập <strong>${data.tenGoiHienTai}</strong> (hạn đến <strong>${data.ngayKetThucHienTai}</strong>). Bạn đang chọn đăng ký gói khác.`;
+                        liveAlertBox.style.display = "block";
+                        helpNgayBatDau.innerText = "";
+                        xacNhanGoiKhac.value = "false";
+                    } else {
+                        // Đã chọn hội viên nhưng chưa chọn gói
+                        liveAlertBox.className = "alert alert-info border-info";
+                        liveAlertBox.innerHTML = `Hội viên hiện đang có gói tập <strong>${data.tenGoiHienTai}</strong> còn thời gian sử dụng đến ngày <strong>${data.ngayKetThucHienTai}</strong>.`;
+                        liveAlertBox.style.display = "block";
+                        helpNgayBatDau.innerText = "";
+                    }
+                } else {
+                    liveAlertBox.style.display = "none";
+                    helpNgayBatDau.innerText = "";
+                    xacNhanGoiKhac.value = "false";
+                }
+            } catch (err) {
+                console.error("Lỗi khi kiểm tra gói tập:", err);
+            }
+        }
+
+        selectHoiVien.addEventListener("change", kiemTraGoiTap);
+        selectGoiTap.addEventListener("change", kiemTraGoiTap);
+
+        formDangKy.addEventListener("submit", function (e) {
+            if (activePackageData && activePackageData.hasActive && !activePackageData.isSamePackage && xacNhanGoiKhac.value !== "true") {
+                const message = `bạn đag trong thời gian sử dụng của gói tập ${activePackageData.tenGoiHienTai}, bạn có xác nhận đăng ký gói khác không?`;
+                const confirmed = confirm(message);
+                if (confirmed) {
+                    xacNhanGoiKhac.value = "true";
+                } else {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        });
+
+        if (selectHoiVien.value) {
+            kiemTraGoiTap();
+        }
+    });
+</script>
+}

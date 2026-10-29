@@ -6,11 +6,38 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
     public class HoiVienService
     {
         private readonly IHoiVienRepository _repository;
+        private readonly IPhieuDangKyRepository _phieuRepository;
 
         public HoiVienService(
-            IHoiVienRepository repository)
+            IHoiVienRepository repository,
+            IPhieuDangKyRepository phieuRepository)
         {
             _repository = repository;
+            _phieuRepository = phieuRepository;
+        }
+
+        // ================================
+        // KIỂM TRA GÓI TẬP CÒN HẠN
+        // ================================
+        public List<PhieuDangKy> GetActivePackages(string maHv)
+        {
+            if (string.IsNullOrWhiteSpace(maHv))
+            {
+                return new List<PhieuDangKy>();
+            }
+
+            var today = DateTime.Today;
+            return _phieuRepository.GetAll()
+                .Where(p => p.MaHoiVien == maHv
+                            && p.TrangThai != "Đã hủy"
+                            && p.NgayKetThuc.Date >= today)
+                .OrderBy(p => p.NgayKetThuc)
+                .ToList();
+        }
+
+        public bool HasActivePackage(string maHv)
+        {
+            return GetActivePackages(maHv).Any();
         }
 
         // ================================
@@ -136,6 +163,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
                     return (false, "Không tìm thấy hội viên cần xóa.");
                 }
 
+                if (HasActivePackage(maHv))
+                {
+                    return (false, "Hội viên còn thời gian tập! Không thể xóa hội viên này.");
+                }
+
                 _repository.Delete(item);
                 _repository.Save();
                 return (true, "Xóa hội viên thành công.");
@@ -146,5 +178,4 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             }
         }
     }
-    
 }

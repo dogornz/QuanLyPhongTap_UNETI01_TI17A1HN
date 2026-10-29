@@ -15,7 +15,6 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             _service = service;
         }
 
-        
         [HttpGet]
         public IActionResult Index(string? maHoiVien)
         {
@@ -34,27 +33,26 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             return View(danhSach);
         }
 
-        
         [HttpGet]
         public IActionResult Create()
         {
             NapDanhSach();
-
             return View();
         }
 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(
             string maHoiVien,
             string maGoiTap,
-            DateTime ngayBatDau)
+            DateTime ngayBatDau,
+            bool xacNhanGoiKhac = false)
         {
             var ketQua = _service.DangKy(
                 maHoiVien,
                 maGoiTap,
-                ngayBatDau);
+                ngayBatDau,
+                xacNhanGoiKhac);
 
             if (ketQua.Success)
             {
@@ -62,11 +60,51 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            if (ketQua.RequireConfirm)
+            {
+                ViewBag.RequireConfirm = true;
+                ViewBag.ConfirmMessage = ketQua.Message;
+                ViewBag.TenGoiHienTai = ketQua.TenGoiHienTai;
+                ViewBag.SelectedMaHoiVien = maHoiVien;
+                ViewBag.SelectedMaGoiTap = maGoiTap;
+                ViewBag.SelectedNgayBatDau = ngayBatDau.ToString("yyyy-MM-dd");
+                NapDanhSach(maHoiVien, maGoiTap);
+                return View();
+            }
+
             TempData["Error"] = ketQua.Message;
-
             NapDanhSach(maHoiVien, maGoiTap);
-
             return View();
+        }
+
+        // API kiểm tra tình trạng gói tập của hội viên (cho Ajax gọi từ Create.cshtml)
+        [HttpGet]
+        public IActionResult KiemTraGoiTap(string maHoiVien, string? maGoiTap)
+        {
+            if (string.IsNullOrWhiteSpace(maHoiVien))
+            {
+                return Json(new { hasActive = false });
+            }
+
+            var activeTicket = _service.GetActiveTicket(maHoiVien);
+            if (activeTicket == null)
+            {
+                return Json(new { hasActive = false });
+            }
+
+            string tenGoiHienTai = activeTicket.GoiTap?.TenGoiTap ?? activeTicket.MaGoiTap;
+            bool isSamePackage = (!string.IsNullOrWhiteSpace(maGoiTap) && activeTicket.MaGoiTap == maGoiTap);
+
+            return Json(new
+            {
+                hasActive = true,
+                isSamePackage = isSamePackage,
+                maGoiHienTai = activeTicket.MaGoiTap,
+                tenGoiHienTai = tenGoiHienTai,
+                ngayKetThucHienTai = activeTicket.NgayKetThuc.ToString("dd/MM/yyyy"),
+                ngayKetThucHienTaiIso = activeTicket.NgayKetThuc.ToString("yyyy-MM-dd"),
+                canhBao = $"Bạn đang trong thời gian sử dụng của gói tập {tenGoiHienTai}, bạn có xác nhận đăng ký gói khác không?"
+            });
         }
 
         [HttpPost]
