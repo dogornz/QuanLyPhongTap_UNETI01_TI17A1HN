@@ -13,7 +13,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Models
         public string TenDangNhap { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Mật khẩu không được để trống")]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu tối thiểu 6 ký tự")]
+        [StringLength(255, ErrorMessage = "Mật khẩu không được vượt quá 255 ký tự")]
         public string MatKhau { get; set; } = string.Empty;
 
         [StringLength(100, ErrorMessage = "Họ tên không được vượt quá 100 ký tự !!!")]

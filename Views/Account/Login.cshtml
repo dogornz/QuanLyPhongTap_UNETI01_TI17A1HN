@@ -24,13 +24,25 @@
                 <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
             }
             <div class="form-group mb-3">
-                <label asp-for="TenDangNhap" class="control-label">Tên đăng nhập</label>
-                <input asp-for="TenDangNhap" class="form-control" />
+                <label asp-for="TenDangNhap" class="control-label fw-bold">Tên đăng nhập</label>
+                <input asp-for="TenDangNhap" class="form-control" placeholder="Nhập tên đăng nhập..." />
                 <span asp-validation-for="TenDangNhap" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="MatKhau" class="control-label">Mật khẩu</label>
-                <input asp-for="MatKhau" type="password" class="form-control" />
+                <label asp-for="MatKhau" class="control-label fw-bold">Mật khẩu</label>
+                <div class="input-group">
+                    <input asp-for="MatKhau" type="password" class="form-control" id="passwordInput" placeholder="Nhập mật khẩu..." />
+                    <button class="btn btn-outline-secondary" type="button" id="btnTogglePassword" title="Hiện/Ẩn mật khẩu">
+                        <svg id="iconEye" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                        </svg>
+                        <svg id="iconEyeSlash" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash d-none" viewBox="0 0 16 16">
+                            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.509.49zm-1.745 1.746l-.77-.77A6 6 0 0 1 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8q.086-.13.195-.288c.335-.48.83-1.12 1.465-1.755q.247-.248.509-.49l-.77-.77A7 7 0 0 0 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M8 5.5a2.5 2.5 0 0 0-2.5 2.5q0 .178.03.35l2.82-2.82A2.5 2.5 0 0 0 8 5.5"/>
+                            <path d="M13.646 14.354l-12-12 .708-.708 12 12z"/>
+                        </svg>
+                    </button>
+                </div>
                 <span asp-validation-for="MatKhau" class="text-danger"></span>
             </div>
             <div class="form-group form-check mb-3">
@@ -50,4 +62,41 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pwdInput = document.getElementById('passwordInput');
+            const btnToggle = document.getElementById('btnTogglePassword');
+            const iconEye = document.getElementById('iconEye');
+            const iconEyeSlash = document.getElementById('iconEyeSlash');
+
+            function hidePwd() {
+                pwdInput.type = 'password';
+                iconEye.classList.remove('d-none');
+                iconEyeSlash.classList.add('d-none');
+            }
+
+            function showPwd() {
+                pwdInput.type = 'text';
+                iconEye.classList.add('d-none');
+                iconEyeSlash.classList.remove('d-none');
+            }
+
+            // Click vào nút con mắt để đổi trạng thái
+            btnToggle.addEventListener('click', function () {
+                if (pwdInput.type === 'password') {
+                    showPwd();
+                } else {
+                    hidePwd();
+                }
+            });
+
+            // Khi đang hiển thị mật khẩu, nếu click lại vào ô mật khẩu thì tự động ẩn lại
+            pwdInput.addEventListener('click', function () {
+                if (pwdInput.type === 'text') {
+                    hidePwd();
+                }
+            });
+        });
+    </script>
 }

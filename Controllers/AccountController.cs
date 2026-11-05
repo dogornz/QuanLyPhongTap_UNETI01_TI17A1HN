@@ -4,16 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
     public class AccountController : Controller
     {
         private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
+        private readonly IPasswordService _passwordService;
 
-        public AccountController(QuanLyPhongTap_UNETI01_TI17A1HNContext context)
+        public AccountController(QuanLyPhongTap_UNETI01_TI17A1HNContext context, IPasswordService passwordService)
         {
             _context = context;
+            _passwordService = passwordService;
         }
 
         // GET: /Account/Login
@@ -46,10 +49,18 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             var user = await _context.TaiKhoan
                 .FirstOrDefaultAsync(u => u.TenDangNhap == model.TenDangNhap);
 
-            if (user == null || user.MatKhau != model.MatKhau)
+            // Xác thực mật khẩu qua PasswordService (hỗ trợ hash PBKDF2 và legacy plain text)
+            if (user == null || !_passwordService.VerifyPassword(user.MatKhau, model.MatKhau))
             {
                 ModelState.AddModelError(string.Empty, "Tên đăng nhập hoặc mật khẩu không chính xác.");
                 return View(model);
+            }
+
+            // Nếu tài khoản cũ chưa được băm mật khẩu, tự động nâng cấp sang PBKDF2 hash
+            if (!_passwordService.IsHashed(user.MatKhau))
+            {
+                user.MatKhau = _passwordService.HashPassword(model.MatKhau);
+                await _context.SaveChangesAsync();
             }
 
             if (!string.Equals(user.TrangThai, "Unlock", StringComparison.OrdinalIgnoreCase))
@@ -146,10 +157,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 return View(model);
             }
 
+            // Lưu mật khẩu dưới dạng băm PBKDF2 HMAC-SHA256 chuẩn an toàn
             var newAccount = new TaiKhoan
             {
                 TenDangNhap = model.TenDangNhap.Trim(),
-                MatKhau = model.MatKhau,
+                MatKhau = _passwordService.HashPassword(model.MatKhau),
                 HoTen = model.HoTen.Trim(),
                 Email = model.Email.Trim(),
                 VaiTro = "hoivien",

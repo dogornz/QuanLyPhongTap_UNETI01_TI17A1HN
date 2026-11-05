@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
@@ -11,11 +12,13 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
     {
         private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
         private readonly ILogger<HomeController> _logger;
+        private readonly IPasswordService _passwordService;
 
-        public HomeController(QuanLyPhongTap_UNETI01_TI17A1HNContext context, ILogger<HomeController> logger)
+        public HomeController(QuanLyPhongTap_UNETI01_TI17A1HNContext context, ILogger<HomeController> logger, IPasswordService passwordService)
         {
             _context = context;
             _logger = logger;
+            _passwordService = passwordService;
         }
 
         // GET: /Home/Index
@@ -265,9 +268,9 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 return Json(new { success = false, message = "Vui lòng nhập đầy đủ mật khẩu cũ và mới!" });
             }
 
-            if (dto.MatKhauMoi.Length < 6 || dto.MatKhauMoi.Length > 12)
+            if (dto.MatKhauMoi.Length < 6 || dto.MatKhauMoi.Length > 30)
             {
-                return Json(new { success = false, message = "Mật khẩu mới phải từ 6 đến 12 ký tự!" });
+                return Json(new { success = false, message = "Mật khẩu mới phải từ 6 đến 30 ký tự!" });
             }
 
             if (dto.MatKhauMoi != dto.XacNhanMatKhauMoi)
@@ -283,12 +286,14 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                     return Json(new { success = false, message = "Vui lòng đăng nhập lại!" });
                 }
 
-                if (taiKhoan.MatKhau != dto.MatKhauCu)
+                // Xác thực mật khẩu cũ bằng PasswordService (hỗ trợ cả PBKDF2 hash và legacy plain text)
+                if (!_passwordService.VerifyPassword(taiKhoan.MatKhau, dto.MatKhauCu))
                 {
                     return Json(new { success = false, message = "Mật khẩu hiện tại không chính xác!" });
                 }
 
-                taiKhoan.MatKhau = dto.MatKhauMoi;
+                // Băm mật khẩu mới bằng chuẩn PBKDF2 HMAC-SHA256
+                taiKhoan.MatKhau = _passwordService.HashPassword(dto.MatKhauMoi);
                 _context.Update(taiKhoan);
                 await _context.SaveChangesAsync();
 

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 {
     [DbContext(typeof(QuanLyPhongTap_UNETI01_TI17A1HNContext))]
-    [Migration("20261021184228_Nhom1")]
-    partial class Nhom1
+    [Migration("20261105005902_NguyenDacDat")]
+    partial class NguyenDacDat
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Migrations
 {
     /// <inheritdoc />
-    public partial class Nhom1 : Migration
+    public partial class NguyenDacDat : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

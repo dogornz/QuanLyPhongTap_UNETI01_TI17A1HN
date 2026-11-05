@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-md-6">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <input type="hidden" asp-for="MaGoiTap" />
 
             <div class="form-group mb-3">
@@ -19,14 +19,16 @@
                 <input value="@Model.MaGoiTap" class="form-control" disabled readonly />
             </div>
 
+            <!-- Tên gói bắt buộc -->
             <div class="form-group mb-3">
                 <label asp-for="TenGoiTap" class="form-label fw-bold">Tên gói tập <span class="text-danger">*</span></label>
-                <input asp-for="TenGoiTap" class="form-control" />
+                <input asp-for="TenGoiTap" class="form-control" required />
                 <span asp-validation-for="TenGoiTap" class="text-danger"></span>
             </div>
 
+            <!-- Loại gói sử dụng select lấy dữ liệu từ Database -->
             <div class="form-group mb-3">
-                <label asp-for="MaLoaiGoi" class="form-label fw-bold">Loại gói tập</label>
+                <label asp-for="MaLoaiGoi" class="form-label fw-bold">Loại gói tập <span class="text-danger">*</span></label>
                 <select asp-for="MaLoaiGoi" class="form-select" asp-items="ViewBag.MaLoaiGoi">
                     <option value="">-- Chọn loại gói tập --</option>
                 </select>
@@ -34,34 +36,41 @@
             </div>
 
             <div class="row">
+                <!-- Thời hạn > 0 -->
                 <div class="col-md-6 form-group mb-3">
-                    <label asp-for="ThoiHanThang" class="form-label fw-bold">Thời hạn (tháng)</label>
-                    <input asp-for="ThoiHanThang" type="number" min="1" max="60" class="form-control" />
+                    <label asp-for="ThoiHanThang" class="form-label fw-bold">Thời hạn (tháng) <span class="text-danger">*</span></label>
+                    <input asp-for="ThoiHanThang" type="number" min="1" class="form-control" required />
                     <span asp-validation-for="ThoiHanThang" class="text-danger"></span>
                 </div>
+                <!-- Số buổi tối đa > 0 nếu gói có giới hạn số buổi -->
                 <div class="col-md-6 form-group mb-3">
                     <label asp-for="SoBuoiToiDa" class="form-label fw-bold">Số buổi tối đa</label>
                     <input asp-for="SoBuoiToiDa" type="number" min="0" class="form-control" />
+                    <small class="form-text text-muted">Nhập &gt; 0 nếu gói có giới hạn số buổi; nhập 0 nếu không giới hạn.</small>
                     <span asp-validation-for="SoBuoiToiDa" class="text-danger"></span>
                 </div>
             </div>
 
+            <!-- Đơn giá > 0 -->
             <div class="form-group mb-3">
                 <label asp-for="DonGia" class="form-label fw-bold">Đơn giá (VNĐ) <span class="text-danger">*</span></label>
-                <input asp-for="DonGia" type="number" step="1000" min="0" class="form-control" />
+                <input asp-for="DonGia" type="number" step="1000" min="1" class="form-control" required />
                 <span asp-validation-for="DonGia" class="text-danger"></span>
             </div>
 
+            <!-- Mô tả sử dụng textarea -->
             <div class="form-group mb-3">
                 <label asp-for="MoTa" class="form-label fw-bold">Mô tả chi tiết</label>
                 <textarea asp-for="MoTa" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="MoTa" class="text-danger"></span>
             </div>
 
+            <!-- Trạng thái sử dụng select: Đang áp dụng, Tạm ngừng, Ngừng áp dụng -->
             <div class="form-group mb-3">
-                <label asp-for="TrangThai" class="form-label fw-bold">Trạng thái áp dụng</label>
+                <label asp-for="TrangThai" class="form-label fw-bold">Trạng thái áp dụng <span class="text-danger">*</span></label>
                 <select asp-for="TrangThai" class="form-select">
                     <option value="Đang áp dụng">Đang áp dụng</option>
+                    <option value="Tạm ngừng">Tạm ngừng</option>
                     <option value="Ngừng áp dụng">Ngừng áp dụng</option>
                 </select>
                 <span asp-validation-for="TrangThai" class="text-danger"></span>

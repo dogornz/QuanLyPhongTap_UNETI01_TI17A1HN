@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
+using QuanLyPhongTap_UNETI01_TI17A1HN.ViewModels;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
@@ -16,22 +17,34 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             _context = context;
         }
 
-        // GET: /GoiTaps or /GoiTaps/Index
-        public async Task<IActionResult> Index(string? keyword, int? maLoaiGoi, string? trangThai)
+        // GET: /GoiTaps
+        // Quy trình: Truy vấn dữ liệu -> Tìm kiếm -> Lọc -> Sắp xếp -> Phân trang -> Hiển thị
+        public async Task<IActionResult> Index(
+            string? searchName,
+            int? maLoaiGoi,
+            string? trangThai,
+            decimal? giaTu,
+            decimal? giaDen,
+            string? thoiHan,
+            string? sortOrder,
+            int page = 1)
         {
+            // 1. Truy vấn dữ liệu
             var query = _context.GoiTap
                 .Include(g => g.LoaiGoiTap)
                 .AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(keyword))
+            // 2. Tìm kiếm (6.3: Cho phép tìm kiếm theo Tên gói tập. Thực hiện bằng LINQ)
+            if (!string.IsNullOrWhiteSpace(searchName))
             {
-                var kw = keyword.Trim().ToLower();
-                query = query.Where(g => g.MaGoiTap.ToLower().Contains(kw) || g.TenGoiTap.ToLower().Contains(kw) || g.MoTa.ToLower().Contains(kw));
+                var kw = searchName.Trim().ToLower();
+                query = query.Where(g => g.TenGoiTap.ToLower().Contains(kw));
             }
 
+            // 3. Lọc (6.4: Loại gói, Trạng thái, Khoảng đơn giá, Thời hạn. Kết hợp được với nhau)
             if (maLoaiGoi.HasValue && maLoaiGoi > 0)
             {
-                query = query.Where(g => g.MaLoaiGoi == maLoaiGoi);
+                query = query.Where(g => g.MaLoaiGoi == maLoaiGoi.Value);
             }
 
             if (!string.IsNullOrWhiteSpace(trangThai) && trangThai != "all")
@@ -39,14 +52,76 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 query = query.Where(g => g.TrangThai == trangThai);
             }
 
-            var list = await query.OrderBy(g => g.MaGoiTap).ToListAsync();
+            if (giaTu.HasValue && giaTu > 0)
+            {
+                query = query.Where(g => g.DonGia >= giaTu.Value);
+            }
 
-            ViewBag.Keyword = keyword;
-            ViewBag.SelectedMaLoaiGoi = maLoaiGoi;
-            ViewBag.SelectedTrangThai = trangThai;
-            ViewBag.LoaiGoiTaps = await _context.LoaiGoiTap.OrderBy(l => l.MaLoaiGoi).ToListAsync();
+            if (giaDen.HasValue && giaDen > 0)
+            {
+                query = query.Where(g => g.DonGia <= giaDen.Value);
+            }
 
-            return View(list);
+            if (!string.IsNullOrWhiteSpace(thoiHan) && thoiHan != "all")
+            {
+                query = query.Where(g => g.ThoiHanThang == thoiHan);
+            }
+
+            // 4. Sắp xếp (6.5: Tên gói A->Z, Z->A, Đơn giá tăng/giảm dần, Thời hạn tăng/giảm dần)
+            query = sortOrder switch
+            {
+                "ten_desc" => query.OrderByDescending(g => g.TenGoiTap),
+                "gia_asc" => query.OrderBy(g => g.DonGia),
+                "gia_desc" => query.OrderByDescending(g => g.DonGia),
+                "thoihan_asc" => query.OrderBy(g => Convert.ToInt32(g.ThoiHanThang)),
+                "thoihan_desc" => query.OrderByDescending(g => Convert.ToInt32(g.ThoiHanThang)),
+                "ten_asc" => query.OrderBy(g => g.TenGoiTap),
+                _ => query.OrderBy(g => g.TenGoiTap)
+            };
+
+            // 5. Phân trang (6.6: Thực hiện bằng EF Core / LINQ Skip() và Take())
+            int totalItems = await query.CountAsync();
+            int pageSize = 5; // Số phần tử mỗi trang
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            if (totalPages < 1) totalPages = 1;
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // 6. Hiển thị
+            var loaiGoiList = await _context.LoaiGoiTap.OrderBy(l => l.MaLoaiGoi).ToListAsync();
+            var rawThoiHan = await _context.GoiTap
+                .Select(g => g.ThoiHanThang)
+                .Where(t => !string.IsNullOrEmpty(t))
+                .Distinct()
+                .ToListAsync();
+            var thoiHanList = rawThoiHan
+                .OrderBy(t => int.TryParse(t, out int val) ? val : 0)
+                .ToList();
+
+            var viewModel = new GoiTapIndexViewModel
+            {
+                Items = items,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                TotalItems = totalItems,
+                PageSize = pageSize,
+                SearchName = searchName,
+                MaLoaiGoi = maLoaiGoi,
+                TrangThai = trangThai,
+                GiaTu = giaTu,
+                GiaDen = giaDen,
+                ThoiHan = thoiHan,
+                SortOrder = sortOrder ?? "ten_asc",
+                LoaiGoiList = loaiGoiList,
+                ThoiHanList = thoiHanList
+            };
+
+            return View(viewModel);
         }
 
         // GET: /GoiTaps/Details/GT01
@@ -66,7 +141,6 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 return NotFound();
             }
 
-            // Lấy danh sách phiếu đăng ký gần đây của gói này
             ViewBag.RecentPhieuDangKy = await _context.PhieuDangKy
                 .Include(p => p.HoiVien)
                 .Where(p => p.MaGoiTap == id)
@@ -82,7 +156,6 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         // GET: /GoiTaps/Create
         public async Task<IActionResult> Create()
         {
-            // Tự động sinh mã gói tập tiếp theo (GT01, GT02... GT16...)
             var allCodes = await _context.GoiTap.Select(g => g.MaGoiTap).ToListAsync();
             int nextNum = 1;
             foreach (var code in allCodes)
@@ -110,6 +183,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MaGoiTap,TenGoiTap,ThoiHanThang,DonGia,SoBuoiToiDa,MoTa,TrangThai,MaLoaiGoi")] GoiTap goiTap)
         {
+            // 6.2: Kiểm tra các yêu cầu Create
             if (string.IsNullOrWhiteSpace(goiTap.MaGoiTap))
             {
                 ModelState.AddModelError("MaGoiTap", "Mã gói tập không được để trống!");
@@ -119,26 +193,53 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 ModelState.AddModelError("MaGoiTap", "Mã gói tập đã tồn tại trong hệ thống!");
             }
 
+            // Tên gói bắt buộc
             if (string.IsNullOrWhiteSpace(goiTap.TenGoiTap))
             {
                 ModelState.AddModelError("TenGoiTap", "Tên gói tập không được để trống!");
             }
 
-            if (goiTap.DonGia < 0)
+            // Loại gói sử dụng select lấy dữ liệu từ Database
+            if (!goiTap.MaLoaiGoi.HasValue || !await _context.LoaiGoiTap.AnyAsync(l => l.MaLoaiGoi == goiTap.MaLoaiGoi.Value))
             {
-                ModelState.AddModelError("DonGia", "Đơn giá không thể là số âm!");
+                ModelState.AddModelError("MaLoaiGoi", "Vui lòng chọn loại gói tập hợp lệ từ danh sách!");
+            }
+
+            // Thời hạn > 0
+            if (string.IsNullOrWhiteSpace(goiTap.ThoiHanThang) || !int.TryParse(goiTap.ThoiHanThang, out int thoiHanVal) || thoiHanVal <= 0)
+            {
+                ModelState.AddModelError("ThoiHanThang", "Thời hạn phải lớn hơn 0 tháng!");
+            }
+
+            // Đơn giá > 0
+            if (goiTap.DonGia <= 0)
+            {
+                ModelState.AddModelError("DonGia", "Đơn giá phải lớn hơn 0!");
+            }
+
+            // Số buổi tối đa > 0 nếu gói có giới hạn số buổi
+            if (goiTap.SoBuoiToiDa < 0)
+            {
+                ModelState.AddModelError("SoBuoiToiDa", "Số buổi tối đa không được nhỏ hơn 0!");
+            }
+
+            // Trạng thái hợp lệ
+            if (string.IsNullOrWhiteSpace(goiTap.TrangThai) ||
+                (goiTap.TrangThai != "Đang áp dụng" && goiTap.TrangThai != "Tạm ngừng" && goiTap.TrangThai != "Ngừng áp dụng"))
+            {
+                ModelState.AddModelError("TrangThai", "Trạng thái không hợp lệ!");
             }
 
             if (ModelState.IsValid)
             {
                 goiTap.MaGoiTap = goiTap.MaGoiTap.Trim().ToUpper();
                 goiTap.TenGoiTap = goiTap.TenGoiTap.Trim();
+                goiTap.ThoiHanThang = goiTap.ThoiHanThang.Trim();
                 goiTap.MoTa = goiTap.MoTa?.Trim() ?? string.Empty;
 
                 _context.Add(goiTap);
                 await _context.SaveChangesAsync();
 
-                // Cập nhật lại số gói trực thuộc của Loại gói tập
                 if (goiTap.MaLoaiGoi.HasValue)
                 {
                     await UpdateSoGoiTrucThuoc(goiTap.MaLoaiGoi.Value);
@@ -180,14 +281,41 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 return NotFound();
             }
 
+            // Tên gói bắt buộc
             if (string.IsNullOrWhiteSpace(goiTap.TenGoiTap))
             {
                 ModelState.AddModelError("TenGoiTap", "Tên gói tập không được để trống!");
             }
 
-            if (goiTap.DonGia < 0)
+            // Loại gói sử dụng select lấy dữ liệu từ Database
+            if (!goiTap.MaLoaiGoi.HasValue || !await _context.LoaiGoiTap.AnyAsync(l => l.MaLoaiGoi == goiTap.MaLoaiGoi.Value))
             {
-                ModelState.AddModelError("DonGia", "Đơn giá không thể là số âm!");
+                ModelState.AddModelError("MaLoaiGoi", "Vui lòng chọn loại gói tập hợp lệ từ danh sách!");
+            }
+
+            // Thời hạn > 0
+            if (string.IsNullOrWhiteSpace(goiTap.ThoiHanThang) || !int.TryParse(goiTap.ThoiHanThang, out int thoiHanVal) || thoiHanVal <= 0)
+            {
+                ModelState.AddModelError("ThoiHanThang", "Thời hạn phải lớn hơn 0 tháng!");
+            }
+
+            // Đơn giá > 0
+            if (goiTap.DonGia <= 0)
+            {
+                ModelState.AddModelError("DonGia", "Đơn giá phải lớn hơn 0!");
+            }
+
+            // Số buổi tối đa > 0 nếu gói có giới hạn số buổi
+            if (goiTap.SoBuoiToiDa < 0)
+            {
+                ModelState.AddModelError("SoBuoiToiDa", "Số buổi tối đa không được nhỏ hơn 0!");
+            }
+
+            // Trạng thái hợp lệ
+            if (string.IsNullOrWhiteSpace(goiTap.TrangThai) ||
+                (goiTap.TrangThai != "Đang áp dụng" && goiTap.TrangThai != "Tạm ngừng" && goiTap.TrangThai != "Ngừng áp dụng"))
+            {
+                ModelState.AddModelError("TrangThai", "Trạng thái không hợp lệ!");
             }
 
             if (ModelState.IsValid)
@@ -203,7 +331,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                     int? oldMaLoaiGoi = existing.MaLoaiGoi;
 
                     existing.TenGoiTap = goiTap.TenGoiTap.Trim();
-                    existing.ThoiHanThang = goiTap.ThoiHanThang?.Trim() ?? "1";
+                    existing.ThoiHanThang = goiTap.ThoiHanThang.Trim();
                     existing.DonGia = goiTap.DonGia;
                     existing.SoBuoiToiDa = goiTap.SoBuoiToiDa;
                     existing.MoTa = goiTap.MoTa?.Trim() ?? string.Empty;
@@ -212,7 +340,6 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 
                     await _context.SaveChangesAsync();
 
-                    // Cập nhật lại số gói trực thuộc
                     if (oldMaLoaiGoi.HasValue) await UpdateSoGoiTrucThuoc(oldMaLoaiGoi.Value);
                     if (existing.MaLoaiGoi.HasValue && existing.MaLoaiGoi != oldMaLoaiGoi) await UpdateSoGoiTrucThuoc(existing.MaLoaiGoi.Value);
 
@@ -250,7 +377,6 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 return NotFound();
             }
 
-            // Kiểm tra ràng buộc dữ liệu: Phiếu đăng ký liên quan
             int relatedTickets = await _context.PhieuDangKy.CountAsync(p => p.MaGoiTap == id);
             ViewBag.RelatedTickets = relatedTickets;
             ViewBag.CanDelete = relatedTickets == 0;
@@ -297,7 +423,12 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 return NotFound();
             }
 
-            goiTap.TrangThai = goiTap.TrangThai == "Đang áp dụng" ? "Ngừng áp dụng" : "Đang áp dụng";
+            goiTap.TrangThai = goiTap.TrangThai switch
+            {
+                "Đang áp dụng" => "Tạm ngừng",
+                "Tạm ngừng" => "Ngừng áp dụng",
+                _ => "Đang áp dụng"
+            };
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = $"Đã chuyển trạng thái gói '{goiTap.TenGoiTap}' thành '{goiTap.TrangThai}'!";
