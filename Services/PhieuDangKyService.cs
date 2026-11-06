@@ -161,10 +161,10 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
                 }
                 else
                 {
-                    // KHÁC GÓI: Cảnh báo "bạn đang trong thời gian sử dụng của gói tập...(tên gói đang sử dụng và thời gian hoạt động), bạn có xác nhận đăng ký gói khác không?"
+                    // KHÁC GÓI: Cảnh báo "bạn đang trong thời gian sử dụng của gói tập..., vui lòng xem kỹ thời gian bắt đầu gói mới"
                     if (!xacNhanGoiKhac)
                     {
-                        string canhBao = $"Cảnh báo: Bạn đang trong thời gian sử dụng của gói tập {tenGoiHienTai} (Thời gian hoạt động: từ {activeTicket.NgayBatDau:dd/MM/yyyy} đến {activeTicket.NgayKetThuc:dd/MM/yyyy}), bạn có xác nhận đăng ký gói khác không?";
+                        string canhBao = $"Bạn đang trong thời gian sử dụng gói tập '{tenGoiHienTai}' (Thời gian hoạt động: từ {activeTicket.NgayBatDau:dd/MM/yyyy} đến {activeTicket.NgayKetThuc:dd/MM/yyyy}). Vui lòng xem kỹ thời gian bắt đầu của gói mới! Bạn có xác nhận đăng ký gói khác không?";
                         return (false, canhBao, true, tenGoiHienTai);
                     }
 

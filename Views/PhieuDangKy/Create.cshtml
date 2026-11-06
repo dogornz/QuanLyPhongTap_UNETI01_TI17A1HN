@@ -160,18 +160,18 @@
                         helpNgayBatDau.innerText = "Gói tập đang hoạt động - không được phép đăng ký thêm.";
                         xacNhanGoiKhac.value = "false";
                     } else if (maGt && !data.isSamePackage) {
-                        // Khác gói đang sử dụng
-                        liveAlertBox.className = "alert alert-warning border-warning";
-                        liveAlertBox.innerHTML = `<strong>⚠️ Cảnh báo gói tập đang hoạt động:</strong> Hội viên đang trong thời gian sử dụng của gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}). Bạn đang chọn đăng ký thêm gói khác.`;
+                        // Khác gói đang sử dụng: Cảnh báo đang trong gói tập và nhắc nhở xem kỹ ngày bắt đầu
+                        liveAlertBox.className = "alert alert-warning border-warning shadow-sm";
+                        liveAlertBox.innerHTML = `<strong>⚠️ Cảnh báo: Bạn đang trong thời gian sử dụng gói tập!</strong><br/>Hội viên đang trong thời gian sử dụng của gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}).<br/><span class="text-danger fw-bold">👉 Vui lòng xem kỹ thời gian bắt đầu gói mới</span> bên dưới để đảm bảo không bị trùng lặp hoặc lãng phí thời gian tập.`;
                         liveAlertBox.style.display = "block";
-                        helpNgayBatDau.innerText = "";
+                        helpNgayBatDau.innerHTML = `<span class="text-danger fw-bold"><i class="bi bi-exclamation-triangle-fill"></i> Bạn đang trong gói tập (hết hạn ngày ${data.ngayKetThucHienTai}). Vui lòng xem kỹ thời gian bắt đầu gói mới!</span>`;
                         xacNhanGoiKhac.value = "false";
                     } else {
                         // Đã chọn hội viên nhưng chưa chọn gói
                         liveAlertBox.className = "alert alert-warning border-warning";
-                        liveAlertBox.innerHTML = `<strong>⚠️ Cảnh báo gói tập đang hoạt động:</strong> Hội viên hiện đang có gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}).`;
+                        liveAlertBox.innerHTML = `<strong>⚠️ Cảnh báo gói tập đang hoạt động:</strong> Hội viên hiện đang có gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}). Vui lòng xem kỹ thời gian khi đăng ký gói mới.`;
                         liveAlertBox.style.display = "block";
-                        helpNgayBatDau.innerText = "";
+                        helpNgayBatDau.innerHTML = `<span class="text-warning text-dark"><i class="bi bi-info-circle-fill"></i> Gói hiện tại hoạt động đến ngày ${data.ngayKetThucHienTai}.</span>`;
                     }
                 } else {
                     liveAlertBox.style.display = "none";
@@ -196,7 +196,8 @@
 
                 if (!activePackageData.isSamePackage && xacNhanGoiKhac.value !== "true") {
                     const thoiGian = (activePackageData.ngayBatDauHienTai ? `từ ${activePackageData.ngayBatDauHienTai} đến ` : "đến ") + activePackageData.ngayKetThucHienTai;
-                    const message = `Cảnh báo: Bạn đang trong thời gian sử dụng của gói tập ${activePackageData.tenGoiHienTai} (Thời gian hoạt động: ${thoiGian}), bạn có xác nhận đăng ký gói khác không?`;
+                    const ngayChon = inputNgayBatDau ? inputNgayBatDau.value : "";
+                    const message = `Cảnh báo: Bạn đang trong thời gian sử dụng gói tập ${activePackageData.tenGoiHienTai} (Thời gian hoạt động: ${thoiGian}).\n\nVui lòng xem kỹ thời gian bắt đầu của gói mới (bạn đang chọn bắt đầu từ: ${ngayChon}).\n\nBạn có xác nhận đăng ký gói khác không?`;
                     const confirmed = confirm(message);
                     if (confirmed) {
                         xacNhanGoiKhac.value = "true";
