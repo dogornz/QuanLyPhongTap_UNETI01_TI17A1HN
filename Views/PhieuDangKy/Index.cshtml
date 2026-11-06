@@ -142,7 +142,7 @@
                                     {
                                         <form asp-action="GiaHan" asp-route-id="@item.MaPhieu" asp-route-soThang="1" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-primary btn-sm px-2 py-1" title="Gia hạn thêm 1 tháng">
+                                            <button type="submit" class="btn btn-primary btn-sm px-2 py-1" onclick="return confirm('Bạn có chắc muốn gia hạn thêm 1 tháng? Phiếu sẽ chuyển sang trạng thái chờ duyệt.');" title="Gia hạn thêm 1 tháng (chờ duyệt)">
                                                 +1 Th
                                             </button>
                                         </form>

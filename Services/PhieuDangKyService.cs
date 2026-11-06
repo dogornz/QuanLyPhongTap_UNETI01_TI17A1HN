@@ -320,7 +320,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         }
 
         // 9. Gia hạn phiếu đăng ký
-        public (bool Success, string Message) GiaHan(string maPhieu, int soThang = 1)
+        public (bool Success, string Message) GiaHan(string maPhieu, int soThang = 1, bool isHoiVien = false)
         {
             var phieu = GetById(maPhieu);
             if (phieu == null)
@@ -339,10 +339,21 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
                 phieu.TongTien += phieu.GoiTap.DonGia;
             }
 
+            if (isHoiVien)
+            {
+                phieu.TrangThai = "Chờ xác nhận";
+            }
+
             try
             {
                 _phieuRepository.Update(phieu);
                 _phieuRepository.Save();
+
+                if (isHoiVien)
+                {
+                    return (true, $"Yêu cầu gia hạn phiếu #{phieu.MaPhieu} thêm {soThang} tháng đã gửi thành công và chuyển sang trạng thái chờ duyệt (Hạn dự kiến: {phieu.NgayKetThuc:dd/MM/yyyy}).");
+                }
+
                 return (true, $"Gia hạn phiếu #{phieu.MaPhieu} thêm {soThang} tháng thành công (Hết hạn mới: {phieu.NgayKetThuc:dd/MM/yyyy}).");
             }
             catch (Exception)

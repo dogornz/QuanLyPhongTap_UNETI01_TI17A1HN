@@ -149,7 +149,8 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult GiaHan(string id, int soThang = 1)
         {
-            var res = _service.GiaHan(id, soThang);
+            bool isAdmin = User.IsInRole("Admin") || User.IsInRole("admin");
+            var res = _service.GiaHan(id, soThang, isHoiVien: !isAdmin);
             if (res.Success)
             {
                 TempData["Success"] = res.Message;
