@@ -280,7 +280,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             {
                 _phieuRepository.Update(phieu);
                 _phieuRepository.Save();
-                return (true, $"Đã hủy phiếu #{phieu.MaPhieu} thành công.");
+                return (true, $"Đã hủy phiếu #{phieu.MaPhieu} thành công. (Lưu ý: Hệ thống không hoàn lại tiền cho gói tập đã hủy).");
             }
             catch (Exception)
             {

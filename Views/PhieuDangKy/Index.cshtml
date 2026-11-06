@@ -133,7 +133,7 @@
                                         }
                                         <form asp-action="Huy" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" onclick="return confirm('Bạn có chắc muốn hủy phiếu này?');" title="Hủy phiếu">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" onclick="return confirm('CẢNH BÁO: Khi hủy gói tập, hệ thống sẽ KHÔNG HOÀN TIỀN! Bạn có chắc chắn muốn hủy phiếu này không?');" title="Hủy phiếu (Không hoàn tiền)">
                                                 Hủy
                                             </button>
                                         </form>
@@ -148,7 +148,7 @@
                                         </form>
                                         <form asp-action="Huy" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" onclick="return confirm('Bạn có chắc muốn hủy phiếu này?');" title="Hủy phiếu">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" onclick="return confirm('CẢNH BÁO: Khi hủy gói tập, hệ thống sẽ KHÔNG HOÀN TIỀN! Bạn có chắc chắn muốn hủy phiếu này không?');" title="Hủy phiếu (Không hoàn tiền)">
                                                 Hủy
                                             </button>
                                         </form>
