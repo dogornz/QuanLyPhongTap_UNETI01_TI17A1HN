@@ -125,28 +125,30 @@
                 activePackageData = data;
 
                 if (data.hasActive) {
+                    const thoiGianHoatDongStr = `từ <strong>${data.ngayBatDauHienTai || "---"}</strong> đến <strong>${data.ngayKetThucHienTai}</strong>`;
+
                     if (maGt && data.isSamePackage) {
                         // Cùng gói đã đăng ký
-                        liveAlertBox.className = "alert alert-success border-success";
-                        liveAlertBox.innerHTML = `<strong>ℹ️ Cộng dồn thời gian:</strong> Hội viên đang sử dụng gói tập <strong>${data.tenGoiHienTai}</strong> (hết hạn ngày <strong>${data.ngayKetThucHienTai}</strong>). Hệ thống sẽ tự động cộng thêm thời gian tiếp nối sau ngày kết thúc của gói tập trước.`;
+                        liveAlertBox.className = "alert alert-warning border-warning";
+                        liveAlertBox.innerHTML = `<strong>⚠️ Cảnh báo gói tập đang hoạt động:</strong> Hội viên đang trong thời gian sử dụng của gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}).<br/>Hệ thống sẽ <strong>tự động cộng dồn thời gian</strong> tiếp nối sau ngày kết thúc của gói trước (bắt đầu từ <strong>${data.ngayKetThucHienTai}</strong>).`;
                         liveAlertBox.style.display = "block";
 
                         if (inputNgayBatDau) {
                             inputNgayBatDau.value = data.ngayKetThucHienTaiIso;
                         }
-                        helpNgayBatDau.innerText = `Ngày bắt đầu được tự động gán tiếp nối từ ngày kết thúc của gói trước (${data.ngayKetThucHienTai}).`;
+                        helpNgayBatDau.innerText = `Ngày bắt đầu được tự động gán tiếp nối sau ngày kết thúc của gói trước (${data.ngayKetThucHienTai}).`;
                         xacNhanGoiKhac.value = "false";
                     } else if (maGt && !data.isSamePackage) {
                         // Khác gói đang sử dụng
-                        liveAlertBox.className = "alert alert-warning border-warning";
-                        liveAlertBox.innerHTML = `<strong>⚠️ Chú ý:</strong> Hội viên đang trong thời gian sử dụng của gói tập <strong>${data.tenGoiHienTai}</strong> (hạn đến <strong>${data.ngayKetThucHienTai}</strong>). Bạn đang chọn đăng ký gói khác.`;
+                        liveAlertBox.className = "alert alert-danger border-danger";
+                        liveAlertBox.innerHTML = `<strong>⚠️ Cảnh báo gói tập đang hoạt động:</strong> Hội viên đang trong thời gian sử dụng của gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}). Bạn đang chọn đăng ký thêm gói khác.`;
                         liveAlertBox.style.display = "block";
                         helpNgayBatDau.innerText = "";
                         xacNhanGoiKhac.value = "false";
                     } else {
                         // Đã chọn hội viên nhưng chưa chọn gói
-                        liveAlertBox.className = "alert alert-info border-info";
-                        liveAlertBox.innerHTML = `Hội viên hiện đang có gói tập <strong>${data.tenGoiHienTai}</strong> còn thời gian sử dụng đến ngày <strong>${data.ngayKetThucHienTai}</strong>.`;
+                        liveAlertBox.className = "alert alert-warning border-warning";
+                        liveAlertBox.innerHTML = `<strong>⚠️ Cảnh báo gói tập đang hoạt động:</strong> Hội viên hiện đang có gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}).`;
                         liveAlertBox.style.display = "block";
                         helpNgayBatDau.innerText = "";
                     }
@@ -165,7 +167,8 @@
 
         formDangKy.addEventListener("submit", function (e) {
             if (activePackageData && activePackageData.hasActive && !activePackageData.isSamePackage && xacNhanGoiKhac.value !== "true") {
-                const message = `bạn đag trong thời gian sử dụng của gói tập ${activePackageData.tenGoiHienTai}, bạn có xác nhận đăng ký gói khác không?`;
+                const thoiGian = (activePackageData.ngayBatDauHienTai ? `từ ${activePackageData.ngayBatDauHienTai} đến ` : "đến ") + activePackageData.ngayKetThucHienTai;
+                const message = `Cảnh báo: Bạn đang trong thời gian sử dụng của gói tập ${activePackageData.tenGoiHienTai} (Thời gian hoạt động: ${thoiGian}), bạn có xác nhận đăng ký gói khác không?`;
                 const confirmed = confirm(message);
                 if (confirmed) {
                     xacNhanGoiKhac.value = "true";

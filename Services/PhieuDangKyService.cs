@@ -182,7 +182,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
                         _phieuRepository.Add(phieuCungGoi);
                         _phieuRepository.Save();
 
-                        successMessage = $"Hội viên đang sử dụng gói tập '{goiTap.TenGoiTap}'. Hệ thống đã tự động cộng thêm {soThang} tháng sau thời gian kết thúc của gói trước (Thời hạn mới: {actualNgayBatDau:dd/MM/yyyy} đến {actualNgayKetThuc:dd/MM/yyyy}). Phiếu đang chờ xác nhận.";
+                        successMessage = $"Cảnh báo: Hội viên đang trong thời gian sử dụng của gói tập '{goiTap.TenGoiTap}' (Thời gian hoạt động: từ {activeTicket.NgayBatDau:dd/MM/yyyy} đến {activeTicket.NgayKetThuc:dd/MM/yyyy}). Hệ thống đã tự động cộng dồn thêm {soThang} tháng tiếp nối sau ngày kết thúc của gói trước (Thời hạn mới: {actualNgayBatDau:dd/MM/yyyy} đến {actualNgayKetThuc:dd/MM/yyyy}). Phiếu đang chờ xác nhận.";
                         return (true, successMessage, false, null);
                     }
                     catch (Exception)
@@ -192,10 +192,10 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
                 }
                 else
                 {
-                    // KHÁC GÓI: Cảnh báo "bạn đang trong thời gian sử dụng của gói tập...(tên gói đang sử dụng), bạn có xác nhận đăng ký gói khác không?"
+                    // KHÁC GÓI: Cảnh báo "bạn đang trong thời gian sử dụng của gói tập...(tên gói đang sử dụng và thời gian hoạt động), bạn có xác nhận đăng ký gói khác không?"
                     if (!xacNhanGoiKhac)
                     {
-                        string canhBao = $"Bạn đang trong thời gian sử dụng của gói tập {tenGoiHienTai}, bạn có xác nhận đăng ký gói khác không?";
+                        string canhBao = $"Cảnh báo: Bạn đang trong thời gian sử dụng của gói tập {tenGoiHienTai} (Thời gian hoạt động: từ {activeTicket.NgayBatDau:dd/MM/yyyy} đến {activeTicket.NgayKetThuc:dd/MM/yyyy}), bạn có xác nhận đăng ký gói khác không?";
                         return (false, canhBao, true, tenGoiHienTai);
                     }
 
