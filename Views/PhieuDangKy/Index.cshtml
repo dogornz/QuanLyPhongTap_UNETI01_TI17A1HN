@@ -1,7 +1,8 @@
-﻿@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy>
+@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.PhieuDangKy>
 
 @{
     ViewData["Title"] = "Các gói đã đăng ký";
+    bool isAdmin = User.IsInRole("Admin") || User.IsInRole("admin");
 }
 
 <div class="container mt-4">
@@ -121,12 +122,15 @@
                                 <div class="d-flex justify-content-center gap-1">
                                     @if (item.TrangThai == "Chờ xác nhận")
                                     {
-                                        <form asp-action="XacNhan" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-success btn-sm px-2 py-1" title="Kích hoạt phiếu">
-                                                Duyệt
-                                            </button>
-                                        </form>
+                                        if (isAdmin)
+                                        {
+                                            <form asp-action="XacNhan" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-success btn-sm px-2 py-1" title="Kích hoạt phiếu">
+                                                    Duyệt
+                                                </button>
+                                            </form>
+                                        }
                                         <form asp-action="Huy" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
                                             <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-1" onclick="return confirm('Bạn có chắc muốn hủy phiếu này?');" title="Hủy phiếu">

@@ -111,6 +111,12 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult XacNhan(string id)
         {
+            if (!User.IsInRole("Admin") && !User.IsInRole("admin"))
+            {
+                TempData["Error"] = "Hội viên không có quyền duyệt phiếu đăng ký! Thao tác này chỉ dành cho Quản trị viên.";
+                return RedirectToAction(nameof(Index));
+            }
+
             var res = _service.XacNhan(id);
             if (res.Success)
             {
