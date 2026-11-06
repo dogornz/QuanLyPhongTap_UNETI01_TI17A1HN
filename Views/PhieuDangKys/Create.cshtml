@@ -1,5 +1,7 @@
 @{
     ViewData["Title"] = "Đăng ký gói tập";
+    bool isAdmin = User.IsInRole("Admin") || User.IsInRole("admin");
+    var currentHoiVien = ViewBag.CurrentHoiVien as QuanLyPhongTap_UNETI01_TI17A1HN.Models.HoiVien;
 }
 
 <div class="container mt-4">
@@ -42,13 +44,24 @@
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Hội viên</label>
-                    <select name="maHoiVien"
-                            id="selectHoiVien"
-                            class="form-select"
-                            asp-items="ViewBag.HoiViens"
-                            required>
-                        <option value="">-- Chọn hội viên --</option>
-                    </select>
+                    @if (!isAdmin && currentHoiVien != null)
+                    {
+                        <input type="hidden" name="maHoiVien" id="selectHoiVien" value="@currentHoiVien.MaHoiVien" />
+                        <div class="form-control bg-light text-dark fw-bold">
+                            @currentHoiVien.HoTen <span class="badge bg-secondary ms-1">Mã: @currentHoiVien.MaHoiVien</span>
+                        </div>
+                        <small class="text-muted">Tài khoản hội viên của bạn (không thể đăng ký cho người khác).</small>
+                    }
+                    else
+                    {
+                        <select name="maHoiVien"
+                                id="selectHoiVien"
+                                class="form-select"
+                                asp-items="ViewBag.HoiViens"
+                                required>
+                            <option value="">-- Chọn hội viên --</option>
+                        </select>
+                    }
                 </div>
 
                 <div class="mb-3">

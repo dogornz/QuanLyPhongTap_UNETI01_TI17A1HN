@@ -28,28 +28,45 @@
         </div>
     }
 
-    <div class="card mb-3 shadow-sm border-0">
-        <div class="card-body">
-            <form asp-action="Index" method="get">
-                <div class="row g-2">
-                    <div class="col-md-9">
-                        <select name="maHoiVien"
-                                class="form-select"
-                                asp-items="ViewBag.HoiViens">
-                            <option value="">-- Tất cả hội viên --</option>
-                        </select>
-                    </div>
+    @if (isAdmin)
+    {
+        <div class="card mb-3 shadow-sm border-0">
+            <div class="card-body">
+                <form asp-action="Index" method="get">
+                    <div class="row g-2">
+                        <div class="col-md-9">
+                            <select name="maHoiVien"
+                                    class="form-select"
+                                    asp-items="ViewBag.HoiViens">
+                                <option value="">-- Tất cả hội viên --</option>
+                            </select>
+                        </div>
 
-                    <div class="col-md-3">
-                        <button type="submit"
-                                class="btn btn-outline-primary w-100">
-                            🔍 Lọc hội viên
-                        </button>
+                        <div class="col-md-3">
+                            <button type="submit"
+                                    class="btn btn-outline-primary w-100">
+                                🔍 Lọc hội viên
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="alert alert-primary bg-primary bg-opacity-10 border-primary border-opacity-25 shadow-sm mb-3 d-flex justify-content-between align-items-center">
+            <div>
+                <span class="fs-5 fw-bold text-primary">
+                    <i class="bi bi-person-badge"></i> @(ViewBag.CurrentHoiVien?.HoTen ?? User.Identity?.Name)
+                </span>
+                <span class="badge bg-primary ms-2">Mã: @(ViewBag.CurrentHoiVien?.MaHoiVien)</span>
+            </div>
+            <div class="text-muted small">
+                <i class="bi bi-shield-lock"></i> Chỉ hiển thị các gói tập thuộc quyền tài khoản của bạn
+            </div>
+        </div>
+    }
 
     <div class="table-responsive shadow-sm rounded-3">
         <table class="table table-bordered table-hover align-middle mb-0">
