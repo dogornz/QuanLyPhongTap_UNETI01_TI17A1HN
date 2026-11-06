@@ -103,12 +103,19 @@
         const liveAlertBox = document.getElementById("liveAlertBox");
         const xacNhanGoiKhac = document.getElementById("xacNhanGoiKhac");
         const formDangKy = document.getElementById("formDangKy");
+        const btnSubmit = document.getElementById("btnSubmit");
 
         let activePackageData = null;
 
         async function kiemTraGoiTap() {
             const maHv = selectHoiVien.value;
             const maGt = selectGoiTap.value;
+
+            // Reset trạng thái nút submit
+            if (btnSubmit) {
+                btnSubmit.disabled = false;
+                btnSubmit.title = "";
+            }
 
             if (!maHv) {
                 liveAlertBox.style.display = "none";
@@ -128,19 +135,20 @@
                     const thoiGianHoatDongStr = `từ <strong>${data.ngayBatDauHienTai || "---"}</strong> đến <strong>${data.ngayKetThucHienTai}</strong>`;
 
                     if (maGt && data.isSamePackage) {
-                        // Cùng gói đã đăng ký
-                        liveAlertBox.className = "alert alert-warning border-warning";
-                        liveAlertBox.innerHTML = `<strong>⚠️ Cảnh báo gói tập đang hoạt động:</strong> Hội viên đang trong thời gian sử dụng của gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}).<br/>Hệ thống sẽ <strong>tự động cộng dồn thời gian</strong> tiếp nối sau ngày kết thúc của gói trước (bắt đầu từ <strong>${data.ngayKetThucHienTai}</strong>).`;
+                        // Cùng gói đang hoạt động: Chặn đăng ký thêm (chỉ có quyền gia hạn)
+                        liveAlertBox.className = "alert alert-danger border-danger shadow-sm";
+                        liveAlertBox.innerHTML = `<strong>⛔ Không được phép đăng ký thêm:</strong> Hội viên đang trong thời gian sử dụng gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}).<br/>Hệ thống <strong>không cho phép đăng ký thêm gói đang hoạt động</strong>, bạn chỉ có quyền <strong>gia hạn thêm</strong> gói tập này!<br/><a href="/PhieuDangKys" class="btn btn-sm btn-danger mt-2">👉 Chuyển sang danh sách để Gia hạn</a>`;
                         liveAlertBox.style.display = "block";
 
-                        if (inputNgayBatDau) {
-                            inputNgayBatDau.value = data.ngayKetThucHienTaiIso;
+                        if (btnSubmit) {
+                            btnSubmit.disabled = true;
+                            btnSubmit.title = "Không thể đăng ký thêm gói đang hoạt động, chỉ có quyền gia hạn!";
                         }
-                        helpNgayBatDau.innerText = `Ngày bắt đầu được tự động gán tiếp nối sau ngày kết thúc của gói trước (${data.ngayKetThucHienTai}).`;
+                        helpNgayBatDau.innerText = "Gói tập đang hoạt động - không được phép đăng ký thêm.";
                         xacNhanGoiKhac.value = "false";
                     } else if (maGt && !data.isSamePackage) {
                         // Khác gói đang sử dụng
-                        liveAlertBox.className = "alert alert-danger border-danger";
+                        liveAlertBox.className = "alert alert-warning border-warning";
                         liveAlertBox.innerHTML = `<strong>⚠️ Cảnh báo gói tập đang hoạt động:</strong> Hội viên đang trong thời gian sử dụng của gói tập <strong>${data.tenGoiHienTai}</strong> (Thời gian hoạt động: ${thoiGianHoatDongStr}). Bạn đang chọn đăng ký thêm gói khác.`;
                         liveAlertBox.style.display = "block";
                         helpNgayBatDau.innerText = "";
@@ -166,15 +174,23 @@
         selectGoiTap.addEventListener("change", kiemTraGoiTap);
 
         formDangKy.addEventListener("submit", function (e) {
-            if (activePackageData && activePackageData.hasActive && !activePackageData.isSamePackage && xacNhanGoiKhac.value !== "true") {
-                const thoiGian = (activePackageData.ngayBatDauHienTai ? `từ ${activePackageData.ngayBatDauHienTai} đến ` : "đến ") + activePackageData.ngayKetThucHienTai;
-                const message = `Cảnh báo: Bạn đang trong thời gian sử dụng của gói tập ${activePackageData.tenGoiHienTai} (Thời gian hoạt động: ${thoiGian}), bạn có xác nhận đăng ký gói khác không?`;
-                const confirmed = confirm(message);
-                if (confirmed) {
-                    xacNhanGoiKhac.value = "true";
-                } else {
+            if (activePackageData && activePackageData.hasActive) {
+                if (activePackageData.isSamePackage) {
+                    alert(`Không thể đăng ký thêm! Hội viên đang trong thời gian sử dụng gói tập ${activePackageData.tenGoiHienTai}. Bạn chỉ có quyền gia hạn thêm gói tập này!`);
                     e.preventDefault();
                     return false;
+                }
+
+                if (!activePackageData.isSamePackage && xacNhanGoiKhac.value !== "true") {
+                    const thoiGian = (activePackageData.ngayBatDauHienTai ? `từ ${activePackageData.ngayBatDauHienTai} đến ` : "đến ") + activePackageData.ngayKetThucHienTai;
+                    const message = `Cảnh báo: Bạn đang trong thời gian sử dụng của gói tập ${activePackageData.tenGoiHienTai} (Thời gian hoạt động: ${thoiGian}), bạn có xác nhận đăng ký gói khác không?`;
+                    const confirmed = confirm(message);
+                    if (confirmed) {
+                        xacNhanGoiKhac.value = "true";
+                    } else {
+                        e.preventDefault();
+                        return false;
+                    }
                 }
             }
         });

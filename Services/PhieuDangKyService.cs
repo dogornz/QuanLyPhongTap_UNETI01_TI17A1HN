@@ -153,42 +153,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
 
                 if (activeTicket.MaGoiTap == maGoiTap)
                 {
-                    // CÙNG GÓI: Cộng thêm thời gian và sau thời gian kết thúc của gói tập trước
-                    actualNgayBatDau = activeTicket.NgayKetThuc.Date;
-                    try
-                    {
-                        actualNgayKetThuc = actualNgayBatDau.AddMonths(soThang);
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        return (false, "Không thể tính ngày kết thúc của gói tập.", false, null);
-                    }
-
-                    var phieuCungGoi = new PhieuDangKy
-                    {
-                        MaPhieu = TaoMaPhieu(),
-                        MaHoiVien = maHoiVien,
-                        MaGoiTap = maGoiTap,
-                        NgayDangKy = DateTime.Now,
-                        NgayBatDau = actualNgayBatDau,
-                        NgayKetThuc = actualNgayKetThuc,
-                        DonGia = goiTap.DonGia,
-                        TongTien = goiTap.DonGia,
-                        TrangThai = "Chờ xác nhận"
-                    };
-
-                    try
-                    {
-                        _phieuRepository.Add(phieuCungGoi);
-                        _phieuRepository.Save();
-
-                        successMessage = $"Cảnh báo: Hội viên đang trong thời gian sử dụng của gói tập '{goiTap.TenGoiTap}' (Thời gian hoạt động: từ {activeTicket.NgayBatDau:dd/MM/yyyy} đến {activeTicket.NgayKetThuc:dd/MM/yyyy}). Hệ thống đã tự động cộng dồn thêm {soThang} tháng tiếp nối sau ngày kết thúc của gói trước (Thời hạn mới: {actualNgayBatDau:dd/MM/yyyy} đến {actualNgayKetThuc:dd/MM/yyyy}). Phiếu đang chờ xác nhận.";
-                        return (true, successMessage, false, null);
-                    }
-                    catch (Exception)
-                    {
-                        return (false, "Không thể lưu phiếu đăng ký. Vui lòng thử lại.", false, null);
-                    }
+                    // KHÔNG CHO PHÉP ĐĂNG KÝ THÊM GÓI ĐANG HOẠT ĐỘNG (CHỈ CÓ QUYỀN GIA HẠN THÊM)
+                    return (false,
+                        $"Hội viên đang trong thời gian sử dụng gói tập '{tenGoiHienTai}' (Thời gian hoạt động: từ {activeTicket.NgayBatDau:dd/MM/yyyy} đến {activeTicket.NgayKetThuc:dd/MM/yyyy}). Hệ thống không cho phép đăng ký thêm gói đang hoạt động, bạn chỉ có thể gia hạn thêm gói tập này!",
+                        false,
+                        null);
                 }
                 else
                 {

@@ -104,7 +104,9 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 ngayBatDauHienTai = activeTicket.NgayBatDau.ToString("dd/MM/yyyy"),
                 ngayKetThucHienTai = activeTicket.NgayKetThuc.ToString("dd/MM/yyyy"),
                 ngayKetThucHienTaiIso = activeTicket.NgayKetThuc.ToString("yyyy-MM-dd"),
-                canhBao = $"Cảnh báo: Hội viên đang trong thời gian sử dụng của gói tập {tenGoiHienTai} (Thời gian hoạt động: từ {activeTicket.NgayBatDau:dd/MM/yyyy} đến {activeTicket.NgayKetThuc:dd/MM/yyyy}), bạn có xác nhận đăng ký gói khác không?"
+                canhBao = isSamePackage
+                    ? $"Hội viên đang trong thời gian sử dụng gói tập {tenGoiHienTai} (Thời gian hoạt động: từ {activeTicket.NgayBatDau:dd/MM/yyyy} đến {activeTicket.NgayKetThuc:dd/MM/yyyy}). Hệ thống không cho phép đăng ký thêm gói này, chỉ có quyền gia hạn thêm!"
+                    : $"Cảnh báo: Hội viên đang trong thời gian sử dụng của gói tập {tenGoiHienTai} (Thời gian hoạt động: từ {activeTicket.NgayBatDau:dd/MM/yyyy} đến {activeTicket.NgayKetThuc:dd/MM/yyyy}), bạn có xác nhận đăng ký gói khác không?"
             });
         }
 
