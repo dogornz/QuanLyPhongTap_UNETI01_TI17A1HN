@@ -1,4 +1,3 @@
-
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Repositories;
 
@@ -47,7 +46,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
                 .ToList();
         }
 
-        // Lọc theo hội viên, gói tập, trạng thái, khoảng ngày đăng ký
+        // Lọc theo hội viên, gói tập, trạng thái, khoảng ngày đăng ký (8.1)
         public List<PhieuDangKy> TimKiem(string? maHoiVien, string? maGoiTap, string? trangThai,
                                          DateTime? tuNgay, DateTime? denNgay)
         {
@@ -72,6 +71,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         }
 
         // 4. Lấy danh sách hội viên đang hoạt động
+        // GIỮ NGUYÊN - không chuyển xuống repository vì IHoiVienRepository thuộc Module 3
         public List<HoiVien> GetHoiViens()
         {
             return _hoiVienRepository.GetAll()
@@ -86,7 +86,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             return _goiTapRepository.GetGoiDangApDung();
         }
 
-        // 6. Đăng ký gói tập
+        // 6. Đăng ký gói tập (7.3, dùng chung với Module 3)
         public (bool Success, string Message) DangKy(string maHoiVien, string maGoiTap, DateTime ngayBatDau)
         {
             if (string.IsNullOrWhiteSpace(maHoiVien))
@@ -143,7 +143,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             }
         }
 
-        // 7. Xác nhận
+        // 7. Xác nhận (8.2)
         public (bool Success, string Message) XacNhan(string maPhieu)
         {
             var phieu = GetById(maPhieu);
@@ -178,7 +178,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             }
         }
 
-        // 8. Hủy
+        // 8. Hủy (8.4)
         public (bool Success, string Message) Huy(string maPhieu)
         {
             var phieu = GetById(maPhieu);
@@ -187,6 +187,9 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
 
             if (phieu.TrangThai == TrangThaiPhieu.DaHuy)
                 return (false, "Phiếu đã bị hủy trước đó.");
+
+            if (HetHan(phieu)) // THÊM - đề 8.4: "chỉ hủy phiếu phù hợp trạng thái nghiệp vụ"
+                return (false, "Phiếu đã hết hạn, không thể hủy.");
 
             phieu.TrangThai = TrangThaiPhieu.DaHuy;
 
@@ -202,7 +205,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             }
         }
 
-        // 9. Gia hạn phiếu đăng ký
+        // 9. Gia hạn phiếu đăng ký (8.3)
         public (bool Success, string Message) GiaHan(string maPhieu, int soThang = 1)
         {
             if (soThang <= 0)
@@ -222,10 +225,13 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
             if (goiTap == null)
                 return (false, "Gói tập không còn tồn tại.");
 
-            var baseDate = phieu.NgayKetThuc > DateTime.Now ? phieu.NgayKetThuc : DateTime.Now;
+            // ĐỔI: DateTime.Now -> DateTime.Today, để quy tắc hết hạn đồng nhất
+            // với HetHan()/ConHieuLuc() và với DangKy() (đều dùng .Date)
+            var homNay = DateTime.Today;
+            var baseDate = phieu.NgayKetThuc.Date > homNay ? phieu.NgayKetThuc.Date : homNay;
             phieu.NgayKetThuc = baseDate.AddMonths(soThang);
 
-            // tăng tiền theo số tháng và đơn giá gói (nếu áp dụng)
+            // tăng tiền theo số tháng và đơn giá hiện hành của gói
             phieu.TongTien += goiTap.DonGia * soThang;
 
             try
@@ -245,8 +251,10 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         {
             return "PDK" + Guid.NewGuid().ToString("N")[..10].ToUpperInvariant();
         }
+
+        // Dùng chung cho 8.4 (Hủy) và 8.5 (Dashboard)
         public static bool HetHan(PhieuDangKy p) =>
-    p.TrangThai == TrangThaiPhieu.DangHieuLuc && p.NgayKetThuc.Date < DateTime.Today;
+            p.TrangThai == TrangThaiPhieu.DangHieuLuc && p.NgayKetThuc.Date < DateTime.Today;
 
         public static bool ConHieuLuc(PhieuDangKy p) =>
             p.TrangThai == TrangThaiPhieu.DangHieuLuc && p.NgayKetThuc.Date >= DateTime.Today;

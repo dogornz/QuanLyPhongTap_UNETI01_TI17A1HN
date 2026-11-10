@@ -7,6 +7,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
         List<HoiVien> Search(string keyword);
 
         bool UpdateTrangThai(string maHv, string trangThai);
+
     }
     
 }
