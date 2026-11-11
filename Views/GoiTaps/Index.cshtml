@@ -1,272 +1,556 @@
-@model QuanLyPhongTap_UNETI01_TI17A1HN.ViewModels.GoiTapIndexViewModel
+@model QuanLyPhongTap_UNETI01_TI17A1HN.ViewModels.GoiTapVaLoaiIndexViewModel
 
 @{
-    ViewData["Title"] = "Quản lý Gói tập";
+    ViewData["Title"] = "Quản lý Gói tập & Loại gói tập";
+    var goi = Model.GoiTapFilter;
+    bool isLoaiTab = string.Equals(Model.ActiveTab, "loai", StringComparison.OrdinalIgnoreCase);
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <h1 class="h3 mb-0">Quản lý Gói tập</h1>
-        <p class="text-muted small mb-0">Danh sách các gói tập luyện trong hệ thống phòng tập</p>
+<div class="container mt-4">
+    <!-- Header giống giao diện Module 3 + nút hành động cho cả 2 -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">🏷️ Quản Lý Gói Tập &amp; Loại Gói Tập</h2>
+            <p class="text-muted mb-0">Danh sách phân loại và chi tiết các gói dịch vụ thể hình</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-warning fw-semibold shadow-sm" onclick="openCreateModal()">
+                + Thêm Loại Gói Mới
+            </button>
+            <a asp-controller="GoiTaps" asp-action="Create" class="btn btn-primary fw-semibold shadow-sm">
+                + Thêm Gói Tập Mới
+            </a>
+        </div>
     </div>
-    <a asp-action="Create" class="btn btn-primary">
-        + Thêm gói tập mới
-    </a>
-</div>
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+    @if (TempData["SuccessMessage"] != null || TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm" role="alert">
+            @(TempData["SuccessMessage"] ?? TempData["Success"])
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+    @if (TempData["ErrorMessage"] != null || TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm" role="alert">
+            @(TempData["ErrorMessage"] ?? TempData["Error"])
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-<!-- Bộ lọc, Tìm kiếm & Sắp xếp -->
-<div class="card mb-3">
-    <div class="card-body">
-        <form asp-action="Index" method="get">
-            <div class="row g-2">
-                <!-- 6.3. Tìm kiếm theo Tên gói tập -->
-                <div class="col-md-4">
-                    <label class="form-label fw-bold small">Tìm kiếm theo Tên gói</label>
-                    <input type="text" name="searchName" class="form-control" placeholder="Nhập tên gói tập..." value="@Model.SearchName" />
-                </div>
+    <!-- Thanh chuyển Tab hợp nhất Loại gói tập & Gói tập -->
+    <ul class="nav nav-pills mb-3 gap-2" id="packageUnifiedTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-semibold rounded-pill px-4 shadow-sm @(!isLoaiTab ? "active" : "bg-white text-dark border")"
+                    id="tab-goi-btn"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pane-goi"
+                    type="button"
+                    role="tab"
+                    onclick="switchActiveTab('goi')">
+                🏋️ Gói tập
+                <span class="badge @(!isLoaiTab ? "bg-light text-primary" : "bg-secondary") rounded-pill ms-1">@goi.TotalItems</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-semibold rounded-pill px-4 shadow-sm @(isLoaiTab ? "active" : "bg-white text-dark border")"
+                    id="tab-loai-btn"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pane-loai"
+                    type="button"
+                    role="tab"
+                    onclick="switchActiveTab('loai')">
+                🏷️ Loại gói tập
+                <span class="badge @(isLoaiTab ? "bg-light text-primary" : "bg-secondary") rounded-pill ms-1">@Model.LoaiGoiTaps.Count()</span>
+            </button>
+        </li>
+    </ul>
 
-                <!-- 6.4. Lọc Loại gói -->
-                <div class="col-md-4">
-                    <label class="form-label fw-bold small">Loại gói tập</label>
-                    <select name="maLoaiGoi" class="form-select">
-                        <option value="">-- Tất cả loại gói --</option>
-                        @if (Model.LoaiGoiList != null)
-                        {
-                            foreach (var l in Model.LoaiGoiList)
-                            {
-                                <option value="@l.MaLoaiGoi" selected="@(Model.MaLoaiGoi == l.MaLoaiGoi)">@l.TenLoaiGoi</option>
-                            }
-                        }
-                    </select>
-                </div>
+    <div class="tab-content" id="packageUnifiedTabContent">
+        <!-- ======================================================== -->
+        <!-- TAB 1: QUẢN LÝ GÓI TẬP (TÌM KIẾM - LỌC - SẮP XẾP - PHÂN TRANG) -->
+        <!-- ======================================================== -->
+        <div class="tab-pane fade @(!isLoaiTab ? "show active" : "")" id="pane-goi" role="tabpanel">
+            <div class="card shadow-sm border-0 rounded-4 mb-3">
+                <div class="card-body p-4">
+                    <form asp-controller="GoiTaps" asp-action="Index" method="get">
+                        <input type="hidden" name="tab" value="goi" />
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small text-muted mb-1">Tìm kiếm theo Tên gói</label>
+                                <input type="text" name="searchName" class="form-control" placeholder="Nhập tên gói tập..." value="@goi.SearchName" />
+                            </div>
 
-                <!-- 6.4. Lọc Trạng thái -->
-                <div class="col-md-4">
-                    <label class="form-label fw-bold small">Trạng thái</label>
-                    <select name="trangThai" class="form-select">
-                        <option value="all">-- Tất cả trạng thái --</option>
-                        <option value="Đang áp dụng" selected="@(Model.TrangThai == "Đang áp dụng")">Đang áp dụng</option>
-                        <option value="Tạm ngừng" selected="@(Model.TrangThai == "Tạm ngừng")">Tạm ngừng</option>
-                        <option value="Ngừng áp dụng" selected="@(Model.TrangThai == "Ngừng áp dụng")">Ngừng áp dụng</option>
-                    </select>
-                </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small text-muted mb-1">Loại gói tập</label>
+                                <select name="maLoaiGoi" class="form-select">
+                                    <option value="">-- Tất cả loại gói --</option>
+                                    @if (goi.LoaiGoiList != null)
+                                    {
+                                        foreach (var l in goi.LoaiGoiList)
+                                        {
+                                            <option value="@l.MaLoaiGoi" selected="@(goi.MaLoaiGoi == l.MaLoaiGoi)">@l.TenLoaiGoi</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
 
-                <!-- 6.4. Lọc Khoảng đơn giá (Giá từ - Giá đến) -->
-                <div class="col-md-3">
-                    <label class="form-label fw-bold small">Đơn giá từ (VNĐ)</label>
-                    <input type="number" name="giaTu" class="form-control" placeholder="0" min="0" step="50000" value="@Model.GiaTu" />
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label fw-bold small">Đơn giá đến (VNĐ)</label>
-                    <input type="number" name="giaDen" class="form-control" placeholder="Không giới hạn" min="0" step="50000" value="@Model.GiaDen" />
-                </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small text-muted mb-1">Trạng thái</label>
+                                <select name="trangThai" class="form-select">
+                                    <option value="all">-- Tất cả trạng thái --</option>
+                                    <option value="Đang áp dụng" selected="@(goi.TrangThai == "Đang áp dụng")">Đang áp dụng</option>
+                                    <option value="Tạm ngừng" selected="@(goi.TrangThai == "Tạm ngừng")">Tạm ngừng</option>
+                                    <option value="Ngừng áp dụng" selected="@(goi.TrangThai == "Ngừng áp dụng")">Ngừng áp dụng</option>
+                                </select>
+                            </div>
 
-                <!-- 6.4. Lọc Thời hạn -->
-                <div class="col-md-3">
-                    <label class="form-label fw-bold small">Thời hạn</label>
-                    <select name="thoiHan" class="form-select">
-                        <option value="all">-- Tất cả thời hạn --</option>
-                        @if (Model.ThoiHanList != null)
-                        {
-                            foreach (var th in Model.ThoiHanList)
-                            {
-                                <option value="@th" selected="@(Model.ThoiHan == th)">@th tháng</option>
-                            }
-                        }
-                    </select>
-                </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small text-muted mb-1">Đơn giá từ (VNĐ)</label>
+                                <input type="number" name="giaTu" class="form-control" placeholder="0" min="0" step="50000" value="@goi.GiaTu" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small text-muted mb-1">Đơn giá đến (VNĐ)</label>
+                                <input type="number" name="giaDen" class="form-control" placeholder="Không giới hạn" min="0" step="50000" value="@goi.GiaDen" />
+                            </div>
 
-                <!-- 6.5. Sắp xếp -->
-                <div class="col-md-3">
-                    <label class="form-label fw-bold small">Sắp xếp theo</label>
-                    <select name="sortOrder" class="form-select">
-                        <option value="ten_asc" selected="@(Model.SortOrder == "ten_asc")">Tên gói A → Z</option>
-                        <option value="ten_desc" selected="@(Model.SortOrder == "ten_desc")">Tên gói Z → A</option>
-                        <option value="gia_asc" selected="@(Model.SortOrder == "gia_asc")">Đơn giá tăng dần</option>
-                        <option value="gia_desc" selected="@(Model.SortOrder == "gia_desc")">Đơn giá giảm dần</option>
-                        <option value="thoihan_asc" selected="@(Model.SortOrder == "thoihan_asc")">Thời hạn tăng dần</option>
-                        <option value="thoihan_desc" selected="@(Model.SortOrder == "thoihan_desc")">Thời hạn giảm dần</option>
-                    </select>
-                </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small text-muted mb-1">Thời hạn</label>
+                                <select name="thoiHan" class="form-select">
+                                    <option value="all">-- Tất cả thời hạn --</option>
+                                    @if (goi.ThoiHanList != null)
+                                    {
+                                        foreach (var th in goi.ThoiHanList)
+                                        {
+                                            <option value="@th" selected="@(goi.ThoiHan == th)">@th tháng</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
 
-                <div class="col-12 d-flex justify-content-end gap-2 mt-3">
-                    <button type="submit" class="btn btn-primary">Tìm kiếm & Lọc</button>
-                    <a asp-action="Index" class="btn btn-outline-secondary">Đặt lại</a>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small text-muted mb-1">Sắp xếp theo</label>
+                                <select name="sortOrder" class="form-select">
+                                    <option value="ten_asc" selected="@(goi.SortOrder == "ten_asc")">Tên gói A → Z</option>
+                                    <option value="ten_desc" selected="@(goi.SortOrder == "ten_desc")">Tên gói Z → A</option>
+                                    <option value="gia_asc" selected="@(goi.SortOrder == "gia_asc")">Đơn giá tăng dần</option>
+                                    <option value="gia_desc" selected="@(goi.SortOrder == "gia_desc")">Đơn giá giảm dần</option>
+                                    <option value="thoihan_asc" selected="@(goi.SortOrder == "thoihan_asc")">Thời hạn tăng dần</option>
+                                    <option value="thoihan_desc" selected="@(goi.SortOrder == "thoihan_desc")">Thời hạn giảm dần</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 d-flex justify-content-end gap-2 mt-2">
+                                <button type="submit" class="btn btn-primary px-4 fw-semibold">🔍 Tìm kiếm &amp; Lọc</button>
+                                <a asp-controller="GoiTaps" asp-action="Index" asp-route-tab="goi" class="btn btn-outline-secondary px-3">Đặt lại</a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
-    </div>
-</div>
 
-<!-- 6.6. Bảng danh sách hiển thị dữ liệu -->
-<div class="table-responsive">
-    <table class="table table-bordered table-striped align-middle">
-        <thead class="table-light">
-            <tr>
-                <th style="width: 90px;">Mã gói</th>
-                <th>Tên gói tập</th>
-                <th>Loại gói</th>
-                <th style="width: 100px;">Thời hạn</th>
-                <th style="width: 120px;">Số buổi tối đa</th>
-                <th style="width: 130px;">Đơn giá</th>
-                <th style="width: 130px;">Trạng thái</th>
-                <th style="width: 220px;" class="text-center">Thao tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Items != null && Model.Items.Any())
-            {
-                foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <td><code>@item.MaGoiTap</code></td>
-                        <td>
-                            <strong>@item.TenGoiTap</strong>
-                            @if (!string.IsNullOrWhiteSpace(item.MoTa))
-                            {
-                                <div class="small text-muted text-truncate" style="max-width: 280px;">@item.MoTa</div>
-                            }
-                        </td>
-                        <!-- Danh sách hiển thị Tên loại gói, không chỉ MaLoaiGoi -->
-                        <td>
-                            @(item.LoaiGoiTap?.TenLoaiGoi ?? "Chưa phân loại")
-                        </td>
-                        <td>@(item.ThoiHanThang) tháng</td>
-                        <td>@(item.SoBuoiToiDa > 0 ? item.SoBuoiToiDa + " buổi" : "Không giới hạn")</td>
-                        <td class="text-danger fw-bold">@item.DonGia.ToString("N0") đ</td>
-                        <td>
-                            @if (item.TrangThai == "Đang áp dụng")
-                            {
-                                <span class="badge bg-success">@item.TrangThai</span>
-                            }
-                            else if (item.TrangThai == "Tạm ngừng")
-                            {
-                                <span class="badge bg-warning text-dark">@item.TrangThai</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">@item.TrangThai</span>
-                            }
-                        </td>
-                        <td class="text-center">
-                            <a asp-action="Edit" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-primary">Sửa</a>
-                            <a asp-action="Details" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-info">Chi tiết</a>
-                            <a asp-action="Delete" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-danger">Xóa</a>
-                            <a asp-action="ChangeStatus" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-warning" title="Đổi trạng thái">Đổi TT</a>
-                        </td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="8" class="text-center text-muted py-4">
-                        Không tìm thấy gói tập nào phù hợp điều kiện tìm kiếm và lọc.
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4">Mã Gói</th>
+                                    <th>Tên Gói Tập</th>
+                                    <th>Loại Gói</th>
+                                    <th class="text-center">Thời Hạn</th>
+                                    <th class="text-center">Số Buổi</th>
+                                    <th>Đơn Giá</th>
+                                    <th class="text-center">Trạng Thái</th>
+                                    <th class="text-end pe-4">Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (goi.Items != null && goi.Items.Any())
+                                {
+                                    foreach (var item in goi.Items)
+                                    {
+                                        <tr>
+                                            <td class="ps-4 fw-bold text-secondary">#@item.MaGoiTap</td>
+                                            <td>
+                                                <div class="fw-bold text-dark">@item.TenGoiTap</div>
+                                                @if (!string.IsNullOrWhiteSpace(item.MoTa))
+                                                {
+                                                    <span class="text-muted small text-truncate d-inline-block" style="max-width: 260px;" title="@item.MoTa">
+                                                        @item.MoTa
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-light text-dark border rounded-pill px-3">
+                                                    @(item.LoaiGoiTap?.TenLoaiGoi ?? "Chưa phân loại")
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge bg-secondary rounded-pill px-3">@item.ThoiHanThang tháng</span>
+                                            </td>
+                                            <td class="text-center small text-muted">
+                                                @(item.SoBuoiToiDa > 0 ? item.SoBuoiToiDa + " buổi" : "Không giới hạn")
+                                            </td>
+                                            <td class="text-danger fw-bold">@item.DonGia.ToString("N0") đ</td>
+                                            <td class="text-center">
+                                                @if (item.TrangThai == "Đang áp dụng")
+                                                {
+                                                    <span class="badge bg-success bg-opacity-75 px-3 py-2">@item.TrangThai</span>
+                                                }
+                                                else if (item.TrangThai == "Tạm ngừng")
+                                                {
+                                                    <span class="badge bg-warning text-dark bg-opacity-75 px-3 py-2">@item.TrangThai</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger bg-opacity-75 px-3 py-2">@item.TrangThai</span>
+                                                }
+                                            </td>
+                                            <td class="text-end pe-4 text-nowrap">
+                                                <a asp-controller="GoiTaps" asp-action="Edit" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-primary me-1">✏️ Sửa</a>
+                                                <a asp-controller="GoiTaps" asp-action="Details" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-info me-1">Chi tiết</a>
+                                                <a asp-controller="GoiTaps" asp-action="ChangeStatus" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-warning me-1" title="Đổi trạng thái">Đổi TT</a>
+                                                <a asp-controller="GoiTaps" asp-action="Delete" asp-route-id="@item.MaGoiTap" class="btn btn-sm btn-outline-danger">🗑️ Xóa</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-4">
+                                            Không tìm thấy gói tập nào phù hợp điều kiện tìm kiếm và lọc.
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-<!-- 6.6. Phân trang: Trang trước, Trang sau, Các số trang, Hiển thị trang hiện tại, Xử lý đúng trang đầu/trang cuối -->
-@if (Model.TotalPages > 0)
-{
-    <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
-        <div class="small text-muted mb-2 mb-md-0">
-            Hiển thị trang <strong>@Model.CurrentPage</strong> / <strong>@Model.TotalPages</strong> (Tổng cộng <strong>@Model.TotalItems</strong> gói tập)
+            @if (goi.TotalPages > 0)
+            {
+                <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
+                    <div class="small text-muted mb-2 mb-md-0">
+                        Hiển thị trang <strong>@goi.CurrentPage</strong> / <strong>@goi.TotalPages</strong> (Tổng cộng <strong>@goi.TotalItems</strong> gói tập)
+                    </div>
+
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item @(goi.CurrentPage == 1 ? "disabled" : "")">
+                                <a class="page-link" asp-controller="GoiTaps" asp-action="Index"
+                                   asp-route-tab="goi"
+                                   asp-route-page="1"
+                                   asp-route-searchName="@goi.SearchName"
+                                   asp-route-maLoaiGoi="@goi.MaLoaiGoi"
+                                   asp-route-trangThai="@goi.TrangThai"
+                                   asp-route-giaTu="@goi.GiaTu"
+                                   asp-route-giaDen="@goi.GiaDen"
+                                   asp-route-thoiHan="@goi.ThoiHan"
+                                   asp-route-sortOrder="@goi.SortOrder">Đầu</a>
+                            </li>
+
+                            <li class="page-item @(!goi.HasPreviousPage ? "disabled" : "")">
+                                <a class="page-link" asp-controller="GoiTaps" asp-action="Index"
+                                   asp-route-tab="goi"
+                                   asp-route-page="@(goi.CurrentPage - 1)"
+                                   asp-route-searchName="@goi.SearchName"
+                                   asp-route-maLoaiGoi="@goi.MaLoaiGoi"
+                                   asp-route-trangThai="@goi.TrangThai"
+                                   asp-route-giaTu="@goi.GiaTu"
+                                   asp-route-giaDen="@goi.GiaDen"
+                                   asp-route-thoiHan="@goi.ThoiHan"
+                                   asp-route-sortOrder="@goi.SortOrder">Trang trước</a>
+                            </li>
+
+                            @for (int i = 1; i <= goi.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == goi.CurrentPage ? "active" : "")">
+                                    <a class="page-link" asp-controller="GoiTaps" asp-action="Index"
+                                       asp-route-tab="goi"
+                                       asp-route-page="@i"
+                                       asp-route-searchName="@goi.SearchName"
+                                       asp-route-maLoaiGoi="@goi.MaLoaiGoi"
+                                       asp-route-trangThai="@goi.TrangThai"
+                                       asp-route-giaTu="@goi.GiaTu"
+                                       asp-route-giaDen="@goi.GiaDen"
+                                       asp-route-thoiHan="@goi.ThoiHan"
+                                       asp-route-sortOrder="@goi.SortOrder">@i</a>
+                                </li>
+                            }
+
+                            <li class="page-item @(!goi.HasNextPage ? "disabled" : "")">
+                                <a class="page-link" asp-controller="GoiTaps" asp-action="Index"
+                                   asp-route-tab="goi"
+                                   asp-route-page="@(goi.CurrentPage + 1)"
+                                   asp-route-searchName="@goi.SearchName"
+                                   asp-route-maLoaiGoi="@goi.MaLoaiGoi"
+                                   asp-route-trangThai="@goi.TrangThai"
+                                   asp-route-giaTu="@goi.GiaTu"
+                                   asp-route-giaDen="@goi.GiaDen"
+                                   asp-route-thoiHan="@goi.ThoiHan"
+                                   asp-route-sortOrder="@goi.SortOrder">Trang sau</a>
+                            </li>
+
+                            <li class="page-item @(goi.CurrentPage == goi.TotalPages ? "disabled" : "")">
+                                <a class="page-link" asp-controller="GoiTaps" asp-action="Index"
+                                   asp-route-tab="goi"
+                                   asp-route-page="@goi.TotalPages"
+                                   asp-route-searchName="@goi.SearchName"
+                                   asp-route-maLoaiGoi="@goi.MaLoaiGoi"
+                                   asp-route-trangThai="@goi.TrangThai"
+                                   asp-route-giaTu="@goi.GiaTu"
+                                   asp-route-giaDen="@goi.GiaDen"
+                                   asp-route-thoiHan="@goi.ThoiHan"
+                                   asp-route-sortOrder="@goi.SortOrder">Cuối</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            }
         </div>
 
-        <nav aria-label="Page navigation">
-            <ul class="pagination pagination-sm mb-0">
-                <!-- Trang đầu -->
-                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index"
-                       asp-route-page="1"
-                       asp-route-searchName="@Model.SearchName"
-                       asp-route-maLoaiGoi="@Model.MaLoaiGoi"
-                       asp-route-trangThai="@Model.TrangThai"
-                       asp-route-giaTu="@Model.GiaTu"
-                       asp-route-giaDen="@Model.GiaDen"
-                       asp-route-thoiHan="@Model.ThoiHan"
-                       asp-route-sortOrder="@Model.SortOrder">Đầu</a>
-                </li>
-
-                <!-- Trang trước -->
-                <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index"
-                       asp-route-page="@(Model.CurrentPage - 1)"
-                       asp-route-searchName="@Model.SearchName"
-                       asp-route-maLoaiGoi="@Model.MaLoaiGoi"
-                       asp-route-trangThai="@Model.TrangThai"
-                       asp-route-giaTu="@Model.GiaTu"
-                       asp-route-giaDen="@Model.GiaDen"
-                       asp-route-thoiHan="@Model.ThoiHan"
-                       asp-route-sortOrder="@Model.SortOrder">Trang trước</a>
-                </li>
-
-                <!-- Các số trang -->
-                @for (int i = 1; i <= Model.TotalPages; i++)
-                {
-                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                        <a class="page-link" asp-action="Index"
-                           asp-route-page="@i"
-                           asp-route-searchName="@Model.SearchName"
-                           asp-route-maLoaiGoi="@Model.MaLoaiGoi"
-                           asp-route-trangThai="@Model.TrangThai"
-                           asp-route-giaTu="@Model.GiaTu"
-                           asp-route-giaDen="@Model.GiaDen"
-                           asp-route-thoiHan="@Model.ThoiHan"
-                           asp-route-sortOrder="@Model.SortOrder">@i</a>
-                    </li>
-                }
-
-                <!-- Trang sau -->
-                <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index"
-                       asp-route-page="@(Model.CurrentPage + 1)"
-                       asp-route-searchName="@Model.SearchName"
-                       asp-route-maLoaiGoi="@Model.MaLoaiGoi"
-                       asp-route-trangThai="@Model.TrangThai"
-                       asp-route-giaTu="@Model.GiaTu"
-                       asp-route-giaDen="@Model.GiaDen"
-                       asp-route-thoiHan="@Model.ThoiHan"
-                       asp-route-sortOrder="@Model.SortOrder">Trang sau</a>
-                </li>
-
-                <!-- Trang cuối -->
-                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index"
-                       asp-route-page="@Model.TotalPages"
-                       asp-route-searchName="@Model.SearchName"
-                       asp-route-maLoaiGoi="@Model.MaLoaiGoi"
-                       asp-route-trangThai="@Model.TrangThai"
-                       asp-route-giaTu="@Model.GiaTu"
-                       asp-route-giaDen="@Model.GiaDen"
-                       asp-route-thoiHan="@Model.ThoiHan"
-                       asp-route-sortOrder="@Model.SortOrder">Cuối</a>
-                </li>
-            </ul>
-        </nav>
+        <!-- ======================================================== -->
+        <!-- TAB 2: QUẢN LÝ LOẠI GÓI TẬP (GIAO DIỆN MODULE 3 + MODAL AJAX) -->
+        <!-- ======================================================== -->
+        <div class="tab-pane fade @(isLoaiTab ? "show active" : "")" id="pane-loai" role="tabpanel">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4">Mã</th>
+                                    <th>Tên Loại Gói</th>
+                                    <th>Mô Tả Quyền Lợi</th>
+                                    <th class="text-center">Số Gói Con</th>
+                                    <th>Ngày Cập Nhật</th>
+                                    <th class="text-center">Trạng Thái</th>
+                                    <th class="text-end pe-4">Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.LoaiGoiTaps != null && Model.LoaiGoiTaps.Any())
+                                {
+                                    foreach (var item in Model.LoaiGoiTaps)
+                                    {
+                                        <tr>
+                                            <td class="ps-4 fw-bold text-secondary">#@item.MaLoaiGoi</td>
+                                            <td>
+                                                <div class="fw-bold text-dark">@item.TenLoaiGoi</div>
+                                            </td>
+                                            <td>
+                                                <span class="text-muted small text-truncate d-inline-block" style="max-width: 320px;" title="@item.MoTa">
+                                                    @(string.IsNullOrEmpty(item.MoTa) ? "Chưa có mô tả" : item.MoTa)
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <a asp-controller="GoiTaps"
+                                                   asp-action="Index"
+                                                   asp-route-tab="goi"
+                                                   asp-route-maLoaiGoi="@item.MaLoaiGoi"
+                                                   class="badge bg-secondary rounded-pill px-3 text-decoration-none"
+                                                   title="Xem danh sách gói tập thuộc loại này">
+                                                    @item.SoGoiTrucThuoc gói
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <small class="text-muted">@item.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")</small>
+                                            </td>
+                                            <td class="text-center">
+                                                @if (string.Equals(item.TrangThai, "Active", StringComparison.OrdinalIgnoreCase))
+                                                {
+                                                    <span class="badge bg-success bg-opacity-75 px-3 py-2">Hoạt động</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger bg-opacity-75 px-3 py-2">Khóa / Dừng</span>
+                                                }
+                                            </td>
+                                            <td class="text-end pe-4 text-nowrap">
+                                                <button type="button" class="btn btn-sm btn-outline-primary me-1"
+                                                        onclick='openEditModal(@item.MaLoaiGoi, @Html.Raw(System.Text.Json.JsonSerializer.Serialize(item.TenLoaiGoi)), @Html.Raw(System.Text.Json.JsonSerializer.Serialize(item.MoTa ?? "")), @Html.Raw(System.Text.Json.JsonSerializer.Serialize(item.TrangThai)))'>
+                                                    ✏️ Sửa
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                                        onclick='deleteItem(@item.MaLoaiGoi, @Html.Raw(System.Text.Json.JsonSerializer.Serialize(item.TenLoaiGoi)), @item.SoGoiTrucThuoc)'>
+                                                    🗑️ Xóa
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4 text-muted">Chưa có loại gói tập nào trong hệ thống.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-}
 
-<div class="mt-3">
-    <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Quay lại Bảng điều khiển</a>
+    <div class="mt-4">
+        <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-secondary">Quay lại Bảng điều khiển</a>
+    </div>
 </div>
+
+<!-- Modal Thêm / Sửa Loại Gói Tập -->
+<div class="modal fade" id="loaiGoiModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <div class="modal-header bg-light rounded-top-4">
+                <h5 class="modal-title fw-bold" id="modalTitle">Thêm Loại Gói Tập</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="loaiGoiForm">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="editId" name="id" value="" />
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tên Loại Gói <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="tenLoaiGoi" name="tenLoaiGoi" required maxlength="100" placeholder="VD: GYM VIP 1 KÈM 1" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Mô Tả Quyền Lợi</label>
+                        <textarea class="form-control" id="moTa" name="moTa" rows="3" maxlength="500" placeholder="Nhập tóm tắt tiện ích, quyền lợi gói tập..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Trạng Thái</label>
+                        <select class="form-select" id="trangThai" name="trangThai">
+                            <option value="Active">Hoạt động (Active)</option>
+                            <option value="Inactive">Ngừng áp dụng (Inactive)</option>
+                        </select>
+                    </div>
+                    <div id="modalAlert" class="alert alert-danger d-none" role="alert"></div>
+                </div>
+                <div class="modal-footer bg-light rounded-bottom-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-warning fw-bold px-4" id="btnSave">Lưu Thay Đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const modalEl = document.getElementById('loaiGoiModal');
+        const modal = new bootstrap.Modal(modalEl);
+        const form = document.getElementById('loaiGoiForm');
+        const alertBox = document.getElementById('modalAlert');
+
+        function switchActiveTab(tabName) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('tab', tabName);
+            window.history.replaceState({}, '', url);
+
+            const goiBtn = document.getElementById('tab-goi-btn');
+            const loaiBtn = document.getElementById('tab-loai-btn');
+            if (tabName === 'loai') {
+                loaiBtn.classList.remove('bg-white', 'text-dark', 'border');
+                goiBtn.classList.add('bg-white', 'text-dark', 'border');
+            } else {
+                goiBtn.classList.remove('bg-white', 'text-dark', 'border');
+                loaiBtn.classList.add('bg-white', 'text-dark', 'border');
+            }
+        }
+
+        function openCreateModal() {
+            document.getElementById('modalTitle').textContent = 'Thêm Loại Gói Tập Mới';
+            document.getElementById('editId').value = '';
+            document.getElementById('tenLoaiGoi').value = '';
+            document.getElementById('moTa').value = '';
+            document.getElementById('trangThai').value = 'Active';
+            alertBox.classList.add('d-none');
+            modal.show();
+        }
+
+        function openEditModal(id, ten, mota, trangThai) {
+            document.getElementById('modalTitle').textContent = 'Chỉnh Sửa Loại Gói Tập #' + id;
+            document.getElementById('editId').value = id;
+            document.getElementById('tenLoaiGoi').value = ten;
+            document.getElementById('moTa').value = mota;
+            document.getElementById('trangThai').value = trangThai || 'Active';
+            alertBox.classList.add('d-none');
+            modal.show();
+        }
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            alertBox.classList.add('d-none');
+
+            const token = document.querySelector('#loaiGoiForm input[name="__RequestVerificationToken"]').value;
+            const id = document.getElementById('editId').value;
+            const tenLoaiGoi = document.getElementById('tenLoaiGoi').value.trim();
+            const moTa = document.getElementById('moTa').value.trim();
+            const trangThai = document.getElementById('trangThai').value;
+
+            const formData = new URLSearchParams();
+            formData.append('__RequestVerificationToken', token);
+            if (id) formData.append('id', id);
+            formData.append('tenLoaiGoi', tenLoaiGoi);
+            formData.append('moTa', moTa);
+            formData.append('trangThai', trangThai);
+
+            try {
+                const res = await fetch('/LoaiGoiTap/SaveAjax', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString()
+                });
+                const data = await res.json();
+                if (data.success) {
+                    modal.hide();
+                    switchActiveTab('loai');
+                    window.location.reload();
+                } else {
+                    alertBox.textContent = data.message || 'Có lỗi xảy ra!';
+                    alertBox.classList.remove('d-none');
+                }
+            } catch (err) {
+                alertBox.textContent = 'Lỗi kết nối tới máy chủ!';
+                alertBox.classList.remove('d-none');
+            }
+        });
+
+        async function deleteItem(id, ten, soGoi) {
+            if (soGoi > 0) {
+                alert(`Không thể xóa loại gói "${ten}" vì đang có ${soGoi} gói tập trực thuộc!`);
+                return;
+            }
+            if (!confirm(`Bạn có chắc chắn muốn xóa loại gói "${ten}" không?`)) {
+                return;
+            }
+
+            const token = document.querySelector('#loaiGoiForm input[name="__RequestVerificationToken"]').value;
+            const formData = new URLSearchParams();
+            formData.append('__RequestVerificationToken', token);
+            formData.append('id', id);
+
+            try {
+                const res = await fetch('/LoaiGoiTap/DeleteAjax', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString()
+                });
+                const data = await res.json();
+                if (data.success) {
+                    switchActiveTab('loai');
+                    window.location.reload();
+                } else {
+                    alert(data.message || 'Lỗi khi xóa!');
+                }
+            } catch (err) {
+                alert('Lỗi kết nối tới máy chủ!');
+            }
+        }
+    </script>
+}

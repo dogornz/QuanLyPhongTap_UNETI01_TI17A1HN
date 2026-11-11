@@ -49,11 +49,34 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Services
         }
 
         // ================================
-        // TÌM KIẾM
+        // TÌM KIẾM & LỌC
         // ================================
         public List<HoiVien> Search(string keyword)
         {
             return _repository.Search(keyword);
+        }
+
+        public List<HoiVien> Filter(string? keyword, string? trangThai, string? gioiTinh)
+        {
+            var danhSach = string.IsNullOrWhiteSpace(keyword)
+                ? _repository.GetAll()
+                : _repository.Search(keyword);
+
+            if (!string.IsNullOrWhiteSpace(trangThai))
+            {
+                danhSach = danhSach
+                    .Where(h => string.Equals(h.TrangThai, trangThai, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(gioiTinh))
+            {
+                danhSach = danhSach
+                    .Where(h => string.Equals(h.GioiTinh, gioiTinh, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            return danhSach;
         }
 
         // ================================

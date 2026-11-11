@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
@@ -9,36 +10,46 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
     public class LoaiGoiTapController : Controller
     {
         private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
+        private readonly QuanLyGoiTapService _quanLyGoiTapService;
 
-        public LoaiGoiTapController(QuanLyPhongTap_UNETI01_TI17A1HNContext context)
+        public LoaiGoiTapController(QuanLyPhongTap_UNETI01_TI17A1HNContext context, QuanLyGoiTapService quanLyGoiTapService)
         {
             _context = context;
+            _quanLyGoiTapService = quanLyGoiTapService;
         }
 
         // GET: LoaiGoiTap or LoaiGoiTap/Index
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string? searchName,
+            int? maLoaiGoi,
+            string? trangThai,
+            decimal? giaTu,
+            decimal? giaDen,
+            string? thoiHan,
+            string? sortOrder,
+            int page = 1,
+            string? tab = "loai")
         {
             await _context.Database.EnsureCreatedAsync();
-                
-            var list = await _context.LoaiGoiTap.OrderBy(l => l.MaLoaiGoi).ToListAsync();
-            if (list == null || list.Count == 0)
+
+            if (!await _context.LoaiGoiTap.AnyAsync())
             {
-                list = GetDefaultSeedList();
-                _context.LoaiGoiTap.AddRange(list);
+                _context.LoaiGoiTap.AddRange(GetDefaultSeedList());
                 await _context.SaveChangesAsync();
             }
 
-            // Đồng bộ số gói tập trực thuộc từ bảng GoiTap
-            foreach (var item in list)
-            {
-                var relatedCount = await _context.GoiTap.CountAsync(g => g.MaLoaiGoi == item.MaLoaiGoi);
-                if (relatedCount > 0 || item.SoGoiTrucThuoc == 0)
-                {
-                    item.SoGoiTrucThuoc = relatedCount;
-                }
-            }
+            var viewModel = await _quanLyGoiTapService.BuildUnifiedIndexAsync(
+                searchName,
+                maLoaiGoi,
+                trangThai,
+                giaTu,
+                giaDen,
+                thoiHan,
+                sortOrder,
+                page,
+                string.IsNullOrWhiteSpace(tab) ? "loai" : tab);
 
-            return View(list);
+            return View("~/Views/GoiTaps/Index.cshtml", viewModel);
         }
 
         // GET: LoaiGoiTap/Details/5
@@ -281,11 +292,12 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             }
 
             // Yêu cầu: Không được xóa loại gói nếu việc xóa làm dữ liệu GoiTap liên quan không còn hợp lệ
-            var hasRelatedGoiTap = await _context.GoiTap.AnyAsync(g => g.MaLoaiGoi == targetId) || loaiGoiTap.SoGoiTrucThuoc > 0;
-            if (hasRelatedGoiTap)
+            var relatedCount = await _context.GoiTap.CountAsync(g => g.MaLoaiGoi == targetId);
+            if (relatedCount > 0)
             {
-                TempData["ErrorMessage"] = $"Không thể xóa loại gói '{loaiGoiTap.TenLoaiGoi}" +
-                    $"' vì đang có dữ liệu GoiTap trực thuộc liên quan! Vui lòng xóa hoặc chuyển các gói tập liên quan trước.";
+                loaiGoiTap.SoGoiTrucThuoc = relatedCount;
+                await _context.SaveChangesAsync();
+                TempData["ErrorMessage"] = $"Không thể xóa loại gói '{loaiGoiTap.TenLoaiGoi}' vì đang có {relatedCount} gói tập trực thuộc liên quan! Vui lòng xóa hoặc chuyển các gói tập liên quan trước.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -368,16 +380,18 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                     return Json(new { success = false, message = "Không tìm thấy loại gói tập này." });
                 }
 
-                var hasRelated = await _context.GoiTap.AnyAsync(g => g.MaLoaiGoi == id) || item.SoGoiTrucThuoc > 0;
-                if (hasRelated)
+                var relatedCount = await _context.GoiTap.CountAsync(g => g.MaLoaiGoi == id);
+                if (relatedCount > 0)
                 {
+                    item.SoGoiTrucThuoc = relatedCount;
+                    await _context.SaveChangesAsync();
                     return Json(new
                     {
                         success = false,
                         isFkConstraint = true,
-                        count = item.SoGoiTrucThuoc,
+                        count = relatedCount,
                         name = item.TenLoaiGoi,
-                        message = $"Loại gói '{item.TenLoaiGoi}' đang có các gói tập liên quan, không thể xóa do ràng buộc tính hợp lệ của dữ liệu GoiTap."
+                        message = $"Loại gói '{item.TenLoaiGoi}' đang có {relatedCount} gói tập liên quan, không thể xóa do ràng buộc tính hợp lệ của dữ liệu GoiTap."
                     });
                 }
 

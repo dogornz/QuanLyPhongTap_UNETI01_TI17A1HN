@@ -11,49 +11,51 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
     {
         private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
         private readonly DashboardService _dashboardService;
-        private readonly ThongKeService _thongKeService; // THÊM
+        private readonly ThongKeService _thongKeService;
 
         public AdminController(
             QuanLyPhongTap_UNETI01_TI17A1HNContext context,
             DashboardService dashboardService,
-            ThongKeService thongKeService) // THÊM
+            ThongKeService thongKeService)
         {
             _context = context;
             _dashboardService = dashboardService;
-            _thongKeService = thongKeService; // THÊM
+            _thongKeService = thongKeService;
         }
 
         // GET: /Admin or /Admin/Index
         public async Task<IActionResult> Index()
         {
-            // 1. Thống kê tài khoản
+            // 1. Tài khoản - Module 1
             ViewBag.TotalAccounts = await _context.TaiKhoan.CountAsync();
             ViewBag.ActiveAccounts = await _context.TaiKhoan.CountAsync(t => t.TrangThai == "Unlock");
             ViewBag.AdminAccounts = await _context.TaiKhoan.CountAsync(t => t.VaiTro == "admin");
             ViewBag.UserAccounts = await _context.TaiKhoan.CountAsync(t => t.VaiTro != "admin");
 
-            // 2. Thống kê hội viên & gói tập
-            ViewBag.TotalMembers = await _context.HoiVien.CountAsync();
-            ViewBag.TotalCategories = await _context.LoaiGoiTap.CountAsync();
-            ViewBag.TotalPackages = await _context.GoiTap.CountAsync();
-            ViewBag.ActivePackages = await _context.GoiTap.CountAsync(g => g.TrangThai == "Đang áp dụng");
+            // 2. Hội viên & gói tập - lấy từ DashboardService (Module 4), không tự đếm lại
+            var dashboard = _dashboardService.Get();
+            ViewBag.TotalMembers = dashboard.TongHoiVien;
+            ViewBag.TotalCategories = dashboard.TongLoaiGoi;
+            ViewBag.TotalPackages = dashboard.TongGoiTap;
+            ViewBag.ActivePackages = dashboard.GoiDangApDung;
 
-            // 3. Thống kê phiếu đăng ký
-            ViewBag.TotalRegistrations = await _context.PhieuDangKy.CountAsync();
-            ViewBag.ActiveRegistrations = await _context.PhieuDangKy.CountAsync(p => p.TrangThai == "Đang hiệu lực" || p.TrangThai == "Đã xác nhận");
-            ViewBag.PendingRegistrations = await _context.PhieuDangKy.CountAsync(p => p.TrangThai == "Chờ xác nhận");
-            ViewBag.CancelledRegistrations = await _context.PhieuDangKy.CountAsync(p => p.TrangThai == "Đã hủy");
+            // 3. Phiếu đăng ký - lấy từ DashboardService + ThongKeService
+            ViewBag.TotalRegistrations = dashboard.TongPhieu;
+            ViewBag.ActiveRegistrations = dashboard.DangHieuLuc;
+            ViewBag.PendingRegistrations = dashboard.PhieuChoXacNhan;
 
-            // 4. Doanh thu
-            ViewBag.TotalRevenue = await _context.PhieuDangKy
-                .Where(p => p.TrangThai == "Đang hiệu lực" || p.TrangThai == "Đã xác nhận")
-                .SumAsync(p => (decimal?)p.TongTien) ?? 0m;
+            var phieuTheoTrangThai = _thongKeService.PhieuTheoTrangThai();
+            ViewBag.CancelledRegistrations = phieuTheoTrangThai
+                .FirstOrDefault(x => x.Ten == TrangThaiPhieu.DaHuy)?.SoLuong ?? 0;
+
+            // 4. Doanh thu - lấy từ ThongKeService
+            ViewBag.TotalRevenue = _thongKeService.DoanhThuTheoThang().Sum(x => x.DoanhThu);
 
             // 5. Phiếu đăng ký chờ duyệt gần nhất
             ViewBag.PendingTickets = await _context.PhieuDangKy
                 .Include(p => p.HoiVien)
                 .Include(p => p.GoiTap)
-                .Where(p => p.TrangThai == "Chờ xác nhận")
+                .Where(p => p.TrangThai == TrangThaiPhieu.ChoXacNhan)
                 .OrderByDescending(p => p.NgayDangKy)
                 .Take(5)
                 .ToListAsync();

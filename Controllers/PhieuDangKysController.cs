@@ -7,7 +7,7 @@ using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 {
-    [Authorize(Roles = "Admin,admin")]
+    [Authorize]
     public class PhieuDangKysController : Controller
     {
         private readonly PhieuDangKyService _service;
@@ -57,9 +57,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 }
             }
 
-            var danhSach = string.IsNullOrWhiteSpace(maHoiVien)
-                ? _service.GetAll()
-                : _service.GetByHoiVien(maHoiVien);
+            var danhSach = _service.TimKiem(maHoiVien, maGoiTap, trangThai, tuNgay, denNgay);
 
             ViewBag.IsAdmin = isAdmin;
             ViewBag.CurrentHoiVien = currentHoiVien;
@@ -68,6 +66,12 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             ViewBag.TrangThai = trangThai;
             ViewBag.TuNgay = tuNgay?.ToString("yyyy-MM-dd");
             ViewBag.DenNgay = denNgay?.ToString("yyyy-MM-dd");
+
+            ViewBag.GoiTaps = new SelectList(
+                _service.GetGoiTaps(),
+                "MaGoiTap",
+                "TenGoiTap",
+                maGoiTap);
 
             if (isAdmin)
             {
@@ -225,7 +229,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Huy(string id)
+        public IActionResult Huy(string id, string? returnUrl = null)
         {
             bool isAdmin = User.IsInRole("Admin") || User.IsInRole("admin");
             if (!isAdmin)
@@ -235,7 +239,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 if (phieu == null || currentHoiVien == null || phieu.MaHoiVien != currentHoiVien.MaHoiVien)
                 {
                     TempData["Error"] = "Bạn không có quyền thao tác vào phiếu của hội viên khác!";
-                    return RedirectToAction(nameof(Index));
+                    return RedirectAfterAction(returnUrl);
                 }
             }
 
@@ -248,12 +252,12 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             {
                 TempData["Error"] = res.Message;
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectAfterAction(returnUrl);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult GiaHan(string id, int soThang = 1)
+        public IActionResult GiaHan(string id, int soThang = 1, string? returnUrl = null)
         {
             bool isAdmin = User.IsInRole("Admin") || User.IsInRole("admin");
             if (!isAdmin)
@@ -263,7 +267,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 if (phieu == null || currentHoiVien == null || phieu.MaHoiVien != currentHoiVien.MaHoiVien)
                 {
                     TempData["Error"] = "Bạn không có quyền thao tác vào phiếu của hội viên khác!";
-                    return RedirectToAction(nameof(Index));
+                    return RedirectAfterAction(returnUrl);
                 }
             }
 
@@ -275,6 +279,15 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             else
             {
                 TempData["Error"] = res.Message;
+            }
+            return RedirectAfterAction(returnUrl);
+        }
+
+        private IActionResult RedirectAfterAction(string? returnUrl)
+        {
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return LocalRedirect(returnUrl);
             }
             return RedirectToAction(nameof(Index));
         }

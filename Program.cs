@@ -127,6 +127,7 @@ builder.Services.AddScoped<DashboardService>();
 builder.Services.AddScoped<PhieuDangKyService>();
 builder.Services.AddScoped<HoiVienService>();
 builder.Services.AddScoped<ThongKeService>();
+builder.Services.AddScoped<QuanLyGoiTapService>();
 
 var app = builder.Build();
 

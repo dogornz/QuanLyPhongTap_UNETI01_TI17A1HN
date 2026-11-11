@@ -13,12 +13,18 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
         private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
         private readonly ILogger<HomeController> _logger;
         private readonly IPasswordService _passwordService;
+        private readonly PhieuDangKyService _phieuService;
 
-        public HomeController(QuanLyPhongTap_UNETI01_TI17A1HNContext context, ILogger<HomeController> logger, IPasswordService passwordService)
+        public HomeController(
+            QuanLyPhongTap_UNETI01_TI17A1HNContext context,
+            ILogger<HomeController> logger,
+            IPasswordService passwordService,
+            PhieuDangKyService phieuService)
         {
             _context = context;
             _logger = logger;
             _passwordService = passwordService;
+            _phieuService = phieuService;
         }
 
         // GET: /Home/Index
@@ -28,28 +34,34 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
 
             try
             {
-                // Lấy toàn bộ danh sách gói tập để hiển thị
+                viewModel.DanhSachLoaiGoi = await _context.LoaiGoiTap
+                    .Where(l => l.TrangThai == "Active")
+                    .OrderBy(l => l.MaLoaiGoi)
+                    .ToListAsync();
+
                 viewModel.DanhSachGoiTap = await _context.GoiTap
+                    .Include(g => g.LoaiGoiTap)
+                    .Where(g => g.TrangThai == TrangThaiGoiTap.ApDung)
                     .OrderBy(g => g.MaGoiTap)
                     .ToListAsync();
 
-                // Nếu hội viên đã đăng nhập, tải thông tin cá nhân và gói đã đăng ký
-                if (User.Identity != null && User.Identity.IsAuthenticated)
+                bool isAdmin = User.IsInRole("Admin") || User.IsInRole("admin");
+
+                if (User.Identity != null && User.Identity.IsAuthenticated && !isAdmin)
                 {
                     var taiKhoan = await GetCurrentTaiKhoanAsync();
                     if (taiKhoan != null)
                     {
                         viewModel.TaiKhoan = taiKhoan;
-                        var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan);
+                        var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan, allowCreate: true);
                         viewModel.HoiVien = hoiVien;
 
-                        // Tải các phiếu đăng ký thuộc về chính hội viên này
-                        viewModel.DanhSachPhieuDangKy = await _context.PhieuDangKy
-                            .Include(p => p.GoiTap)
-                            .Include(p => p.HoiVien)
-                            .Where(p => p.MaHoiVien == hoiVien.MaHoiVien)
-                            .OrderByDescending(p => p.NgayDangKy)
-                            .ToListAsync();
+                        if (hoiVien != null)
+                        {
+                            viewModel.DanhSachPhieuDangKy = _phieuService
+                                .GetByHoiVien(hoiVien.MaHoiVien)
+                                .ToList();
+                        }
                     }
                 }
             }
@@ -61,7 +73,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             return View(viewModel);
         }
 
-        // POST: /Home/DangKyGoiTap (Chức năng: Đăng ký gói tập)
+        // POST: /Home/DangKyGoiTap (Ủy quyền qua PhieuDangKyService để đồng bộ quy tắc nghiệp vụ)
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -72,6 +84,12 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                 return Json(new { success = false, message = "Vui lòng chọn gói tập hợp lệ!" });
             }
 
+            bool isAdmin = User.IsInRole("Admin") || User.IsInRole("admin");
+            if (isAdmin)
+            {
+                return Json(new { success = false, message = "Tài khoản Quản trị viên vui lòng tạo phiếu tại mục Phiếu đăng ký để chọn hội viên!" });
+            }
+
             try
             {
                 var taiKhoan = await GetCurrentTaiKhoanAsync();
@@ -80,7 +98,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                     return Json(new { success = false, message = "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!" });
                 }
 
-                var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan);
+                var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan, allowCreate: true);
+                if (hoiVien == null)
+                {
+                    return Json(new { success = false, message = "Không thể xác định thông tin hội viên!" });
+                }
 
                 var goiTap = await _context.GoiTap.FirstOrDefaultAsync(g => g.MaGoiTap == dto.MaGoiTap);
                 if (goiTap == null)
@@ -88,52 +110,24 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                     return Json(new { success = false, message = "Gói tập không tồn tại trong hệ thống!" });
                 }
 
-                // Tính toán ngày bắt đầu và ngày kết thúc
-                DateTime ngayBatDau = dto.NgayBatDau.HasValue ? dto.NgayBatDau.Value.Date : DateTime.Today;
-
-                int months = ParseMonths(goiTap.ThoiHanThang, goiTap.TenGoiTap);
-                DateTime ngayKetThuc = ngayBatDau.AddMonths(months > 0 ? months : 1);
-
-                // Tạo mã phiếu đăng ký mới tự động (PDK01, PDK02... PDK31...)
-                var existingPdkCodes = await _context.PhieuDangKy
-                    .Select(p => p.MaPhieu)
-                    .ToListAsync();
-
-                int nextNum = 1;
-                foreach (var code in existingPdkCodes)
+                if (goiTap.TrangThai != TrangThaiGoiTap.ApDung)
                 {
-                    if (code.StartsWith("PDK", StringComparison.OrdinalIgnoreCase) && int.TryParse(code[3..], out int n))
-                    {
-                        if (n >= nextNum) nextNum = n + 1;
-                    }
+                    return Json(new { success = false, message = $"Gói tập '{goiTap.TenGoiTap}' hiện đang ở trạng thái '{goiTap.TrangThai}', không thể đăng ký!" });
                 }
-                string newMaPhieu = $"PDK{nextNum:D2}";
 
-                var newPhieu = new PhieuDangKy
-                {
-                    MaPhieu = newMaPhieu,
-                    MaHoiVien = hoiVien.MaHoiVien,
-                    MaGoiTap = goiTap.MaGoiTap,
-                    NgayDangKy = DateTime.Now,
-                    NgayBatDau = ngayBatDau,
-                    NgayKetThuc = ngayKetThuc,
-                    DonGia = goiTap.DonGia,
-                    TongTien = goiTap.DonGia,
-                    TrangThai = "Đang hiệu lực"
-                };
-
-                _context.PhieuDangKy.Add(newPhieu);
-                await _context.SaveChangesAsync();
+                DateTime ngayBatDau = dto.NgayBatDau.HasValue ? dto.NgayBatDau.Value.Date : DateTime.Today;
+                var result = _phieuService.DangKy(
+                    hoiVien.MaHoiVien,
+                    goiTap.MaGoiTap,
+                    ngayBatDau,
+                    dto.XacNhanGoiKhac);
 
                 return Json(new
                 {
-                    success = true,
-                    message = $"Đăng ký thành công gói '{goiTap.TenGoiTap}'!",
-                    maPhieu = newMaPhieu,
-                    tenGoi = goiTap.TenGoiTap,
-                    ngayBatDau = ngayBatDau.ToString("dd/MM/yyyy"),
-                    ngayKetThuc = ngayKetThuc.ToString("dd/MM/yyyy"),
-                    tongTien = goiTap.DonGia.ToString("N0") + " đ"
+                    success = result.Success,
+                    needConfirm = result.RequireConfirm,
+                    tenGoiHienTai = result.TenGoiHienTai,
+                    message = result.Message
                 });
             }
             catch (Exception ex)
@@ -143,7 +137,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             }
         }
 
-        // POST: /Home/HuyDangKy (Hủy phiếu đăng ký)
+        // POST: /Home/HuyDangKy (Ủy quyền qua PhieuDangKyService.Huy để kiểm tra hết hạn)
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -162,26 +156,16 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                     return Json(new { success = false, message = "Vui lòng đăng nhập!" });
                 }
 
-                var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan);
+                var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan, allowCreate: false);
+                var phieu = _phieuService.GetById(maPhieu);
 
-                var phieu = await _context.PhieuDangKy
-                    .FirstOrDefaultAsync(p => p.MaPhieu == maPhieu && p.MaHoiVien == hoiVien.MaHoiVien);
-
-                if (phieu == null)
+                if (phieu == null || hoiVien == null || phieu.MaHoiVien != hoiVien.MaHoiVien)
                 {
                     return Json(new { success = false, message = "Không tìm thấy phiếu đăng ký hoặc bạn không có quyền hủy phiếu này!" });
                 }
 
-                if (phieu.TrangThai == "Đã hủy")
-                {
-                    return Json(new { success = false, message = "Phiếu đăng ký này đã được hủy trước đó!" });
-                }
-
-                // Cập nhật trạng thái thành Đã hủy
-                phieu.TrangThai = "Đã hủy";
-                await _context.SaveChangesAsync();
-
-                return Json(new { success = true, message = $"Đã hủy phiếu đăng ký {maPhieu} thành công!" });
+                var result = _phieuService.Huy(maPhieu);
+                return Json(new { success = result.Success, message = result.Message });
             }
             catch (Exception ex)
             {
@@ -189,7 +173,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             }
         }
 
-        // POST: /Home/CapNhatThongTin (Chức năng: Xem/cập nhật thông tin cá nhân)
+        // POST: /Home/CapNhatThongTin
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -213,13 +197,15 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                     return Json(new { success = false, message = "Vui lòng đăng nhập lại!" });
                 }
 
-                var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan);
+                var hoiVien = await GetOrCreateHoiVienAsync(taiKhoan, allowCreate: true);
+                if (hoiVien == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy hồ sơ hội viên!" });
+                }
 
-                // Cập nhật TaiKhoan
                 taiKhoan.HoTen = dto.HoTen.Trim();
                 taiKhoan.Email = dto.Email.Trim();
 
-                // Cập nhật HoiVien
                 hoiVien.HoTen = dto.HoTen.Trim();
                 hoiVien.Email = dto.Email.Trim();
                 if (!string.IsNullOrWhiteSpace(dto.SoDienThoai))
@@ -257,7 +243,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             }
         }
 
-        // POST: /Home/DoiMatKhau (Chức năng: Đổi mật khẩu cá nhân)
+        // POST: /Home/DoiMatKhau
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -286,13 +272,11 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
                     return Json(new { success = false, message = "Vui lòng đăng nhập lại!" });
                 }
 
-                // Xác thực mật khẩu cũ bằng PasswordService (hỗ trợ cả PBKDF2 hash và legacy plain text)
                 if (!_passwordService.VerifyPassword(taiKhoan.MatKhau, dto.MatKhauCu))
                 {
                     return Json(new { success = false, message = "Mật khẩu hiện tại không chính xác!" });
                 }
 
-                // Băm mật khẩu mới bằng chuẩn PBKDF2 HMAC-SHA256
                 taiKhoan.MatKhau = _passwordService.HashPassword(dto.MatKhauMoi);
                 _context.Update(taiKhoan);
                 await _context.SaveChangesAsync();
@@ -339,14 +323,39 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             return null;
         }
 
-        private async Task<HoiVien> GetOrCreateHoiVienAsync(TaiKhoan taiKhoan)
+        private async Task<HoiVien?> GetOrCreateHoiVienAsync(TaiKhoan taiKhoan, bool allowCreate)
         {
-            var hv = await _context.HoiVien
-                .FirstOrDefaultAsync(h => h.MaTaiKhoan == taiKhoan.MaTaiKhoan.ToString());
+            var maTkStr = taiKhoan.MaTaiKhoan.ToString();
+            var hv = await _context.HoiVien.FirstOrDefaultAsync(h => h.MaTaiKhoan == maTkStr);
 
-            if (hv != null) return hv;
+            if (hv == null && !string.IsNullOrWhiteSpace(taiKhoan.Email))
+            {
+                var emailLower = taiKhoan.Email.Trim().ToLower();
+                hv = await _context.HoiVien.FirstOrDefaultAsync(h => h.Email != null && h.Email.ToLower() == emailLower);
+            }
 
-            // Tự động cấp mã hội viên mới nếu chưa có
+            if (hv == null && !string.IsNullOrWhiteSpace(taiKhoan.TenDangNhap))
+            {
+                var codeLower = taiKhoan.TenDangNhap.Trim().ToLower();
+                hv = await _context.HoiVien.FirstOrDefaultAsync(h => h.MaHoiVien.ToLower() == codeLower);
+            }
+
+            if (hv != null)
+            {
+                if (string.IsNullOrWhiteSpace(hv.MaTaiKhoan))
+                {
+                    hv.MaTaiKhoan = maTkStr;
+                    _context.HoiVien.Update(hv);
+                    await _context.SaveChangesAsync();
+                }
+                return hv;
+            }
+
+            if (!allowCreate)
+            {
+                return null;
+            }
+
             var allHVs = await _context.HoiVien.Select(h => h.MaHoiVien).ToListAsync();
             int nextNum = 1;
             foreach (var code in allHVs)
@@ -360,38 +369,19 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             hv = new HoiVien
             {
                 MaHoiVien = $"HV{nextNum:D2}",
-                MaTaiKhoan = taiKhoan.MaTaiKhoan.ToString(),
+                MaTaiKhoan = maTkStr,
                 HoTen = !string.IsNullOrWhiteSpace(taiKhoan.HoTen) ? taiKhoan.HoTen : taiKhoan.TenDangNhap,
-                Email = taiKhoan.Email ?? "",
-                SoDienThoai = "09" + new Random().Next(10000000, 99999999),
+                Email = taiKhoan.Email ?? string.Empty,
+                SoDienThoai = "09" + Random.Shared.Next(10000000, 99999999),
                 GioiTinh = "Nam",
                 NgaySinh = DateTime.Today.AddYears(-22),
                 NgayThamGia = DateTime.Today,
-                TrangThai = "Đang hoạt động"
+                TrangThai = TrangThaiHoiVien.HoatDong
             };
 
             _context.HoiVien.Add(hv);
             await _context.SaveChangesAsync();
             return hv;
-        }
-
-        private static int ParseMonths(string? thoiHanThang, string? tenGoi)
-        {
-            if (!string.IsNullOrWhiteSpace(thoiHanThang) && int.TryParse(thoiHanThang.Trim(), out int m))
-            {
-                return m;
-            }
-
-            if (!string.IsNullOrWhiteSpace(tenGoi))
-            {
-                if (tenGoi.Contains("12 Tháng", StringComparison.OrdinalIgnoreCase) || tenGoi.Contains("1 Năm", StringComparison.OrdinalIgnoreCase)) return 12;
-                if (tenGoi.Contains("6 Tháng", StringComparison.OrdinalIgnoreCase)) return 6;
-                if (tenGoi.Contains("3 Tháng", StringComparison.OrdinalIgnoreCase)) return 3;
-                if (tenGoi.Contains("2 Tháng", StringComparison.OrdinalIgnoreCase)) return 2;
-                if (tenGoi.Contains("1 Tháng", StringComparison.OrdinalIgnoreCase)) return 1;
-            }
-
-            return 1;
         }
 
         #endregion

@@ -24,22 +24,45 @@
     {
         <div class="card mb-3 shadow-sm border-0">
             <div class="card-body">
-                <form asp-action="Index" method="get">
-                    <div class="row g-2">
-                        <div class="col-md-9">
-                            <select name="maHoiVien"
-                                    class="form-select"
-                                    asp-items="ViewBag.HoiViens">
-                                <option value="">-- Tất cả hội viên --</option>
-                            </select>
-                        </div>
+                <form asp-action="Index" method="get" class="row g-2 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label">Hội viên</label>
+                        <select name="maHoiVien" class="form-select" asp-items="ViewBag.HoiViens">
+                            <option value="">-- Tất cả hội viên --</option>
+                        </select>
+                    </div>
 
-                        <div class="col-md-3">
-                            <button type="submit"
-                                    class="btn btn-outline-primary w-100">
-                                🔍 Lọc hội viên
-                            </button>
-                        </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Gói tập</label>
+                        <select name="maGoiTap" class="form-select" asp-items="ViewBag.GoiTaps">
+                            <option value="">-- Tất cả gói tập --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Trạng thái</label>
+                        <select name="trangThai" class="form-select">
+                            <option value="">-- Tất cả --</option>
+                            <option value="Chờ xác nhận" selected="@(ViewBag.TrangThai == "Chờ xác nhận")">Chờ xác nhận</option>
+                            <option value="Đang hiệu lực" selected="@(ViewBag.TrangThai == "Đang hiệu lực")">Đang hiệu lực</option>
+                            <option value="Đã hủy" selected="@(ViewBag.TrangThai == "Đã hủy")">Đã hủy</option>
+                            <option value="Hết hạn" selected="@(ViewBag.TrangThai == "Hết hạn")">Hết hạn</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Đăng ký từ</label>
+                        <input type="date" name="tuNgay" class="form-control" value="@ViewBag.TuNgay" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Đến</label>
+                        <input type="date" name="denNgay" class="form-control" value="@ViewBag.DenNgay" />
+                    </div>
+
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">🔍 Lọc</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Xóa lọc</a>
                     </div>
                 </form>
             </div>
@@ -136,7 +159,7 @@
                                     }
                                     else if (item.TrangThai == "Đang hiệu lực" || item.TrangThai == "Đã xác nhận")
                                     {
-                                        <form asp-action="GiaHan" asp-route-id="@item.MaPhieu" method="post" class="d-inline">
+                                        <form asp-action="GiaHan" asp-route-id="@item.MaPhieu" asp-route-soThang="1" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
                                             <button type="submit" class="btn btn-primary btn-sm px-2 py-1" onclick="return confirm('Bạn có chắc muốn gia hạn thêm 1 tháng? Phiếu sẽ chuyển sang trạng thái chờ duyệt.');" title="Gia hạn thêm 1 tháng (chờ duyệt)">
                                                 +1 Th

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.HoiVien>
+@model IEnumerable<QuanLyPhongTap_UNETI01_TI17A1HN.Models.HoiVien>
 
 @{
     ViewData["Title"] = "Quản lý hội viên";
@@ -34,7 +34,7 @@
         </div>
     }
 
-    <!-- TÌM KIẾM -->
+    <!-- TÌM KIẾM & LỌC -->
 
     <div class="card shadow-sm mb-4">
 
@@ -43,25 +43,43 @@
             <form asp-action="Index"
                   method="get">
 
-                <div class="row">
+                <div class="row g-2 align-items-end">
 
-                    <div class="col-md-10">
-
+                    <div class="col-md-5">
+                        <label class="form-label small fw-semibold">Từ khóa</label>
                         <input type="text"
                                name="keyword"
                                value="@ViewBag.Keyword"
                                class="form-control"
                                placeholder="Tìm theo mã hội viên, họ tên, email, số điện thoại..." />
+                    </div>
 
+                    <div class="col-md-3">
+                        <label class="form-label small fw-semibold">Trạng thái</label>
+                        <select name="trangThai" class="form-select">
+                            <option value="">-- Tất cả trạng thái --</option>
+                            <option value="Đang hoạt động" selected="@(ViewBag.TrangThai == "Đang hoạt động")">Đang hoạt động</option>
+                            <option value="Ngừng hoạt động" selected="@(ViewBag.TrangThai == "Ngừng hoạt động")">Ngừng hoạt động</option>
+                        </select>
                     </div>
 
                     <div class="col-md-2">
+                        <label class="form-label small fw-semibold">Giới tính</label>
+                        <select name="gioiTinh" class="form-select">
+                            <option value="">-- Tất cả --</option>
+                            <option value="Nam" selected="@(ViewBag.GioiTinh == "Nam")">Nam</option>
+                            <option value="Nữ" selected="@(ViewBag.GioiTinh == "Nữ")">Nữ</option>
+                        </select>
+                    </div>
 
+                    <div class="col-md-2 d-flex gap-1">
                         <button type="submit"
-                                class="btn btn-primary w-100">
-                            🔍 Tìm kiếm
+                                class="btn btn-primary flex-grow-1">
+                            🔍 Lọc
                         </button>
-
+                        <a asp-action="Index" class="btn btn-outline-secondary" title="Xóa bộ lọc">
+                            Xóa lọc
+                        </a>
                     </div>
 
                 </div>
@@ -108,84 +126,93 @@
 
                     <tbody>
 
-                        @{
+                        @if (Model != null && Model.Any())
+                        {
                             int stt = 1;
-                        }
 
-                        @foreach (var item in Model)
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @stt
+                                    </td>
+
+                                    <td>
+                                        @item.MaHoiVien
+                                    </td>
+
+                                    <td>
+                                        @item.HoTen
+                                    </td>
+
+                                    <td>
+                                        @item.NgaySinh.ToString("dd/MM/yyyy")
+                                    </td>
+
+                                    <td>
+                                        @item.Email
+                                    </td>
+
+                                    <td>
+                                        @item.SoDienThoai
+                                    </td>
+
+                                    <td>
+
+                                        @if (item.TrangThai == "Đang hoạt động")
+                                        {
+                                            <span class="badge bg-success">
+                                                Đang hoạt động
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">
+                                                Ngừng hoạt động
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex gap-1">
+
+                                            <a asp-action="Details"
+                                               asp-route-id="@item.MaHoiVien"
+                                               class="btn btn-info btn-sm">
+                                                Xem
+                                            </a>
+
+                                            <a asp-action="Edit"
+                                               asp-route-id="@item.MaHoiVien"
+                                               class="btn btn-warning btn-sm">
+                                                Sửa
+                                            </a>
+
+                                            <a asp-action="Delete"
+                                               asp-route-id="@item.MaHoiVien"
+                                               class="btn btn-danger btn-sm">
+                                                Xóa
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                stt++;
+                            }
+                        }
+                        else
                         {
                             <tr>
-
-                                <td>
-                                    @stt
+                                <td colspan="8" class="text-center text-muted py-4">
+                                    Không tìm thấy hội viên nào phù hợp.
                                 </td>
-
-                                <td>
-                                    @item.MaHoiVien
-                                </td>
-
-                                <td>
-                                    @item.HoTen
-                                </td>
-
-                                <td>
-                                    @item.NgaySinh.ToString("dd/MM/yyyy")
-                                </td>
-
-                                <td>
-                                    @item.Email
-                                </td>
-
-                                <td>
-                                    @item.SoDienThoai
-                                </td>
-
-                                <td>
-
-                                    @if (item.TrangThai == "Đang hoạt động")
-                                    {
-                                        <span class="badge bg-success">
-                                            Đang hoạt động
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger">
-                                            Ngừng hoạt động
-                                        </span>
-                                    }
-
-                                </td>
-
-                                <td>
-
-                                    <div class="d-flex gap-1">
-
-                                        <a asp-action="Details"
-                                           asp-route-id="@item.MaHoiVien"
-                                           class="btn btn-info btn-sm">
-                                            Xem
-                                        </a>
-
-                                        <a asp-action="Edit"
-                                           asp-route-id="@item.MaHoiVien"
-                                           class="btn btn-warning btn-sm">
-                                            Sửa
-                                        </a>
-
-                                        <a asp-action="Delete"
-                                           asp-route-id="@item.MaHoiVien"
-                                           class="btn btn-danger btn-sm">
-                                            Xóa
-                                        </a>
-
-                                    </div>
-
-                                </td>
-
                             </tr>
-
-                            stt++;
                         }
 
                     </tbody>

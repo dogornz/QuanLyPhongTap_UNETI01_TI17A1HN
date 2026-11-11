@@ -1,5 +1,6 @@
-﻿
+
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
 {
@@ -22,7 +23,7 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Repositories
         public List<GoiTap> GetGoiDangApDung()
         {
             return _context.GoiTap
-                .Where(g => g.TrangThai == "Đang áp dụng")
+                .Where(g => g.TrangThai == TrangThaiGoiTap.ApDung)
                 .OrderBy(g => g.TenGoiTap)
                 .ToList();
         }

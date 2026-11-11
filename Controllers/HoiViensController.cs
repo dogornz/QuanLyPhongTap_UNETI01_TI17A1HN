@@ -1,9 +1,10 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 
-[Authorize(Roles = "Admin,admin")]
+[Authorize]
 public class HoiViensController : Controller
 {
     private readonly HoiVienService _service;
@@ -14,15 +15,16 @@ public class HoiViensController : Controller
     }
 
     // =====================================
-    // XEM DANH SÁCH
+    // XEM DANH SÁCH & LỌC (ADMIN)
     // =====================================
-    public IActionResult Index(string? keyword)
+    [Authorize(Roles = "Admin,admin")]
+    public IActionResult Index(string? keyword, string? trangThai, string? gioiTinh)
     {
-        var danhSach = string.IsNullOrWhiteSpace(keyword) 
-            ? _service.GetAll() 
-            : _service.Search(keyword);
+        var danhSach = _service.Filter(keyword, trangThai, gioiTinh);
 
         ViewBag.Keyword = keyword;
+        ViewBag.TrangThai = trangThai;
+        ViewBag.GioiTinh = gioiTinh;
         return View(danhSach);
     }
 
@@ -30,6 +32,7 @@ public class HoiViensController : Controller
     // TÌM KIẾM
     // =====================================
     [HttpGet]
+    [Authorize(Roles = "Admin,admin")]
     public IActionResult Search(string keyword)
     {
         return RedirectToAction(nameof(Index), new { keyword = keyword });
@@ -39,6 +42,7 @@ public class HoiViensController : Controller
     // CHI TIẾT
     // =====================================
     [HttpGet]
+    [Authorize(Roles = "Admin,admin")]
     public IActionResult Details(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -59,6 +63,7 @@ public class HoiViensController : Controller
     // THÊM MỚI
     // =====================================
     [HttpGet]
+    [Authorize(Roles = "Admin,admin")]
     public IActionResult Create()
     {
         return View(new HoiVien { NgaySinh = DateTime.Today.AddYears(-20), TrangThai = "Đang hoạt động" });
@@ -66,6 +71,7 @@ public class HoiViensController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin,admin")]
     public IActionResult Create(HoiVien model)
     {
         if (ModelState.IsValid)
@@ -85,6 +91,7 @@ public class HoiViensController : Controller
     // CHỈNH SỬA
     // =====================================
     [HttpGet]
+    [Authorize(Roles = "Admin,admin")]
     public IActionResult Edit(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -103,6 +110,7 @@ public class HoiViensController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin,admin")]
     public IActionResult Edit(HoiVien model)
     {
         if (ModelState.IsValid)
@@ -122,6 +130,7 @@ public class HoiViensController : Controller
     // XÓA
     // =====================================
     [HttpGet]
+    [Authorize(Roles = "Admin,admin")]
     public IActionResult Delete(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -148,6 +157,7 @@ public class HoiViensController : Controller
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin,admin")]
     public IActionResult DeleteConfirmed(string maHoiVien)
     {
         // Chặn admin xóa nếu hội viên vẫn còn thời gian tập
@@ -174,6 +184,7 @@ public class HoiViensController : Controller
     // =====================================
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin,admin")]
     public IActionResult UpdateTrangThai(
         string maHv,
         string trangThai)
@@ -199,19 +210,32 @@ public class HoiViensController : Controller
     // =====================================
     // THÔNG TIN CÁ NHÂN
     // =====================================
+    private HoiVien? GetCurrentHoiVien()
+    {
+        var maTaiKhoan = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var username = User.FindFirst("Username")?.Value ?? User.Identity?.Name;
+        var email = User.FindFirst(ClaimTypes.Email)?.Value;
+        var name = User.Identity?.Name;
+
+        return _service.GetAll().FirstOrDefault(h =>
+            (!string.IsNullOrEmpty(maTaiKhoan) && h.MaTaiKhoan == maTaiKhoan)
+            || (!string.IsNullOrEmpty(username) && (h.MaHoiVien.Equals(username, StringComparison.OrdinalIgnoreCase) || (!string.IsNullOrEmpty(h.Email) && h.Email.Equals(username, StringComparison.OrdinalIgnoreCase))))
+            || (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(h.Email) && h.Email.Equals(email, StringComparison.OrdinalIgnoreCase))
+            || (!string.IsNullOrEmpty(name) && (h.HoTen.Equals(name, StringComparison.OrdinalIgnoreCase) || h.MaHoiVien.Equals(name, StringComparison.OrdinalIgnoreCase)))
+        );
+    }
+
     [HttpGet]
     public IActionResult ThongTinCaNhan(string? id)
     {
-        HoiVien? hoiVien = null;
-        if (!string.IsNullOrEmpty(id))
+        bool isAdmin = User.IsInRole("Admin") || User.IsInRole("admin");
+        HoiVien? hoiVien = (isAdmin && !string.IsNullOrEmpty(id))
+            ? _service.GetById(id)
+            : GetCurrentHoiVien();
+
+        if (hoiVien == null && isAdmin)
         {
-            hoiVien = _service.GetById(id);
-        }
-        else
-        {
-            var username = User.Identity?.Name;
-            hoiVien = _service.GetAll().FirstOrDefault(h => h.MaHoiVien == username || h.Email == username)
-                      ?? _service.GetAll().FirstOrDefault();
+            hoiVien = _service.GetAll().FirstOrDefault();
         }
 
         if (hoiVien == null)
@@ -226,6 +250,17 @@ public class HoiViensController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult ThongTinCaNhan(HoiVien model)
     {
+        bool isAdmin = User.IsInRole("Admin") || User.IsInRole("admin");
+        if (!isAdmin)
+        {
+            var currentHoiVien = GetCurrentHoiVien();
+            if (currentHoiVien == null || currentHoiVien.MaHoiVien != model.MaHoiVien)
+            {
+                TempData["Error"] = "Bạn không có quyền cập nhật thông tin hội viên khác!";
+                return RedirectToAction(nameof(ThongTinCaNhan));
+            }
+        }
+
         if (ModelState.IsValid)
         {
             var res = _service.Update(model);

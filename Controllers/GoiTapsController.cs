@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongTap_UNETI01_TI17A1HN.Models;
+using QuanLyPhongTap_UNETI01_TI17A1HN.Services;
 using QuanLyPhongTap_UNETI01_TI17A1HN.ViewModels;
 
 namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
@@ -11,10 +12,12 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
     public class GoiTapsController : Controller
     {
         private readonly QuanLyPhongTap_UNETI01_TI17A1HNContext _context;
+        private readonly QuanLyGoiTapService _quanLyGoiTapService;
 
-        public GoiTapsController(QuanLyPhongTap_UNETI01_TI17A1HNContext context)
+        public GoiTapsController(QuanLyPhongTap_UNETI01_TI17A1HNContext context, QuanLyGoiTapService quanLyGoiTapService)
         {
             _context = context;
+            _quanLyGoiTapService = quanLyGoiTapService;
         }
 
         // GET: /GoiTaps
@@ -27,101 +30,21 @@ namespace QuanLyPhongTap_UNETI01_TI17A1HN.Controllers
             decimal? giaDen,
             string? thoiHan,
             string? sortOrder,
-            int page = 1)
+            int page = 1,
+            string? tab = "goi")
         {
-            // 1. Truy vấn dữ liệu
-            var query = _context.GoiTap
-                .Include(g => g.LoaiGoiTap)
-                .AsQueryable();
+            var viewModel = await _quanLyGoiTapService.BuildUnifiedIndexAsync(
+                searchName,
+                maLoaiGoi,
+                trangThai,
+                giaTu,
+                giaDen,
+                thoiHan,
+                sortOrder,
+                page,
+                string.IsNullOrWhiteSpace(tab) ? "goi" : tab);
 
-            // 2. Tìm kiếm (6.3: Cho phép tìm kiếm theo Tên gói tập. Thực hiện bằng LINQ)
-            if (!string.IsNullOrWhiteSpace(searchName))
-            {
-                var kw = searchName.Trim().ToLower();
-                query = query.Where(g => g.TenGoiTap.ToLower().Contains(kw));
-            }
-
-            // 3. Lọc (6.4: Loại gói, Trạng thái, Khoảng đơn giá, Thời hạn. Kết hợp được với nhau)
-            if (maLoaiGoi.HasValue && maLoaiGoi > 0)
-            {
-                query = query.Where(g => g.MaLoaiGoi == maLoaiGoi.Value);
-            }
-
-            if (!string.IsNullOrWhiteSpace(trangThai) && trangThai != "all")
-            {
-                query = query.Where(g => g.TrangThai == trangThai);
-            }
-
-            if (giaTu.HasValue && giaTu > 0)
-            {
-                query = query.Where(g => g.DonGia >= giaTu.Value);
-            }
-
-            if (giaDen.HasValue && giaDen > 0)
-            {
-                query = query.Where(g => g.DonGia <= giaDen.Value);
-            }
-
-            if (!string.IsNullOrWhiteSpace(thoiHan) && thoiHan != "all")
-            {
-                query = query.Where(g => g.ThoiHanThang == thoiHan);
-            }
-
-            // 4. Sắp xếp (6.5: Tên gói A->Z, Z->A, Đơn giá tăng/giảm dần, Thời hạn tăng/giảm dần)
-            query = sortOrder switch
-            {
-                "ten_desc" => query.OrderByDescending(g => g.TenGoiTap),
-                "gia_asc" => query.OrderBy(g => g.DonGia),
-                "gia_desc" => query.OrderByDescending(g => g.DonGia),
-                "thoihan_asc" => query.OrderBy(g => Convert.ToInt32(g.ThoiHanThang)),
-                "thoihan_desc" => query.OrderByDescending(g => Convert.ToInt32(g.ThoiHanThang)),
-                "ten_asc" => query.OrderBy(g => g.TenGoiTap),
-                _ => query.OrderBy(g => g.TenGoiTap)
-            };
-
-            // 5. Phân trang (6.6: Thực hiện bằng EF Core / LINQ Skip() và Take())
-            int totalItems = await query.CountAsync();
-            int pageSize = 5; // Số phần tử mỗi trang
-            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-            if (totalPages < 1) totalPages = 1;
-            if (page < 1) page = 1;
-            if (page > totalPages) page = totalPages;
-
-            var items = await query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            // 6. Hiển thị
-            var loaiGoiList = await _context.LoaiGoiTap.OrderBy(l => l.MaLoaiGoi).ToListAsync();
-            var rawThoiHan = await _context.GoiTap
-                .Select(g => g.ThoiHanThang)
-                .Where(t => !string.IsNullOrEmpty(t))
-                .Distinct()
-                .ToListAsync();
-            var thoiHanList = rawThoiHan
-                .OrderBy(t => int.TryParse(t, out int val) ? val : 0)
-                .ToList();
-
-            var viewModel = new GoiTapIndexViewModel
-            {
-                Items = items,
-                CurrentPage = page,
-                TotalPages = totalPages,
-                TotalItems = totalItems,
-                PageSize = pageSize,
-                SearchName = searchName,
-                MaLoaiGoi = maLoaiGoi,
-                TrangThai = trangThai,
-                GiaTu = giaTu,
-                GiaDen = giaDen,
-                ThoiHan = thoiHan,
-                SortOrder = sortOrder ?? "ten_asc",
-                LoaiGoiList = loaiGoiList,
-                ThoiHanList = thoiHanList
-            };
-
-            return View(viewModel);
+            return View("~/Views/GoiTaps/Index.cshtml", viewModel);
         }
 
         // GET: /GoiTaps/Details/GT01
